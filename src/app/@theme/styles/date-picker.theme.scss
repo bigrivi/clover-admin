@@ -1,0 +1,64 @@
+@mixin ngx-date-picker-theme() {
+  .dp-material {
+   border: 0px  !important;
+  .dp-popup {
+    box-shadow: none !important;
+    border: 1px solid nb-theme(color-gray) !important;
+    border-bottom: 0px  !important;
+  }
+  .dp-calendar-nav-container {
+    border: 0px  !important;
+  }
+  .dp-calendar-day {
+    border-radius: 0px !important;
+  }
+  .dp-calendar-month {
+    border-radius: 0px !important;
+  }
+  .dp-time-select-control-up {
+    border-radius: 0px !important;
+  }
+  .dp-time-select-control-down {
+    border-radius: 0px !important;
+  }
+  .dp-calendar-wrapper {
+    padding-left: 10px;
+    padding-right: 10px;
+    padding-top:5px;
+    padding-bottom:5px;
+    border-left: 0px  !important;
+    border-right: 0px  !important;
+    border-bottom: 1px solid nb-theme(color-gray) !important;
+  }
+  .dp-selected {
+    background: nb-theme(color-fg) !important;
+    &:hover {
+      background: nb-theme(color-fg) !important;
+    }
+  }
+  .dp-calendar-weekday {
+    font-size: 14px  !important;
+    color: nb-theme(color-fg-highlight)  !important;
+  }
+  .dp-calendar-day,.dp-calendar-weekday{
+    margin:2px;
+  }
+  .dp-current-day {
+    border: 1px solid nb-theme(color-fg) !important;
+  }
+  .dp-months-row {
+    .dp-current-month {
+      border: 1px solid nb-theme(color-fg) !important;
+    }
+  }
+  .dp-time-select-control{
+    margin:2px;
+  }
+  .dp-time-select-controls{
+   border:0px !important;
+   border-bottom:1px solid nb-theme(color-gray) !important;
+  }
+}
+
+  
+}

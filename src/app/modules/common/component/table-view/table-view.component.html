@@ -1,0 +1,150 @@
+<div class="table-wrap">
+  <div class="table-container" [class.static]="!scrollHorizontal">
+  <div class="table-header" #scorllHeader>
+    <table>
+        <thead>
+          <tr>
+            <ng-container *ngFor="let column of columns">
+                  <th  [class.is-sortable]="column.sortabld" [class.descending]="sorting.key==column.field&&sorting.value=='descending'" [class.ascending]="sorting.key==column.field&&sorting.value=='ascending'" (click)="doSorting(column.sortabld,column.field)" *ngIf="column.field!='selectedId'">
+                    <div class="table-cell" [style.width]="column.width+'px'">
+                      {{column.label}}
+                      <span class="cared-warp" *ngIf="column.sortabld">
+                        <i class="fa sort-caret fa-sort-up"></i>
+                        <i class="fa sort-caret fa-sort-down"></i>
+                      </span>
+                      <span class="search-trigger" (click)="doSearch($event,column)" *ngIf="column.searchable">
+                        <i class="fa  fa-filter"></i>
+                      </span>
+                    </div>
+                    <div class="search-box" *ngIf="column.searchMode&&column.searchable">
+                        <ng-container *ngIf="column.widget!='date' && column.widget!='datetime'">
+                          <input input-debounce [(ngModel)]="column.searchKey" (valueChange)="onSearchChange($event,column)" placeholder="搜索" (click)="onSearchInputClick($event)" type="text">
+                        </ng-container>
+                         <ng-container *ngIf="column.widget=='datetime'">
+                          <input input-debounce [dpDayPicker]="datePickerConfig2" [mode]="'daytime'"  [theme]="'dp-material'" [(ngModel)]="column.searchKey" (ngModelChange)="onDateTimeSearchChange($event,column)" placeholder="搜索" (click)="onSearchInputClick($event)" type="text">
+                        </ng-container>
+                         <ng-container *ngIf="column.widget=='date'">
+                          <input input-debounce [dpDayPicker]="datePickerConfig1" [mode]="'day'"  [theme]="'dp-material'" [(ngModel)]="column.searchKey" (ngModelChange)="onDateTimeSearchChange($event,column)" placeholder="搜索" (click)="onSearchInputClick($event)" type="text">
+                        </ng-container>
+                        
+                         <i (click)="doCloseSearch($event,column)" class="fa fa-remove"></i>
+                      </div>
+                  </th>
+                  <th *ngIf="column.field=='selectedId'">
+                    <div class="table-cell" [style.width]="column.width+'px'">
+                        <nb-checkbox [(ngModel)]="selectedAll" (ngModelChange)="onSelectedAllChange($event)"></nb-checkbox>
+                    </div>
+                  </th>
+            </ng-container>
+            <th class="table-patch" *ngIf="scrollHorizontal"><div class="table-cell" style="width: 10px;"></div></th>
+          </tr>
+        </thead>
+      </table>
+  </div>
+  <div #scorllBody class="table-body" [style.height]="fullHeight+'px'">
+    <table>
+        <tbody>
+          <tr *ngIf="rows.length<=0&&dataReady">
+            <td>
+              <div  class="table-cell" [style.width]="getColumnTotalWidth()+'px'">无任何记录显示!</div>
+            </td>
+          </tr>
+          <tr *ngFor="let row of rows">
+            <ng-container *ngFor="let column of columns">
+              <td *ngIf="column.field!='action'">
+                <div *ngIf="column.titleabled" class="table-cell" [attr.title]="row[column.field]" [style.width]="column.width+'px'">{{row[column.field]}}</div>
+                <div *ngIf="!column.titleabled" class="table-cell" [style.width]="column.width+'px'">
+                  <ng-container *ngIf="column.field!='selectedId'">
+                      {{row[column.field]}}
+                  </ng-container>
+                   <ng-container *ngIf="column.field=='selectedId'">
+                     <nb-checkbox [(ngModel)]="row.selected"></nb-checkbox>
+                  </ng-container>
+                </div>
+              </td>
+              <td *ngIf="column.field=='action'"><div class="table-cell" [style.width]="column.width+'px'">
+                   <button (click)="edit(row._id)"  type="button" class="btn btn-secondary btn-tn">编辑</button>
+                  <button (click)="delete(row._id)"  type="button" class="btn btn-danger btn-tn">删除</button>
+              </div></td>
+            </ng-container>
+          </tr>
+        </tbody>
+      </table>
+  </div>
+
+  <div class="table-fixed table-fixed-left" *ngIf="scrollHorizontal && fixedLeft.length>0 && rows.length>0">
+    <div class="table-header">
+      <table>
+          <thead>
+            <tr>
+              <ng-container *ngFor="let column of fixedLeft">
+                  <th><div class="table-cell" [style.width]="column.width+'px'">{{column.label}}</div></th>
+              </ng-container>
+            </tr>
+          </thead>
+      </table>
+    </div>
+    <div  class="table-body" [style.height]="(fullHeight-10)+'px'">
+       <table>
+          <tbody>
+           <tr *ngFor="let row of rows">
+            <ng-container *ngFor="let column of fixedLeft">
+              <td><div class="table-cell" [style.width]="column.width+'px'">{{row[column.field]}}</div></td>
+            </ng-container>
+          </tr>
+           
+          </tbody>
+        </table>
+    </div>
+  </div>
+
+   <div #scrollRight [style.right]="fixedRightOffsetWidth+'px'" class="table-fixed table-fixed-right" 
+   [hidden]="!scrollHorizontal||rows.length<=0">
+    <div class="table-header">
+      <table>
+          <thead>
+            <tr>
+             <ng-container *ngFor="let column of fixedRight">
+                  <th><div class="table-cell" [style.width]="column.width+'px'">{{column.label}}</div></th>
+              </ng-container>
+            </tr>
+          </thead>
+      </table>
+      <div class="table-mend"></div>
+    </div>
+    <div  class="table-body" [style.height]="(fullHeight-10)+'px'">
+       <table>
+          <tbody>
+            <tr *ngFor="let row of rows">
+             <ng-container *ngFor="let column of fixedRight">
+              <td *ngIf="column.field!='action'"><div class="table-cell" [style.width]="column.width+'px'">{{row[column.field]}}</div></td>
+              <td *ngIf="column.field=='action'"><div class="table-cell" [style.width]="column.width+'px'">
+                  <button (click)="edit(row._id)"  type="button" class="btn btn-secondary btn-tn">编辑</button>
+                  <button (click)="delete(row._id)"  type="button" class="btn btn-danger btn-tn">删除</button>
+              </div></td>
+            </ng-container>
+            </tr>
+          </tbody>
+        </table>
+    </div>
+  </div>
+  </div>
+  <div class="pagination-container">
+      <button  type="button" (click)="deleteAll()" class="btn btn-danger btn-tn">删除</button>
+      <div class="page-info">共{{pagerData.recordCount}}条数据 {{pagerData.pageCount}}页,每页{{pagerData.pageSize}}条
+          <ngb-pagination [collectionSize]="pagerData.recordCount" [page]="pagerData.currentPage" [pageSize]="pagerData.pageSize"  (pageChange)="onPageChange($event)"  [boundaryLinks]="true"></ngb-pagination>
+      </div>
+    </div>
+</div>
+<div class="filter-contianer" *ngIf="_config.filters.length>0">
+  <h2>
+    过滤器
+  </h2>
+  <div class="inner" [style.height]="fullHeight+'px'">
+  <ul *ngFor="let item of _config.filters">
+    <h3>{{item.label}}</h3>
+    <li><a [class.active]="filters[item.key]==''" (click)="doFilter(item.key,'')">所有</a></li>
+    <li *ngFor="let filter of item.dataSource"><a [class.active]="filters[item.key]==filter.value" (click)="doFilter(item.key,filter.value)">{{filter.label}}</a></li>
+  </ul>
+</div>
+</div>

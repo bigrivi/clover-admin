@@ -1,0 +1,9 @@
+<nb-card>
+  <nb-card-header>
+        {{config?.name}}
+     &nbsp;&nbsp;<button (click)="add()"  type="button" class="btn btn-success btn-tn">新增</button>
+  </nb-card-header>
+ <nb-card-body>
+	<table-view [config]="config"></table-view>
+  </nb-card-body>
+</nb-card>
