@@ -6,6 +6,8 @@ import { SelectFieldComponent } from '../component/form-view/form-fields/select.
 import { DateFieldComponent } from '../component/form-view/form-fields/date.comonent';
 import { RadioButtonFieldComponent } from '../component/form-view/form-fields/radio.comonent';
 import {UploaderFieldComponent} from '../component/form-view/form-fields/uploader.comonent';
+import { CheckboxFieldComponent } from '../component/form-view/form-fields/checkbox.comonent';
+
 
 const dynamicComponents: any = {
   text: InputFieldComponent,
@@ -18,7 +20,8 @@ const dynamicComponents: any = {
   datetime:DateFieldComponent,
   time:DateFieldComponent,
   radio:RadioButtonFieldComponent,
-  uploader:UploaderFieldComponent
+  uploader:UploaderFieldComponent,
+  checkbox:CheckboxFieldComponent
 };
 
 @Directive({

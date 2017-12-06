@@ -1,4 +1,7 @@
 @mixin ngx-date-picker-theme() {
+  dp-date-picker{
+    display:block;
+  }
   .dp-material {
    border: 0px  !important;
   .dp-popup {

@@ -11,8 +11,10 @@ import { InputFieldComponent } from './component/form-view/form-fields/input.com
 import { SelectFieldComponent } from './component/form-view/form-fields/select.comonent';
 import { DateFieldComponent } from './component/form-view/form-fields/date.comonent';
 import { RadioButtonFieldComponent } from './component/form-view/form-fields/radio.comonent';
+import { CheckboxFieldComponent } from './component/form-view/form-fields/checkbox.comonent';
 import {UploaderFieldComponent} from './component/form-view/form-fields/uploader.comonent';
 import {FileUploaderComponent} from './component/form-view/form-fields/cv-uploader.comonent';
+import {CheckboxComponent} from './component/form-view/form-fields/cv-checkbox.comonent';
 
 import { DynamicFieldDirective } from './directive/dynamic-field.directive';
 import { InputDebounceDirective } from './directive/input-deboune';
@@ -47,8 +49,10 @@ import {AuthGuardService} from "./services/auth-guard.service"
     DynamicFieldDirective,
     InputDebounceDirective,
     RadioButtonFieldComponent,
+    CheckboxFieldComponent,
     UploaderFieldComponent,
     FileUploaderComponent,
+    CheckboxComponent,
     ConfirmComponent,
     AlertComponent,
     toUploadFileThumbPipe
@@ -58,8 +62,10 @@ import {AuthGuardService} from "./services/auth-guard.service"
     SelectFieldComponent,
     DateFieldComponent,
     RadioButtonFieldComponent,
+    CheckboxFieldComponent,
     UploaderFieldComponent,
     FileUploaderComponent,
+    CheckboxComponent,
     TableViewComponent,
     ConfirmComponent,
     AlertComponent

@@ -136,7 +136,7 @@ export class FormViewComponent implements OnInit {
     var msg = "";
     if(fieldData.widget=="text" || fieldData.widget=="password"|| fieldData.widget=="number"|| fieldData.widget=="textarea"){
       msg = "请输入"+fieldData.label;
-    }else if(fieldData.widget=="radio" || fieldData.widget=="select"){
+    }else if(fieldData.widget=="radio"){
       msg = "请选择"+fieldData.label;
     }else if(fieldData.widget=="uploader"){
       msg = "请选择"+fieldData.label+"文件";
@@ -146,6 +146,13 @@ export class FormViewComponent implements OnInit {
       msg = "请选择日期时间";
     }else if(fieldData.widget=="time"){
       msg = "请选择时间";
+    }else if(fieldData.widget=="checkbox"){
+      msg = "请至少选项一项"+fieldData.label;
+    }else if(fieldData.widget=="select"){
+      if(fieldData.multiple)
+        msg = "请至少选项一项"+fieldData.label;
+      else
+        msg = "请选择"+fieldData.label;
     }
     return msg;
   }

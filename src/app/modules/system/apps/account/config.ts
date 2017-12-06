@@ -5,6 +5,14 @@ var gender_source = [
 	{label: "女", value: "2"},
 ]
 
+var hobby_source = [
+	{label: "摄影", value: "摄影"},
+	{label: "瑜伽", value: "瑜伽"},
+	{label: "编程", value: "编程"},
+	{label: "健身", value: "健身"}
+]
+
+
 export const UserInfoConfig = {
 	resource:"users",
 	module:"userInfo",
@@ -51,6 +59,12 @@ export const UserInfoConfig = {
 				else
 					return "";
 			}
+		},
+		hobby:{
+			label:"兴趣爱好",
+			widget:"checkbox",
+			dataSource:hobby_source,
+			require:true,
 		},
 		email:{
 			label:"Email",

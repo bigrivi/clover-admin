@@ -46,7 +46,7 @@ export class FileUploaderComponent implements ControlValueAccessor {
 
   @Input() multiple = false;
 
-   constructor(public resourceService:ResourceService) {
+  constructor(public resourceService:ResourceService) {
       this.fileObjects = [];
   }
 

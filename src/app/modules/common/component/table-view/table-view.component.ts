@@ -5,6 +5,7 @@ import { Router, NavigationEnd,ActivatedRoute } from '@angular/router';
 import { DialogService } from "../dialog/dialog.service"
 import * as _ from 'lodash';
 import {Subscription} from 'rxjs'
+import { NbMenuService, NbSidebarService } from '@nebular/theme';
 import { ToasterService, ToasterConfig, Toast, BodyOutputType } from 'angular2-toaster';
 import {ResourceService} from '../../../../@core/utils/resource.service'
 import {AppService} from '../../services/app.service'
@@ -28,6 +29,7 @@ export class TableViewComponent implements OnInit {
    public el: ElementRef, 
    public location: Location,
    public http: Http, 
+   public sidebarService:NbSidebarService,
    public router: Router, 
    public activeRouter: ActivatedRoute,
    public appService:AppService,
@@ -151,6 +153,7 @@ export class TableViewComponent implements OnInit {
   queryParams;
   lastLoadSub:Subscription;
   queryParamsSub:Subscription;
+  toggleSub: Subscription;
   visibleWidth = 0;
   pagerData = {
     currentPage: 1,
@@ -176,6 +179,15 @@ export class TableViewComponent implements OnInit {
       this.queryParams = params
       this.loadPageDate()
     })
+
+     this.toggleSub = this.sidebarService.onToggle().subscribe((data: { compact: boolean, tag: string }) => {
+         console.log("sidebar toggle",data);
+         setTimeout(()=>{
+             this.visibleWidth = this._scrollBody.element.nativeElement.offsetWidth;
+             this.onResize();
+         },0)
+        
+      });
   }
 
   ngAfterViewInit() {
