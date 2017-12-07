@@ -63,7 +63,8 @@
                 </div>
               </td>
               <td *ngIf="column.field=='action'"><div class="table-cell" [style.width]="column.width+'px'">
-                   <button (click)="edit(row._id)"  type="button" class="btn btn-secondary btn-tn">编辑</button>
+                  <button *ngIf="_config.treeable" (click)="addChild(row._id)"  type="button" class="btn btn-secondary btn-tn">增加子节点</button>
+                  <button (click)="edit(row._id)"  type="button" class="btn btn-secondary btn-tn">编辑</button>
                   <button (click)="delete(row._id)"  type="button" class="btn btn-danger btn-tn">删除</button>
               </div></td>
             </ng-container>
@@ -119,6 +120,7 @@
              <ng-container *ngFor="let column of fixedRight">
               <td *ngIf="column.field!='action'"><div class="table-cell" [style.width]="column.width+'px'">{{row[column.field]}}</div></td>
               <td *ngIf="column.field=='action'"><div class="table-cell" [style.width]="column.width+'px'">
+                   <button *ngIf="_config.treeable" (click)="addChild(row._id)"  type="button" class="btn btn-secondary btn-tn">增加子节点</button>
                   <button (click)="edit(row._id)"  type="button" class="btn btn-secondary btn-tn">编辑</button>
                   <button (click)="delete(row._id)"  type="button" class="btn btn-danger btn-tn">删除</button>
               </div></td>
@@ -129,7 +131,7 @@
     </div>
   </div>
   </div>
-  <div class="pagination-container">
+  <div class="pagination-container" *ngIf="!_config.treeable">
       <button  type="button" (click)="deleteAll()" class="btn btn-danger btn-tn">删除</button>
       <div class="page-info">共{{pagerData.recordCount}}条数据 {{pagerData.pageCount}}页,每页{{pagerData.pageSize}}条
           <ngb-pagination [collectionSize]="pagerData.recordCount" [page]="pagerData.currentPage" [pageSize]="pagerData.pageSize"  (pageChange)="onPageChange($event)"  [boundaryLinks]="true"></ngb-pagination>
@@ -141,10 +143,15 @@
     过滤器
   </h2>
   <div class="inner" [style.height]="fullHeight+'px'">
-  <ul *ngFor="let item of _config.filters">
+    <ul *ngFor="let item of _config.filters">
     <h3>{{item.label}}</h3>
-    <li><a [class.active]="filters[item.key]==''" (click)="doFilter(item.key,'')">所有</a></li>
-    <li *ngFor="let filter of item.dataSource"><a [class.active]="filters[item.key]==filter.value" (click)="doFilter(item.key,filter.value)">{{filter.label}}</a></li>
+    <ng-container *ngIf="!item.tree">
+      <li><a [class.active]="filters[item.key]==''" (click)="doFilter(item.key,'')">所有</a></li>
+      <li *ngFor="let filter of item.dataSource"><a [class.active]="filters[item.key]==filter.value" (click)="doFilter(item.key,filter.value)">{{filter.label}}</a></li>
+    </ng-container>
+    <ng-container *ngIf="item.tree">
+        <tree-root [focused]="true" (activate)="treeNodeSelected(item.key,$event)" [nodes]="item.dataSource"></tree-root>
+    </ng-container>
   </ul>
 </div>
-</div>
+

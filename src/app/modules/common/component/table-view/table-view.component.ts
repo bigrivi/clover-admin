@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, ViewContainerRef, Renderer2, ElementRef, Input,ChangeDetectionStrategy,ChangeDetectorRef } from '@angular/core';
+import { Component, OnInit,EventEmitter, ViewChild, ViewContainerRef, Renderer2, ElementRef, Input,Output,ChangeDetectionStrategy,ChangeDetectorRef } from '@angular/core';
 import { Http, URLSearchParams } from '@angular/http';
 import { Location } from '@angular/common';
 import { Router, NavigationEnd,ActivatedRoute } from '@angular/router';
@@ -37,6 +37,8 @@ export class TableViewComponent implements OnInit {
    public resourceService:ResourceService,
    public dialogService: DialogService) { }
   _config;
+
+  @Output() dataLoadComplete:EventEmitter<any> = new EventEmitter();
   @Input() rowHeight = 50;
   @Input()
   set config(val) {
@@ -46,7 +48,9 @@ export class TableViewComponent implements OnInit {
     this._config.selecteable = this._config.selecteable || true; //出现checkbox选择列
     this._config.addable = this._config.addable || true; //出现新增按钮
     this._config.filters = this._config.filters || []; //过滤器
+    this._config.treeable = this._config.treeable || false; //是否是树
     this.filters = {}
+    this.queryIn = {}
     this.rows = [];
     this.dataReady = false;
     this.selectedAll = false;
@@ -63,15 +67,16 @@ export class TableViewComponent implements OnInit {
         return this._config.listHide.indexOf(item.field)<0;
     })
     if (this._config.actionable) {
+      let width = this._config.treeable?300:200
       this.columns.push({
         field: "action",
         label: "操作",
-        width: 200,
+        width: width,
         fixedRight: true
       })
     }
 
-    if (this._config.selecteable) {
+    if (this._config.selecteable && !this._config.treeable) {
       this.columns.unshift({
         field: "selectedId",
         label: "",
@@ -86,20 +91,29 @@ export class TableViewComponent implements OnInit {
          item.dataSource = []
          let moduleArr = dataSource.split(".")
          let moduleConfig = this.appService.getAppModuleConfig(moduleArr[0],moduleArr[1])
-         this.resourceService.get(moduleConfig.resource).subscribe((res)=>{
+         let resorce= moduleConfig.resource;
+         if(item.tree){
+           resorce+="/getTreeNode";
+         }
+         this.resourceService.get(resorce).subscribe((res)=>{
              res = res.json().result;
-             item.dataSource = _.map(res,(data)=>{
-                 let label = data[moduleConfig.labelField||"name"];
-                 let value = data[moduleConfig.valueField||"_id"];
-                 if(item.get_display){
-                   label = item.get_display(data)
-                 }
-                 return {
-                   label:label,
-                   value:value
-                 }
+             if(item.tree){
+               item.dataSource = res;
+             }else{
+               item.dataSource = _.map(res,(data)=>{
+                   let label = data[moduleConfig.labelField||"name"];
+                   let value = data[moduleConfig.valueField||"_id"];
+                   if(item.get_display){
+                     label = item.get_display(data)
+                   }
+                   return {
+                     label:label,
+                     value:value
+                   }
 
-             })
+               })
+             }
+             
          })
        }
     })
@@ -118,9 +132,16 @@ export class TableViewComponent implements OnInit {
       pageSize: PAGE_SIZE,
       pageCount: 0
     }
-   
+    if(this._config.treeable){
+      this.pagerData.pageSize = 1000;
+    }
     if(this.viewInited){
-      this.checkHorScroll()
+      setTimeout(()=>{
+        this.visibleWidth = this._scrollBody.element.nativeElement.offsetWidth; //不准确
+        this.checkHorScroll()
+        console.log(this.scrollHorizontal)
+      },0)
+      
       let currPath = this.location.path()
       if(currPath.indexOf("?page")<0) //从其他路由切换过来的情况
         this.loadPageDate()
@@ -140,6 +161,7 @@ export class TableViewComponent implements OnInit {
   rows = []
   columns = []
   filters = {}
+  queryIn = {}
   sorting = {key:"",value:""}
   fixedLeft = [];
   fixedRight = [];
@@ -173,7 +195,6 @@ export class TableViewComponent implements OnInit {
     appendTo:"body",
     format:'YYYY-MM-DD HH:mm'
   }
-
   ngOnInit() {
     this.queryParamsSub = this.activeRouter.queryParams.subscribe(params=> {
       this.queryParams = params
@@ -193,6 +214,8 @@ export class TableViewComponent implements OnInit {
   ngAfterViewInit() {
     this.viewInited = true;
     this.visibleWidth = this._scrollBody.element.nativeElement.offsetWidth;
+    console.log("ngAfterViewInit()")
+    console.log(this.visibleWidth)
     this.onResize()
     //同步滚动条
     let fixedBodyList = Array.prototype.slice.call(this.el.nativeElement.querySelectorAll(".table-fixed .table-body"))
@@ -213,7 +236,11 @@ export class TableViewComponent implements OnInit {
 
   onResize() {
     var doucumentHeight = document.documentElement.clientHeight
-    this.fullHeight = doucumentHeight - 76 - 76 - 63 - 48 - 40 - 64 - 60;
+    var visibleHeight = doucumentHeight - 76 - 76 - 63 - 48 - 40 - 64 - 60;
+    if(this._config.treeable){
+      visibleHeight+=40;
+    }
+    this.fullHeight = visibleHeight
     this.checkVerScroll()
     this.checkHorScroll()
   }
@@ -225,6 +252,20 @@ export class TableViewComponent implements OnInit {
   doFilter(filterKey,filterVal){
     this.filters[filterKey] = filterVal;
     this.refresh()
+  }
+
+  treeNodeSelected(filterKey,e){
+    
+     this.resourceService.get("departments?parentId="+e.node.data.id).subscribe((res)=>{
+       res = res.json()
+       var idList = _.map(res["result"],(item)=>{
+         return item._id;
+       })
+       this.queryIn[filterKey] = idList.join(",");
+       this.refresh()
+     })
+     
+     
   }
 
 
@@ -283,11 +324,22 @@ export class TableViewComponent implements OnInit {
       limit:this.pagerData.pageSize,
       skip:(currentPage - 1) * this.pagerData.pageSize
     }
+    if(this._config.treeable){
+      params.sort = "lft";
+    }
     _.each(this.filters,(value,key)=>{
         if(value!=""){
           params[key] = value;
         }
     })
+
+     _.each(this.queryIn,(value,key)=>{
+        if(value!=""){
+          params[key+"__in"] = value;
+        }
+    })
+
+
     if(this.sorting.key!=""&&this.sorting.value!=""){
       if(this.sorting.value=="ascending"){
         params.sort = this.sorting.key;
@@ -338,7 +390,8 @@ export class TableViewComponent implements OnInit {
       })
       this.rows = results
       this.dataReady = true;
-      this.checkVerScroll()
+      this.checkVerScroll();
+      this.dataLoadComplete.emit(res.record_count);
     },(error)=>{
       console.log(error)
     })
@@ -350,6 +403,8 @@ export class TableViewComponent implements OnInit {
   }
 
   checkHorScroll(){
+    console.log("this.getColumnTotalWidth():",this.getColumnTotalWidth())
+    console.log("this.visibleWidth:",this.visibleWidth)
     this.scrollHorizontal = this.getColumnTotalWidth()>this.visibleWidth;
   }
 
@@ -361,6 +416,11 @@ export class TableViewComponent implements OnInit {
   edit(id) {
     let routeMap = parseRouteMap(this.router.url)
     this.router.navigate(["apps/"+routeMap.app+"/"+routeMap.module+"/"+id+"/","edit"],{queryParams: {page: this.pagerData.currentPage}});
+  }
+
+  addChild(id) {
+    let routeMap = parseRouteMap(this.router.url)
+    this.router.navigate(["apps/"+routeMap.app+"/"+routeMap.module+"/","add"],{queryParams: {parentId:id,page: this.pagerData.currentPage}});
   }
 
   deleteAll() {

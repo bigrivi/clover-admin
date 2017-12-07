@@ -17,6 +17,7 @@ export class ListViewComponent implements OnInit {
   app="";
   config;
   routeChangeSub:Subscription
+  addable = true;
   constructor(   public router: Router, public route: ActivatedRoute,public appService:AppService ) {
     console.log(this.router.url)
     this.routeChangeSub = this.router.events.subscribe((event)=>{
@@ -33,6 +34,17 @@ export class ListViewComponent implements OnInit {
   add() {
     let routeMap = parseRouteMap(this.router.url)
     this.router.navigate(["apps/"+routeMap.app+"/"+routeMap.module,"add"]);
+  }
+
+  onDataLoadComplete(totalDataNum){
+    if(this.config.treeable){
+      if(totalDataNum>0)
+        this.addable = false;
+      else
+        this.addable = true;
+    }
+    else
+      this.addable = true;
   }
 
   ngOnDestroy(){

@@ -71,6 +71,12 @@ export const UserInfoConfig = {
 			widget:"text",
 			require:true
 		},
+		department_id:{
+			label:"所在部门",
+			widget:"select",
+			dataSource:"account.department",
+			require:true
+		},
 		creation_on:{
 			label:"创建时间",
 			widget:"datetime",
@@ -85,8 +91,55 @@ export const UserInfoConfig = {
 		}
 	},
 	filters:[
-		
+		{
+			label:"按部门",
+			tree:true,
+			key:"department_id",
+			dataSource:"account.department"
+		},
 	]
+}
+
+export const DepartmentConfig = {
+	resource:"departments",
+	module:"department",
+	name:"部门管理",
+	treeable:true,
+	listHide:["lft","rgt","depth"],
+	fields : {
+		name:{
+			label:"名称",
+			widget:"text",
+			titleabled :true,
+			require:true
+		},
+		lft:{
+			label:"lft",
+			widget:"number",
+			require:true,
+			addable:false,
+			editable:false
+		},
+		rgt:{
+			label:"rgt",
+			widget:"number",
+			require:true,
+			addable:false,
+			editable:false
+		},
+		depth:{
+			label:"depth",
+			widget:"number",
+			require:true,
+			addable:false,
+			editable:false
+		},
+		description:{
+			label:"描述",
+			widget:"textarea",
+			require:false
+		}
+	}
 }
 
 

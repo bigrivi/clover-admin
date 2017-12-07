@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import {ProductConfig,CategoryConfig,TagConfig} from '../../system/apps/product/config'
-import {UserInfoConfig} from '../../system/apps/account/config'
+import {UserInfoConfig,DepartmentConfig} from '../../system/apps/account/config'
 
 
 @Injectable()
@@ -14,7 +14,8 @@ export class AppService{
 		}
 
 		this.config["account"] = {
-			userInfo:UserInfoConfig
+			userInfo:UserInfoConfig,
+			department:DepartmentConfig
 		}
 	}
 

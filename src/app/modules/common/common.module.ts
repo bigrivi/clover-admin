@@ -4,6 +4,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { HttpModule, Http, XHRBackend, RequestOptions } from '@angular/http';
 import {DpDatePickerModule} from 'ng2-date-picker';
 import {ToasterModule, ToasterService} from 'angular2-toaster';
+import { TreeModule } from 'angular-tree-component';
 
 import {ChosenModule} from './component/chosen/chosen.module';
 import { FormViewComponent } from './component/form-view/form-view.component';
@@ -36,6 +37,7 @@ import {AuthGuardService} from "./services/auth-guard.service"
   imports: [
     HttpModule,
     ThemeModule,
+    TreeModule,
     ReactiveFormsModule,
     ChosenModule,
     DpDatePickerModule,

@@ -65,7 +65,11 @@ export class EditViewComponent implements OnInit {
            })
         }
         else{
-           this.resourceService.post(this.config.resource,this.formView.form.value).subscribe((res)=>{
+          let postData = Object.assign(this.formView.form.value,this.queryParams)
+           // this.resourceService.post(this.confi)
+          console.log(this.formView.form.value)
+          console.log(postData)
+           this.resourceService.post(this.config.resource,postData).subscribe((res)=>{
               this.navigateToList()
               this.toasterService.pop('success', '保存成功');
            })

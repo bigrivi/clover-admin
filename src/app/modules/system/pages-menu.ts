@@ -34,6 +34,10 @@ export const MENU_ITEMS: NbMenuItem[] = [
       {
         title: '用户信息',
         link: '/apps/account/userInfo',
+      },
+       {
+        title: '部门信息',
+        link: '/apps/account/department',
       }
     ],
   }
