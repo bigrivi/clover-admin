@@ -86,6 +86,7 @@ export class TableViewComponent implements OnInit {
 
     _.forEach(this._config.filters,(item)=>{
        let dataSource = item.dataSource
+	   item.dataSourceOrigin = dataSource
        this.filters[item.key] = "";
        if(!_.isArray(dataSource)){
          item.dataSource = []
@@ -254,18 +255,18 @@ export class TableViewComponent implements OnInit {
     this.refresh()
   }
 
-  treeNodeSelected(filterKey,e){
-    
-     this.resourceService.get("departments?parentId="+e.node.data.id).subscribe((res)=>{
+  treeNodeSelected(filterItem,e){
+     let moduleArr = filterItem.dataSourceOrigin.split(".")
+     let moduleConfig = this.appService.getAppModuleConfig(moduleArr[0],moduleArr[1])
+     let resorce= moduleConfig.resource;
+     this.resourceService.get(resorce+"?parentId="+e.node.data.id).subscribe((res)=>{
        res = res.json()
        var idList = _.map(res["result"],(item)=>{
          return item._id;
        })
-       this.queryIn[filterKey] = idList.join(",");
+       this.queryIn[filterItem.key] = idList.join(",");
        this.refresh()
      })
-     
-     
   }
 
 
