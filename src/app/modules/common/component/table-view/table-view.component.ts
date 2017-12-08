@@ -40,10 +40,12 @@ export class TableViewComponent implements OnInit {
 
   @Output() dataLoadComplete:EventEmitter<any> = new EventEmitter();
   @Input() rowHeight = 50;
+  @Input() modalMode = false; //是否为弹窗模式
   @Input()
   set config(val) {
     this._config = _.cloneDeep(val);
     this._config.listHide = this._config.listHide || [];
+    this._config.modalListShow = this._config.modalListShow || [];
     this._config.actionable = this._config.actionable || true; //出现操作列
     this._config.selecteable = this._config.selecteable || true; //出现checkbox选择列
     this._config.addable = this._config.addable || true; //出现新增按钮
@@ -56,6 +58,9 @@ export class TableViewComponent implements OnInit {
     this.selectedAll = false;
     this.sorting = {key:"",value:""}
     let fields = Object.keys(this._config["fields"]);
+    if(this.modalMode){
+      this._config.actionable = false;
+    }
     this.columns = fields.map((item) => {
       let clone = _.cloneDeep(this._config["fields"][item])
       clone.field = item
@@ -66,6 +71,11 @@ export class TableViewComponent implements OnInit {
     this.columns = _.filter(this.columns,(item)=>{
         return this._config.listHide.indexOf(item.field)<0;
     })
+    if(this.modalMode && this._config.modalListShow.length>0){
+      this.columns = _.filter(this.columns,(item)=>{
+          return this._config.modalListShow.indexOf(item.field)>=0;
+      })
+    }
     if (this._config.actionable) {
       let width = this._config.treeable?300:200
       this.columns.push({
@@ -317,7 +327,10 @@ export class TableViewComponent implements OnInit {
       this.lastLoadSub = null;
     }
     let currentPage = 1;
-    if(this.queryParams["page"]){
+    if(this.modalMode){
+      currentPage = this.pagerData.currentPage
+    }
+    else if(this.queryParams["page"]){
       currentPage = parseInt(this.queryParams["page"])
     }
     let params = {
@@ -376,7 +389,8 @@ export class TableViewComponent implements OnInit {
       let results = res.result;
       this.pagerData.recordCount = res.record_count;
       this.pagerData.pageCount = Math.ceil(this.pagerData.recordCount / this.pagerData.pageSize);
-      this.pagerData.currentPage = currentPage;
+      if(!this.modalMode)
+        this.pagerData.currentPage = currentPage;
       _.each(results,(row)=>{
         _.each(this.columns,(col)=>{
             if(col.get_display){
@@ -458,6 +472,7 @@ export class TableViewComponent implements OnInit {
       })
     }, (reason) => {
     })
+
   }
  
  /**
@@ -474,10 +489,16 @@ export class TableViewComponent implements OnInit {
 
   onPageChange(newPage) {
     console.log("onPageChange:"+newPage)
-    //this.pagerData.currentPage = newPage
-    //this.loadPageDate()
-   let routeMap = parseRouteMap(this.router.url)
-   this.router.navigate(["apps/"+routeMap.app+"/"+routeMap.module+"/"],{queryParams:{page: newPage}})
+  
+    if(this.modalMode){
+        this.pagerData.currentPage = newPage
+      this.loadPageDate()
+    }
+    else{
+       let routeMap = parseRouteMap(this.router.url)
+       this.router.navigate(["apps/"+routeMap.app+"/"+routeMap.module+"/"],{queryParams:{page: newPage}})
+    }
+  
     
   }
 

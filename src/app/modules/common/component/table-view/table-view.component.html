@@ -132,7 +132,7 @@
   </div>
   </div>
   <div class="pagination-container" *ngIf="!_config.treeable">
-      <button  type="button" (click)="deleteAll()" class="btn btn-danger btn-tn">删除</button>
+      <button  type="button" *ngIf="!modalMode" (click)="deleteAll()" class="btn btn-danger btn-tn">删除</button>
       <div class="page-info">共{{pagerData.recordCount}}条数据 {{pagerData.pageCount}}页,每页{{pagerData.pageSize}}条
           <ngb-pagination [collectionSize]="pagerData.recordCount" [page]="pagerData.currentPage" [pageSize]="pagerData.pageSize"  (pageChange)="onPageChange($event)"  [boundaryLinks]="true"></ngb-pagination>
       </div>

@@ -14,6 +14,7 @@ export const ProductConfig = {
 	addable:false,
 	name:"产品管理",
 	listHide:["introduction"],
+	modalListShow:["name","price","serial_number"],
 	fields : {
 		name:{
 			label:"产品名",

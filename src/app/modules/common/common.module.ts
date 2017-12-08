@@ -24,6 +24,7 @@ import { toUploadFileThumbPipe } from './pipes/to_upload_file_thumb.pipe';
 
 import {ConfirmComponent} from './component/dialog/confirm.component';
 import {AlertComponent} from './component/dialog/alert.component';
+import {TableViewDailogComponent} from './component/dialog/list.component';
 import {DialogService} from './component/dialog/dialog.service';
 
 
@@ -57,6 +58,7 @@ import {AuthGuardService} from "./services/auth-guard.service"
     CheckboxComponent,
     ConfirmComponent,
     AlertComponent,
+    TableViewDailogComponent,
     toUploadFileThumbPipe
   ],
   entryComponents: [
@@ -70,7 +72,8 @@ import {AuthGuardService} from "./services/auth-guard.service"
     CheckboxComponent,
     TableViewComponent,
     ConfirmComponent,
-    AlertComponent
+    AlertComponent,
+    TableViewDailogComponent
 
   ],
   providers: [
