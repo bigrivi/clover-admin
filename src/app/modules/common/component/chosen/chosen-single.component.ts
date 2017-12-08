@@ -1,5 +1,5 @@
 import {NgModel} from "@angular/forms";
-import {Component, Input, ViewChildren, QueryList, ElementRef, Renderer , forwardRef} from "@angular/core";
+import {Component,EventEmitter,ViewChild,ViewContainerRef, Input, ComponentFactoryResolver,ViewChildren, QueryList, ElementRef, Renderer , forwardRef} from "@angular/core";
 import {InternalChosenOption, ChosenOption, ChosenOptionGroup} from "./chosen-commons";
 import {AbstractChosenComponent} from "./chosen-abstract";
 import {ChosenDropComponent} from "./chosen-drop.component";
@@ -35,15 +35,7 @@ export const ChosenSingleComponent_CONTROL_VALUE_ACCESSOR: any = {
                 <div><b></b></div>
         </a>
 
-        <div class="chosen-drop"
-            [disableSearch]="isSearchDisabled()"
-            [no_results_text]="no_results_text"
-            [display_selected_options]="true"
-            [filterMode]="filterMode"
-            [options]="dropOptions" [groups]="groups_"
-            (optionSelected)="selectOption($event)"
-            (inputKeyUp)="inputKeyUp($event)"
-            (inputBlur)="chosenBlur()"></div>
+       <div #dropMenu></div>
     </div>`,
      host: {
     '(document:click)': 'onDoucumentClick($event)'
@@ -84,7 +76,10 @@ export class ChosenSingleComponent extends AbstractChosenComponent<string>  {
 
   private singleSelectedOption: InternalChosenOption;
 
-  constructor(protected el: ElementRef, protected renderer: Renderer) {
+  @ViewChild('dropMenu', { read: ViewContainerRef })
+  dropMenuContainerRef: ViewContainerRef;
+
+  constructor(protected el: ElementRef, protected renderer: Renderer, public componentFactoryResolver: ComponentFactoryResolver,) {
     super(el, renderer);
   }
 
@@ -92,8 +87,26 @@ export class ChosenSingleComponent extends AbstractChosenComponent<string>  {
   }
 
   ngAfterViewInit() {
-    this.chosenDropComponent = this.chosenDropComponentQueryList.first;
-        console.log(this.chosenDropComponent)
+    const factory = this.componentFactoryResolver.resolveComponentFactory(ChosenDropComponent);
+    this.chosenDropComponent = this.dropMenuContainerRef.createComponent(factory).instance
+    this.chosenDropComponent.disableSearch = this.isSearchDisabled()
+    this.chosenDropComponent.no_results_text = this.no_results_text
+    this.chosenDropComponent.display_selected_options = true
+    this.chosenDropComponent.filterMode = this.filterMode;
+    this.chosenDropComponent.options = this.dropOptions
+    this.chosenDropComponent.inputElementContainer = this.el.nativeElement.querySelector(".chosen-container");
+    var inputKeyUpEventEmitter:EventEmitter<string>= new EventEmitter();
+    inputKeyUpEventEmitter.subscribe((event)=>{
+      this.inputKeyUp(event)
+    })
+    this.chosenDropComponent.inputKeyUp = inputKeyUpEventEmitter
+
+    var optionSelectedEventEmitter:EventEmitter<InternalChosenOption>= new EventEmitter();
+    optionSelectedEventEmitter.subscribe((event)=>{
+      this.selectOption(event)
+    })
+    this.chosenDropComponent.optionSelected = optionSelectedEventEmitter
+    
   }
 
   isSearchDisabled() {
@@ -124,6 +137,9 @@ export class ChosenSingleComponent extends AbstractChosenComponent<string>  {
   }
 
   selectOption(option) {
+    if(this.singleSelectedOption){
+      this.singleSelectedOption.selected = false;
+    }
     this.singleSelectedOption = option;
     option.selected = true;
     this.updateModel();
@@ -153,9 +169,9 @@ export class ChosenSingleComponent extends AbstractChosenComponent<string>  {
   }
 
   onDoucumentClick(event){
-    if(!this.el.nativeElement.contains(event.target)){
-        this.chosenBlur();
-    }
+    // if(!this.el.nativeElement.contains(event.target)){
+    //     this.chosenBlur();
+    // }
   }
 
   onChosenBlur() {

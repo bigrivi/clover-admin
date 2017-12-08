@@ -71,12 +71,6 @@ export const UserInfoConfig = {
 			widget:"text",
 			require:true
 		},
-		department_id:{
-			label:"所在部门",
-			widget:"select",
-			dataSource:"account.department",
-			require:true
-		},
 		creation_on:{
 			label:"创建时间",
 			widget:"datetime",
@@ -87,6 +81,12 @@ export const UserInfoConfig = {
 		avatar:{
 			label:"用户头像",
 			widget:"uploader",
+			require:true
+		},
+		department_id:{
+			label:"所在部门",
+			widget:"select",
+			dataSource:"account.department",
 			require:true
 		}
 	},
@@ -133,6 +133,16 @@ export const DepartmentConfig = {
 			require:true,
 			addable:false,
 			editable:false
+		},
+		leader:{
+			label:"负责人",
+			widget:"select",
+			populateable:true,
+			dataSource:"account.userInfo",
+			require:true,
+			get_display:function(item){
+				return item["leader"]?item["leader"]["realname"]:""
+			}
 		},
 		description:{
 			label:"描述",

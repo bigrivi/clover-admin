@@ -90,6 +90,8 @@ export abstract class AbstractChosenComponent<T> implements ControlValueAccessor
         this.options_.sort((a: InternalChosenOption, b: InternalChosenOption) => a.groupIndex - b.groupIndex);
       }
       this.dropOptions = this.options_;
+      if(this.chosenDropComponent)
+        this.chosenDropComponent.options = this.dropOptions
     }
   }
 
@@ -114,6 +116,8 @@ export abstract class AbstractChosenComponent<T> implements ControlValueAccessor
       this.dropOptions = this.options_;
       this.filterMode = false;
     }
+     if(this.chosenDropComponent)
+        this.chosenDropComponent.options = this.dropOptions
     this.highlightOption();
   }
 
@@ -146,6 +150,8 @@ export abstract class AbstractChosenComponent<T> implements ControlValueAccessor
     this.chosenContainerActive = true;
     this.chosenWithDrop = true;
     this.highlightOption();
+     if(this.chosenDropComponent)
+        this.chosenDropComponent.visible = true;
   }
 
   abstract onChosenFocus(): boolean;
@@ -155,6 +161,8 @@ export abstract class AbstractChosenComponent<T> implements ControlValueAccessor
     this.chosenWithDrop = false;
     this.filterMode = false;
     this.onChosenBlur();
+    if(this.chosenDropComponent)
+        this.chosenDropComponent.visible = false;
   }
 
   abstract onChosenBlur();

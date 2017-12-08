@@ -3,9 +3,12 @@ import {
   Component,
   Input,
   Output,
+  ViewChild,
   ViewChildren,
+  ComponentFactoryResolver,
   QueryList,
   ElementRef,
+  ViewContainerRef,
   Renderer,
   EventEmitter,
   forwardRef
@@ -43,13 +46,7 @@ export const ChosenMultipleComponent_CONTROL_VALUE_ACCESSOR: any = {
                  
         </ul>
 
-        <div  class="chosen-drop"
-            [disableSearch]="true"
-            [no_results_text]="no_results_text"
-            [display_selected_options]="false"
-            [filterMode]="filterMode"
-            [options]="dropOptions" [groups]="groups_"
-            (optionSelected)="selectOption($event)"></div>
+       <div #dropMenu></div>
 
     </div>
     `,
@@ -94,18 +91,38 @@ export class ChosenMultipleComponent extends AbstractChosenComponent<Array<strin
   @ViewChildren(ChosenDropComponent)
   private chosenDropComponentQueryList: QueryList<ChosenDropComponent>;
 
+  @ViewChild('dropMenu', { read: ViewContainerRef })
+  dropMenuContainerRef: ViewContainerRef;
+
   private multipleSelectedOptions: Array<InternalChosenOption>;
 
   previousInputLength: number = 0;
 
   selectionCount: number = 0;
 
-  constructor(protected el: ElementRef, protected renderer: Renderer) {
+  constructor(protected el: ElementRef, protected renderer: Renderer, public componentFactoryResolver: ComponentFactoryResolver) {
     super(el, renderer);
   }
 
   ngAfterViewInit() {
-    this.chosenDropComponent = this.chosenDropComponentQueryList.first;
+    const factory = this.componentFactoryResolver.resolveComponentFactory(ChosenDropComponent);
+    this.chosenDropComponent = this.dropMenuContainerRef.createComponent(factory).instance
+    this.chosenDropComponent.no_results_text = this.no_results_text
+    this.chosenDropComponent.display_selected_options = true
+    this.chosenDropComponent.filterMode = this.filterMode;
+    this.chosenDropComponent.options = this.dropOptions
+    this.chosenDropComponent.inputElementContainer = this.el.nativeElement.querySelector(".chosen-container");
+    var inputKeyUpEventEmitter:EventEmitter<string>= new EventEmitter();
+    inputKeyUpEventEmitter.subscribe((event)=>{
+      this.inputKeyUp(event)
+    })
+    this.chosenDropComponent.inputKeyUp = inputKeyUpEventEmitter
+
+    var optionSelectedEventEmitter:EventEmitter<InternalChosenOption>= new EventEmitter();
+    optionSelectedEventEmitter.subscribe((event)=>{
+      this.selectOption(event)
+    })
+    this.chosenDropComponent.optionSelected = optionSelectedEventEmitter
   }
 
   updateModel() {

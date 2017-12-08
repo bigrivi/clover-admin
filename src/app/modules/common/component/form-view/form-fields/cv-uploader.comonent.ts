@@ -68,7 +68,6 @@ export class FileUploaderComponent implements ControlValueAccessor {
   writeValue(value: any) {
     if(value){
       let valueArr = value.split(",")
-      console.log(valueArr)
       if(valueArr.length>0){
         this.fileObjects = [];
         valueArr.forEach((attachemtId)=>{
@@ -76,7 +75,6 @@ export class FileUploaderComponent implements ControlValueAccessor {
             var attachmentObject = res.json()
             this.fileObjects.push({id:attachmentObject._id,filetype:attachmentObject.file_mime,filename:attachmentObject.source_name,filesize:attachmentObject.file_size})
             this.valueChange(this.getFinalResult())
-            console.log(this.fileObjects)
           })
         })
       }
