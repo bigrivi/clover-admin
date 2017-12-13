@@ -1,13 +1,13 @@
  <form [formGroup]="form" (submit)="handleSubmit($event)">
   <div class="form-group row" *ngFor="let item of _fields">
-    <label class="col-sm-2 col-form-label">{{item.label}}</label>
+    <label class="col-sm-2 col-form-label"><span *ngIf="item.require">*</span>{{item.label}}</label>
     <div class="col-sm-10">
     	<ng-container dynamicField [config]="item"
           [group]="form">
       </ng-container>
       <div class="field-tips">
         <ng-container *ngIf="item.require &&form.controls[item.field].dirty  && form.controls[item.field].errors?.required">
-          <span>*</span>{{item.errMsg}}
+          {{item.errMsg}}
         </ng-container>
       </div>
     </div>

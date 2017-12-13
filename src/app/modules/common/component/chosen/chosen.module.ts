@@ -5,25 +5,31 @@ import {HttpModule} from '@angular/http';
 import {ChosenDropComponent} from "./chosen-drop.component";
 import {ChosenSingleComponent} from "./chosen-single.component";
 import {ChosenMultipleComponent} from "./chosen-multiple.component";
+import {ChosenItemSelectComponent} from "./item-select.component";
+
+
 import { CommonModule } from '@angular/common';  
 
 @NgModule({
   declarations: [
     ChosenSingleComponent,
     ChosenMultipleComponent,
-    ChosenDropComponent
+    ChosenDropComponent,
+    ChosenItemSelectComponent
     
   ],
   entryComponents: [
     ChosenSingleComponent,
     ChosenMultipleComponent,
-    ChosenDropComponent
+    ChosenDropComponent,
+    ChosenItemSelectComponent
 
   ],
   exports: [
     ChosenSingleComponent,
     ChosenMultipleComponent,
-    ChosenDropComponent
+    ChosenDropComponent,
+    ChosenItemSelectComponent
   ],
   imports: [
   CommonModule,

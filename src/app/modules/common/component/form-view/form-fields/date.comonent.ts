@@ -22,15 +22,18 @@ export class DateFieldComponent {
 
      datePickerConfig1 = {
       locale: 'zh-CN',
+      appendTo:"body",
       format:'YYYY-MM-DD'
     }
 
      datePickerConfig2 = {
       locale: 'zh-CN',
+      appendTo:"body",
       format:'YYYY-MM-DD HH:mm'
     }
 
      datePickerConfig3 = {
+       appendTo:"body",
       locale: 'zh-CN'
     }
 

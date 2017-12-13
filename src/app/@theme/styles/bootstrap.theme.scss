@@ -1,6 +1,12 @@
 @mixin ngx-bootstrap-theme() {
     .form-group {
        margin-bottom: 1.3rem;
+       .col-form-label{
+        span{
+          color:red;
+          font-size:10px;
+        }
+       }
       }
      .form-control{
       padding: 0.45rem 1.025rem;

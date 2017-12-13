@@ -67,6 +67,7 @@ export class EditViewComponent implements OnInit {
   }
 
   save(){
+    console.log(this.formView.form.value)
     if(this.formView.validata()){
         if(this.params["id"]){
             this.resourceService.put(this.config.resource+"/"+this.params["id"],this.formView.form.value).subscribe((res)=>{
@@ -76,9 +77,6 @@ export class EditViewComponent implements OnInit {
         }
         else{
           let postData = Object.assign(this.formView.form.value,this.queryParams)
-           // this.resourceService.post(this.confi)
-          console.log(this.formView.form.value)
-          console.log(postData)
            this.resourceService.post(this.config.resource,postData).subscribe((res)=>{
               this.navigateToList()
               this.toasterService.pop('success', '保存成功');

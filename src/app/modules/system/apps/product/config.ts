@@ -73,7 +73,7 @@ export const ProductConfig = {
 		},
 		tags:{
 			label:"标签",
-			widget:"select",
+			widget:"itemselect",
 			dataSource:"product.tag",
 			populateable:true,
 			multiple:true,

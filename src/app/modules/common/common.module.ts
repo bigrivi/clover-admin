@@ -10,6 +10,7 @@ import {ChosenModule} from './component/chosen/chosen.module';
 import { FormViewComponent } from './component/form-view/form-view.component';
 import { InputFieldComponent } from './component/form-view/form-fields/input.comonent';
 import { SelectFieldComponent } from './component/form-view/form-fields/select.comonent';
+import { ItemSelectFieldComponent } from './component/form-view/form-fields/item-select.comonent';
 import { DateFieldComponent } from './component/form-view/form-fields/date.comonent';
 import { RadioButtonFieldComponent } from './component/form-view/form-fields/radio.comonent';
 import { CheckboxFieldComponent } from './component/form-view/form-fields/checkbox.comonent';
@@ -49,6 +50,7 @@ import {AuthGuardService} from "./services/auth-guard.service"
     InputFieldComponent,
     DateFieldComponent,
     SelectFieldComponent,
+    ItemSelectFieldComponent,
     DynamicFieldDirective,
     InputDebounceDirective,
     RadioButtonFieldComponent,
@@ -64,6 +66,7 @@ import {AuthGuardService} from "./services/auth-guard.service"
   entryComponents: [
     InputFieldComponent,
     SelectFieldComponent,
+    ItemSelectFieldComponent,
     DateFieldComponent,
     RadioButtonFieldComponent,
     CheckboxFieldComponent,

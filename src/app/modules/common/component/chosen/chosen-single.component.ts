@@ -4,6 +4,7 @@ import {InternalChosenOption, ChosenOption, ChosenOptionGroup} from "./chosen-co
 import {AbstractChosenComponent} from "./chosen-abstract";
 import {ChosenDropComponent} from "./chosen-drop.component";
 import { NG_VALUE_ACCESSOR, ControlValueAccessor } from '@angular/forms';
+import * as _ from 'lodash';
 
 export const ChosenSingleComponent_CONTROL_VALUE_ACCESSOR: any = {
   provide: NG_VALUE_ACCESSOR,
@@ -115,12 +116,15 @@ export class ChosenSingleComponent extends AbstractChosenComponent<string>  {
   }
 
   isOptionInitiallySelected(option: InternalChosenOption): boolean {
+    if(_.isObject(this.initialValue))
+      return this.initialValue["_id"] == option.value;
     return this.initialValue == option.value;
   }
 
   protected initialSelection(initialSelection: Array<InternalChosenOption>) {
     if (initialSelection !== null && initialSelection.length > 0) {
       this.singleSelectedOption = initialSelection[0];
+      this.updateModel()
     }
   }
 

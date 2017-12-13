@@ -2,6 +2,7 @@ import {InternalChosenOption, InternalChosenOptionGroup, ChosenOption, ChosenOpt
 import {ElementRef, Renderer} from "@angular/core";
 import {ControlValueAccessor} from "@angular/forms";
 import {ChosenDropComponent} from "./chosen-drop.component";
+import * as _ from 'lodash';
 
 export abstract class AbstractChosenComponent<T> implements ControlValueAccessor {
 
@@ -61,6 +62,17 @@ export abstract class AbstractChosenComponent<T> implements ControlValueAccessor
   writeValue(value: T): void {
     if (value != null) {
       this.initialValue = value;
+      if(_.isArray(this.initialValue)){
+        this.initialValue = _.map(this.initialValue,(item)=>{
+            if(_.isObject(item)){
+              return item["_id"]
+            }
+            return item
+        })
+      }
+      else if(_.isObject(this.initialValue)){
+        this.initialValue = this.initialValue["_id"];
+      }
       this.updateOptions();
     }
   }

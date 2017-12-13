@@ -18,16 +18,15 @@ import {AbstractChosenComponent} from "./chosen-abstract";
 import {InternalChosenOption, ChosenOptionGroup, ChosenOption} from "./chosen-commons";
 import {ChosenDropComponent} from "./chosen-drop.component";
 import {DialogService} from "../dialog/dialog.service"
-import * as _ from 'lodash';
 
-export const ChosenMultipleComponent_CONTROL_VALUE_ACCESSOR: any = {
+export const ChosenItemSelectComponent_CONTROL_VALUE_ACCESSOR: any = {
   provide: NG_VALUE_ACCESSOR,
-  useExisting: forwardRef(() => ChosenMultipleComponent),
+  useExisting: forwardRef(() => ChosenItemSelectComponent),
   multi: true
 };
 
 @Component({
-  selector: 'chosen-multiple',
+  selector: 'chosen-item-select',
   template: `
     <div class="chosen-container chosen-container-multi"
         [class.chosen-container-active]="chosenContainerActive"
@@ -43,19 +42,17 @@ export const ChosenMultipleComponent_CONTROL_VALUE_ACCESSOR: any = {
                         </li>
                     </ng-container>
                 </ng-container>
-                <ng-container *ngIf="multipleSelectedOptions?.length==0">
+                <ng-container *ngIf="multipleSelectedOptions?.length==0 || multipleSelectedOptions==null">
                 <span class='placeholder'>{{placeholder_text_single}}</span>
                 </ng-container>
         </ul>
 
-       <div #dropMenu></div>
-
     </div>
     `,
-    providers: [ChosenMultipleComponent_CONTROL_VALUE_ACCESSOR]
+    providers: [ChosenItemSelectComponent_CONTROL_VALUE_ACCESSOR]
 })
-export class ChosenMultipleComponent extends AbstractChosenComponent<Array<string>> {
-
+export class ChosenItemSelectComponent extends AbstractChosenComponent<Array<string>> {
+  //<div><i class="fa fa-plus" (click)="add($event)"></i><i (click)="more($event)" class="fa fa-ellipsis-h"></i></div>
   @Input()
   no_results_text = AbstractChosenComponent.NO_RESULTS_TEXT_DEFAULT;
 
@@ -65,15 +62,10 @@ export class ChosenMultipleComponent extends AbstractChosenComponent<Array<strin
   @Input()
   max_shown_results = null;
 
-  @Input()
-  protected set options(options: Array<ChosenOption>) {
-    super.setOptions(options);
-  }
 
   @Input()
-  protected set groups(groups: Array<ChosenOptionGroup>) {
-    super.setGroups(groups);
-  }
+  config = {};
+
 
   @Input()
   single_backstroke_delete: boolean = true;
@@ -87,11 +79,6 @@ export class ChosenMultipleComponent extends AbstractChosenComponent<Array<strin
   @Output()
   maxselected: EventEmitter<boolean> = new EventEmitter();
 
-  @ViewChildren(ChosenDropComponent)
-  private chosenDropComponentQueryList: QueryList<ChosenDropComponent>;
-
-  @ViewChild('dropMenu', { read: ViewContainerRef })
-  dropMenuContainerRef: ViewContainerRef;
 
   private multipleSelectedOptions: Array<InternalChosenOption>;
 
@@ -109,24 +96,7 @@ export class ChosenMultipleComponent extends AbstractChosenComponent<Array<strin
   }
 
   ngAfterViewInit() {
-    const factory = this.componentFactoryResolver.resolveComponentFactory(ChosenDropComponent);
-    this.chosenDropComponent = this.dropMenuContainerRef.createComponent(factory).instance
-    this.chosenDropComponent.no_results_text = this.no_results_text
-    this.chosenDropComponent.display_selected_options = true
-    this.chosenDropComponent.filterMode = false;
-    this.chosenDropComponent.options = this.dropOptions
-    this.chosenDropComponent.inputElementContainer = this.el.nativeElement.querySelector(".chosen-container");
-    var inputKeyUpEventEmitter:EventEmitter<string>= new EventEmitter();
-    inputKeyUpEventEmitter.subscribe((event)=>{
-      this.inputKeyUp(event)
-    })
-    this.chosenDropComponent.inputKeyUp = inputKeyUpEventEmitter
-
-    var optionSelectedEventEmitter:EventEmitter<InternalChosenOption>= new EventEmitter();
-    optionSelectedEventEmitter.subscribe((event)=>{
-      this.selectOption(event)
-    })
-    this.chosenDropComponent.optionSelected = optionSelectedEventEmitter
+   
   }
 
   updateModel() {
@@ -137,23 +107,35 @@ export class ChosenMultipleComponent extends AbstractChosenComponent<Array<strin
     }
   }
 
+   writeValue(value): void {
+      if (value != null) {
+       this.initialValue = value;
+       if(this.initialValue){
+          if (!this.multipleSelectedOptions) {
+            this.multipleSelectedOptions = [];
+          }
+          this.initialValue.forEach((item)=>{
+              var option = new InternalChosenOption(item["_id"],item["name"],"")
+              this.multipleSelectedOptions.push(option)
+          })
+          if(this.initialValue.length>0)
+            this.updateModel();
+          this.chosenBlur();
+       }
+     }
+  }
+
   protected isOptionInitiallySelected(option: InternalChosenOption): boolean {
     if (!!!this.initialValue) {
       return false;
     }
-    return this.initialValue.find(value => {
-      if(_.isObject(value))
-        return value["_id"] == option.value;
-      return value === option.value
-    }) != null;
+    return this.initialValue.find(value => value === option.value) != null;
   }
 
   initialSelection(initialSelection: Array<InternalChosenOption>) {
     if (initialSelection !== null) {
       this.multipleSelectedOptions = initialSelection;
       this.selectionCount = initialSelection.length;
-      if(this.selectionCount>0)
-        this.updateModel()
     }
   }
 
@@ -199,7 +181,25 @@ export class ChosenMultipleComponent extends AbstractChosenComponent<Array<strin
     }
     this.inputValue = null;
     this.onTouched()   
-    return true;
+    let initIds = []
+    if(this.multipleSelectedOptions)
+      initIds = this.multipleSelectedOptions.map((item)=>{return item.value});
+    this.dialogService.modalTable(this.config["dataSource"],initIds).then((res) => {
+         if (!this.multipleSelectedOptions) {
+            this.multipleSelectedOptions = [];
+          }
+          res.selectedObjs.forEach((item)=>{
+              if(initIds.indexOf(item._id)<0){
+                var option = new InternalChosenOption(item._id,item.name,"")
+                this.multipleSelectedOptions.push(option)
+              }
+          })
+          this.updateModel();
+          this.chosenBlur();
+      }, (reason) => {
+       
+    })
+    return false;
   }
 
   onChosenBlur() {
@@ -259,4 +259,8 @@ export class ChosenMultipleComponent extends AbstractChosenComponent<Array<strin
     }
     return null;
   }
+
+
+
+
 }

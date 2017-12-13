@@ -88,7 +88,16 @@ export class FormViewComponent {
   }
 
   loadData(){
-     this.resourceService.get(this._config.resource+"/"+this._params["id"]).subscribe((res)=>{
+    let  populates= _.filter(this._fields,(item)=>{
+        return item.populateable
+    })
+    populates = _.map(populates,(item)=>{
+      return item.field
+    })
+    let requestUrl = this._config.resource+"/"+this._params["id"]
+    if(populates.length>0)
+      requestUrl+= "?populate="+populates.join(" ")
+    this.resourceService.get(requestUrl).subscribe((res)=>{
           let data = res.json()
           let controls = Object.keys(this.form.controls)
            controls.forEach((controlKey)=>{
@@ -138,7 +147,7 @@ export class FormViewComponent {
       msg = "请选择日期时间";
     }else if(fieldData.widget=="time"){
       msg = "请选择时间";
-    }else if(fieldData.widget=="checkbox"){
+    }else if(fieldData.widget=="checkbox" || fieldData.widget=="itemselect"){
       msg = "请至少选项一项"+fieldData.label;
     }else if(fieldData.widget=="select"){
       if(fieldData.multiple)
