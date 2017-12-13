@@ -5,7 +5,7 @@ import {ChosenDropComponent} from "./chosen-drop.component";
 
 export abstract class AbstractChosenComponent<T> implements ControlValueAccessor {
 
-  protected static NO_RESULTS_TEXT_DEFAULT = "No results match";
+  protected static NO_RESULTS_TEXT_DEFAULT = "无匹配数据";
 
   protected chosenDropComponent: ChosenDropComponent;
 
@@ -23,7 +23,10 @@ export abstract class AbstractChosenComponent<T> implements ControlValueAccessor
 
   protected inputValue: string;
 
-  filterMode: boolean;
+  set filterMode(val){
+      if(this.chosenDropComponent)
+        this.chosenDropComponent.filterMode = val;
+  }
 
   onChange = (_: any) => {
   };
@@ -150,8 +153,8 @@ export abstract class AbstractChosenComponent<T> implements ControlValueAccessor
     this.chosenContainerActive = true;
     this.chosenWithDrop = true;
     this.highlightOption();
-     if(this.chosenDropComponent)
-        this.chosenDropComponent.visible = true;
+    if(this.chosenDropComponent)
+       this.chosenDropComponent.visible = true;
   }
 
   abstract onChosenFocus(): boolean;

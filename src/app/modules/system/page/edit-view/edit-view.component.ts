@@ -7,6 +7,7 @@ import {parseRouteMap} from '../../../common/utils/route.utils'
 import {FormViewComponent} from '../../../common/component/form-view/form-view.component'
 import { ToasterService, ToasterConfig, Toast, BodyOutputType } from 'angular2-toaster';
 import {ResourceService} from '../../../../@core/utils/resource.service'
+import {Subscription} from 'rxjs'
 
 @Component({
   selector: 'app-edit-view',
@@ -20,6 +21,8 @@ export class EditViewComponent implements OnInit {
   params = {};
   @ViewChild(FormViewComponent) formView:FormViewComponent;
   queryParams;
+  routeChangeSub:Subscription
+
 
   constructor(public route: ActivatedRoute,
     public appService:AppService,
@@ -38,7 +41,13 @@ export class EditViewComponent implements OnInit {
 
     this.route.queryParams.subscribe(params=> {
       this.queryParams = params;
-      console.log(params)
+    })
+
+    this.routeChangeSub = this.router.events.subscribe((event)=>{
+      let routeMap = parseRouteMap(this.router.url)
+      this.module = routeMap["module"];
+      this.app = routeMap["app"];
+      this.config = this.appService.getAppModuleConfig(this.app,this.module)
     })
 
   }
@@ -48,7 +57,8 @@ export class EditViewComponent implements OnInit {
   }
 
   back(){
-    this.navigateToList()
+    //this.navigateToList()
+    window.history.go(-1)
   }
 
   navigateToList(){
@@ -74,6 +84,14 @@ export class EditViewComponent implements OnInit {
               this.toasterService.pop('success', '保存成功');
            })
         }
+    }
+
+  }
+
+   ngOnDestroy(){
+    if(this.routeChangeSub){
+      this.routeChangeSub.unsubscribe()
+      this.routeChangeSub = null;
     }
 
   }

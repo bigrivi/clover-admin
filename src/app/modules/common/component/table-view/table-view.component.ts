@@ -39,7 +39,9 @@ export class TableViewComponent implements OnInit {
   _config;
 
   @Output() dataLoadComplete:EventEmitter<any> = new EventEmitter();
+  @Output() onSelectedChange:EventEmitter<any> = new EventEmitter();
   @Input() rowHeight = 50;
+  @Input() initSelectedIds = [];
   @Input() modalMode = false; //是否为弹窗模式
   @Input()
   set config(val) {
@@ -136,7 +138,6 @@ export class TableViewComponent implements OnInit {
     this.fixedRight = this.columns.filter((column) => {
       return column["fixedRight"] == true;
     })
-    console.log("set config")
     this.pagerData = {
       currentPage: 1,
       recordCount: 0,
@@ -150,7 +151,6 @@ export class TableViewComponent implements OnInit {
       setTimeout(()=>{
         this.visibleWidth = this._scrollBody.element.nativeElement.offsetWidth; //不准确
         this.checkHorScroll()
-        console.log(this.scrollHorizontal)
       },0)
       
       let currPath = this.location.path()
@@ -213,7 +213,6 @@ export class TableViewComponent implements OnInit {
     })
 
      this.toggleSub = this.sidebarService.onToggle().subscribe((data: { compact: boolean, tag: string }) => {
-         console.log("sidebar toggle",data);
          setTimeout(()=>{
              this.visibleWidth = this._scrollBody.element.nativeElement.offsetWidth;
              this.onResize();
@@ -225,8 +224,6 @@ export class TableViewComponent implements OnInit {
   ngAfterViewInit() {
     this.viewInited = true;
     this.visibleWidth = this._scrollBody.element.nativeElement.offsetWidth;
-    console.log("ngAfterViewInit()")
-    console.log(this.visibleWidth)
     this.onResize()
     //同步滚动条
     let fixedBodyList = Array.prototype.slice.call(this.el.nativeElement.querySelectorAll(".table-fixed .table-body"))
@@ -382,7 +379,6 @@ export class TableViewComponent implements OnInit {
     if(populates.length>0)
       params["populate"] = populates.join(" ")
      //console.log(params)
-    console.log("load page data")
 
    this.lastLoadSub = this.resourceService.get(this._config.resource, params).subscribe((data) => {
       let res = data.json()
@@ -392,6 +388,7 @@ export class TableViewComponent implements OnInit {
       if(!this.modalMode)
         this.pagerData.currentPage = currentPage;
       _.each(results,(row)=>{
+        row.selected = this.initSelectedIds.indexOf(row["_id"])>=0
         _.each(this.columns,(col)=>{
             if(col.get_display){
               row[col.field] = col.get_display(row)
@@ -418,11 +415,8 @@ export class TableViewComponent implements OnInit {
   }
 
   checkHorScroll(){
-    console.log("this.getColumnTotalWidth():",this.getColumnTotalWidth())
-    console.log("this.visibleWidth:",this.visibleWidth)
     this.scrollHorizontal = this.getColumnTotalWidth()>this.visibleWidth;
   }
-
 
   add() {
     this.router.navigate([this.router.url,"add"]);
@@ -439,9 +433,7 @@ export class TableViewComponent implements OnInit {
   }
 
   deleteAll() {
-    var ids = _.filter(this.rows, (item) => { return item.selected }).map((item) => {
-      return item._id;
-    })
+    let ids = this.getSelectedIds()
     if (ids.length == 0) {
       this.dialogService.alert("没有选择任何选项")
     }
@@ -487,8 +479,19 @@ export class TableViewComponent implements OnInit {
   }
 
 
+  getSelectedIds(){
+    var ids = _.filter(this.rows, (item) => { return item.selected }).map((item) => {
+      return item._id;
+    })
+    return ids;
+  }
+
+  getSelectedData(){
+    return _.filter(this.rows, (item) => { return item.selected })
+  }
+
+
   onPageChange(newPage) {
-    console.log("onPageChange:"+newPage)
   
     if(this.modalMode){
         this.pagerData.currentPage = newPage
@@ -502,10 +505,15 @@ export class TableViewComponent implements OnInit {
     
   }
 
-  onSelectedAllChange() {
+  onSelectedAllChange(event) {
     this.rows.forEach((row) => {
-      row.selected = this.selectedAll;
+      row.selected = event.target.checked;
     })
+    this.onSelectedChange.emit(this.getSelectedData())
+  }
+
+  onSelectedSingleChange(event){
+    this.onSelectedChange.emit(this.getSelectedData())
   }
 
   ngDestroy() {

@@ -25,7 +25,7 @@
           overflow-x: hidden;
           overflow-y: auto;
           margin: 0 4px 4px 0;
-          padding: 0 0 0 4px;
+          padding: 0 0 0 0px;
           max-height: 240px;
           -webkit-overflow-scrolling: touch;
 
@@ -130,6 +130,20 @@
         display:inline-block;
         margin-top:3px;
         font-size:14px;
+      }
+
+      position:relative;
+      div{
+        position:absolute;
+        right:0px;
+        top:0;
+        padding: 0.65rem 0rem;
+        i{
+          display:inline-block;
+          margin-right:10px;
+          font-size:18px;
+          cursor:pointer;
+        }
       }
 
     }

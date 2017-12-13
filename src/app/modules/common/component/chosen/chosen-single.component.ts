@@ -92,7 +92,7 @@ export class ChosenSingleComponent extends AbstractChosenComponent<string>  {
     this.chosenDropComponent.disableSearch = this.isSearchDisabled()
     this.chosenDropComponent.no_results_text = this.no_results_text
     this.chosenDropComponent.display_selected_options = true
-    this.chosenDropComponent.filterMode = this.filterMode;
+    this.chosenDropComponent.filterMode = false
     this.chosenDropComponent.options = this.dropOptions
     this.chosenDropComponent.inputElementContainer = this.el.nativeElement.querySelector(".chosen-container");
     var inputKeyUpEventEmitter:EventEmitter<string>= new EventEmitter();

@@ -21,44 +21,33 @@ import {ResourceService} from '../../../../@core/utils/resource.service'
     class: 'form-view'
   }
 })
-export class FormViewComponent implements OnInit {
+export class FormViewComponent {
 
   form: FormGroup;
  _config;
  _params = {}
  _fields = []
-
-
-  @Input()
-  set config(val: boolean) {
-  	this._config = _.cloneDeep(val);
-  }
-
   @Input()
   set params(val) {
     this._params = val;
   }
-  queryParams;
 
-  constructor(private fb: FormBuilder,
-    private http:Http,
-    public route: ActivatedRoute,
-    public router: Router,
-    public activeRouter: ActivatedRoute,
-    public resourceService:ResourceService,
-    public toasterService: ToasterService) {
-
-    
-  }
-
-  ngOnInit() {
-    this.activeRouter.queryParams.subscribe(params=> {
-      this.queryParams = params;
-      console.log(params)
-    })
+  @Input()
+  set config(val) {
     let isEditMode = this._params["id"]?true:false;
+    if(!this.form)
+      this.form = this.fb.group({});
+  	this._config = _.cloneDeep(val);
+    if(this.form){
+     this._fields = []
+     let controls = Object.keys(this.form.controls)
+      controls.forEach((controlKey)=>{
+       this.form.removeControl(controlKey)
+      })
+    }
+
     this._fields = Object.keys(this._config["fields"]);
-    this._fields = this._fields.map((field)=>{
+     this._fields = this._fields.map((field)=>{
       let src = this._config["fields"][field]
       let clone = Object.assign({},src)
       clone.field = field
@@ -74,16 +63,27 @@ export class FormViewComponent implements OnInit {
         if(typeof(item.addable)!="undefined")
         return item.addable
       }
-      
       return true;
     })
-    this.form = this.createGroup();
+   
+
+    this._fields.forEach(control => {
+          this.form.addControl(control.field, this.createControl(control))
+    });
     if(isEditMode){
        this.loadData()
     }
+
   }
 
-  ngAfterViewInit(){
+  constructor(private fb: FormBuilder,
+    private http:Http,
+    public route: ActivatedRoute,
+    public router: Router,
+    public activeRouter: ActivatedRoute,
+    public resourceService:ResourceService,
+    public toasterService: ToasterService) {
+    this._params["id"] = this.route.snapshot.params["id"]
     
   }
 
@@ -103,14 +103,6 @@ export class FormViewComponent implements OnInit {
               }
             })
       })
-  }
-
-  createGroup() {
-    const group = this.fb.group({});
-    this._fields.forEach(control => {
-          group.addControl(control.field, this.createControl(control))
-    });
-    return group;
   }
 
   validata(){

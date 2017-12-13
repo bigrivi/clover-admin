@@ -5,17 +5,17 @@ import {InternalChosenOption, InternalChosenOptionGroup} from "./chosen-commons"
   selector: 'div.chosen-drop',
   template: `
         <div *ngIf="!disableSearch" class="chosen-search">
-            <input (blur)="onInputBlur()" (keyup)="onInputKeyup($event.target.value)" [(ngModel)]="inputValue" #chosenInput type="text" autocomplete="off">
+            <input (blur)="onInputBlur()" (keyup)="onInputKeyup($event)" [(ngModel)]="inputValue" #chosenInput type="text" autocomplete="off">
         </div>
         <ul class="chosen-results">
-            <ng-container *ngFor="let option of options_">
+            <ng-container *ngFor="let option of options_;let i=index">
 
                  <li *ngIf="showGroup(option,i)" class="group-result">{{option.groupObject.label}}</li>
-                 <li [class.highlighted]="option.highlighted"
+                 <li [class.highlighted]="option.highlighted || preSelectedIndex==i"
                     [class.result-selected]="isOptionSelected(option)"
                     [class.active-result]="!isOptionSelected(option) || display_selected_options"
-                    (mouseover)="highlight(option)"
-                    (mouseout)="unHighlight(option)"
+                    (mouseover)="highlight(option,i)"
+                    (mouseout)="unHighlight(option,i)"
                     (click)="selectOption(option)">
                     <span [innerHtml]="getOptionLabel(option)"></span>
                 </li>
@@ -37,6 +37,8 @@ export class ChosenDropComponent {
   inputElementContainer;
 
   appendToElement;
+
+  preSelectedIndex;
 
   constructor(public el:ElementRef, public renderer: Renderer,){
 
@@ -70,6 +72,7 @@ export class ChosenDropComponent {
   @Input()
   set options(options: Array<InternalChosenOption>) {
     this.options_ = options;
+    this.preSelectedIndex = null;
   }
 
   @Input()
@@ -85,19 +88,19 @@ export class ChosenDropComponent {
 
   listeners = []
 
-  isSelfClick = true;
-
-  highlight(option: InternalChosenOption) {
+  highlight(option: InternalChosenOption,index?) {
     if (this.highlightedOption != null) {
       this.highlightedOption.highlighted = false;
     }
     if (!this.isOptionSelected(option) || this.display_selected_options) {
       option.highlighted = true;
+      if(index)
+        this.preSelectedIndex = index
       this.highlightedOption = option;
     }
   }
 
-  unHighlight(option: InternalChosenOption) {
+  unHighlight(option: InternalChosenOption,index?) {
     option.highlighted = false;
   }
 
@@ -117,8 +120,9 @@ export class ChosenDropComponent {
     return option.selected;
   }
 
-  onInputKeyup(value) {
-    this.inputKeyUp.emit(value);
+  onInputKeyup(event) {
+    if(event.keyCode!=38 && event.keyCode!=40)
+      this.inputKeyUp.emit(event.target.value);
   }
 
   onInputBlur() {
@@ -145,7 +149,9 @@ export class ChosenDropComponent {
   set visible(val){
     this._visible = val
     if(val){
-        this.position()
+        setTimeout(() => {
+         this.position()
+      });
         this.bindListenres()
     }
     else{
@@ -155,15 +161,39 @@ export class ChosenDropComponent {
   }
 
 
+  selectedNext(){
+   if(this.preSelectedIndex==null){
+      this.preSelectedIndex = 0
+    }
+    else{
+      this.preSelectedIndex++;
+      if(this.preSelectedIndex>=this.options_.length){
+         this.preSelectedIndex = 0
+      }
+    }
+  }
+
+  selectedPrev(){
+    if(this.preSelectedIndex==null){
+      this.preSelectedIndex = this.options_.length-1
+    }
+    else{
+      this.preSelectedIndex--;
+      if(this.preSelectedIndex<0){
+         this.preSelectedIndex = this.options_.length-1
+      }
+    }
+  }
+
+
   position(){
-     setTimeout(() => {
-          this.setXPostioin();
-          this.setYPosition();
-          const dimElemRect = this.el.nativeElement.getBoundingClientRect();
-          if (dimElemRect.bottom > window.innerHeight){
-            this.setYPosition("up")
-          }
-      });
+      this.setXPostioin();
+      this.setYPosition();
+      const dimElemRect = this.el.nativeElement.getBoundingClientRect();
+      if (dimElemRect.bottom > window.innerHeight){
+        this.setYPosition("up")
+      }
+    
   }
 
   setXPostioin(){
@@ -178,7 +208,6 @@ export class ChosenDropComponent {
   setYPosition(direction = "down"){
     const anchorRect = this.inputElementContainer.getBoundingClientRect();
     const containerRect = this.appendToElement.getBoundingClientRect();
-    console.log(containerRect)
     const bottom = anchorRect.bottom - containerRect.top;
     const top = anchorRect.top - containerRect.top;
     if(direction=="down")
@@ -198,7 +227,6 @@ export class ChosenDropComponent {
   }
 
   onScroll(){
-    console.log("scroll")
     this.position()
   }
 
@@ -215,6 +243,19 @@ export class ChosenDropComponent {
 
   onKeyPress(event: KeyboardEvent) {
     switch (event.keyCode) {
+      case (38):
+        this.selectedPrev()
+        event.preventDefault();
+        break;
+      case (40):
+        this.selectedNext()
+        event.preventDefault();
+        break;
+      case(13):
+        if(this.preSelectedIndex!=null){
+          this.selectOption(this.options_[this.preSelectedIndex])
+        }
+        break;
       case (9):
       case (27):
         this.visible = false;
@@ -227,7 +268,7 @@ export class ChosenDropComponent {
         this.renderer.listen(document, 'keydown', (e: KeyboardEvent) => {
           this.onKeyPress(e);
         }),
-        this.renderer.listen(document, 'scroll', () => {
+        this.renderer.listen(document.querySelector(".scrollable-container"), 'scroll', () => {
           this.onScroll();
         }),
         this.renderer.listen(document, 'click', (event) => {

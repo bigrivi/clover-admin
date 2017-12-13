@@ -32,7 +32,7 @@
                   </th>
                   <th *ngIf="column.field=='selectedId'">
                     <div class="table-cell" [style.width]="column.width+'px'">
-                        <nb-checkbox [(ngModel)]="selectedAll" (ngModelChange)="onSelectedAllChange($event)"></nb-checkbox>
+                        <nb-checkbox [(ngModel)]="selectedAll" (change)="onSelectedAllChange($event)"></nb-checkbox>
                     </div>
                   </th>
             </ng-container>
@@ -58,7 +58,7 @@
                       {{row[column.field]}}
                   </ng-container>
                    <ng-container *ngIf="column.field=='selectedId'">
-                     <nb-checkbox [(ngModel)]="row.selected"></nb-checkbox>
+                     <nb-checkbox (change)="onSelectedSingleChange($event)" [(ngModel)]="row.selected"></nb-checkbox>
                   </ng-container>
                 </div>
               </td>

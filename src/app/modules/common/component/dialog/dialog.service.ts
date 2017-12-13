@@ -24,9 +24,9 @@ export class DialogService {
     }
 
       //提示框
-    modalTable(module:String,title = "选择"): Promise<any> {
+    modalTable(module:String,selectedIds = [],title = "选择"): Promise<any> {
         const modalRef = this.modalService.open(TableViewDailogComponent,{ size: "lg" });
-        modalRef.componentInstance.config = { title:title,module:module};
+        modalRef.componentInstance.config = { title:title,module:module,selectedIds:selectedIds};
         return modalRef.result;
     }
 

@@ -13,9 +13,11 @@ import {
   EventEmitter,
   forwardRef
 } from "@angular/core";
+import { Routes, Router,RouterModule,ActivatedRoute } from '@angular/router';
 import {AbstractChosenComponent} from "./chosen-abstract";
 import {InternalChosenOption, ChosenOptionGroup, ChosenOption} from "./chosen-commons";
 import {ChosenDropComponent} from "./chosen-drop.component";
+import {DialogService} from "../dialog/dialog.service"
 
 export const ChosenMultipleComponent_CONTROL_VALUE_ACCESSOR: any = {
   provide: NG_VALUE_ACCESSOR,
@@ -34,7 +36,7 @@ export const ChosenMultipleComponent_CONTROL_VALUE_ACCESSOR: any = {
 
                 <ng-container *ngIf="multipleSelectedOptions != null">
                     <ng-container  *ngFor="let option of multipleSelectedOptions">
-                        <li class="search-choice" [class.search-choice-focus]="option.focus" >
+                        <li class="search-choice" (click)="$event.stopPropagation()" [class.search-choice-focus]="option.focus" >
                             <span>{{option.label}}</span>
                             <a class="search-choice-close" (click)="deselectOption(option, $event);"></a>
                         </li>
@@ -43,16 +45,13 @@ export const ChosenMultipleComponent_CONTROL_VALUE_ACCESSOR: any = {
                 <ng-container *ngIf="multipleSelectedOptions?.length==0">
                 <span class='placeholder'>{{placeholder_text_single}}</span>
                 </ng-container>
-                 
+                <div><i class="fa fa-plus" (click)="add($event)"></i><i (click)="more($event)" class="fa fa-ellipsis-h"></i></div>
         </ul>
 
        <div #dropMenu></div>
 
     </div>
     `,
-     host: {
-    '(document:click)': 'onDoucumentClick($event)'
-  },
     providers: [ChosenMultipleComponent_CONTROL_VALUE_ACCESSOR]
 })
 export class ChosenMultipleComponent extends AbstractChosenComponent<Array<string>> {
@@ -100,7 +99,12 @@ export class ChosenMultipleComponent extends AbstractChosenComponent<Array<strin
 
   selectionCount: number = 0;
 
-  constructor(protected el: ElementRef, protected renderer: Renderer, public componentFactoryResolver: ComponentFactoryResolver) {
+  constructor(
+    protected el: ElementRef, 
+    protected renderer: Renderer, 
+    public router: Router,
+    public dialogService:DialogService,
+    public componentFactoryResolver: ComponentFactoryResolver) {
     super(el, renderer);
   }
 
@@ -109,7 +113,7 @@ export class ChosenMultipleComponent extends AbstractChosenComponent<Array<strin
     this.chosenDropComponent = this.dropMenuContainerRef.createComponent(factory).instance
     this.chosenDropComponent.no_results_text = this.no_results_text
     this.chosenDropComponent.display_selected_options = true
-    this.chosenDropComponent.filterMode = this.filterMode;
+    this.chosenDropComponent.filterMode = false;
     this.chosenDropComponent.options = this.dropOptions
     this.chosenDropComponent.inputElementContainer = this.el.nativeElement.querySelector(".chosen-container");
     var inputKeyUpEventEmitter:EventEmitter<string>= new EventEmitter();
@@ -172,6 +176,7 @@ export class ChosenMultipleComponent extends AbstractChosenComponent<Array<strin
     this.chosenBlur();
   }
 
+
   deselectOption(option, $event) {
     if ($event != null) {
       $event.stopPropagation();
@@ -187,8 +192,7 @@ export class ChosenMultipleComponent extends AbstractChosenComponent<Array<strin
       return false;
     }
     this.inputValue = null;
-    this.onTouched()
-    console.log("onFocus")
+    this.onTouched()   
     return true;
   }
 
@@ -239,12 +243,6 @@ export class ChosenMultipleComponent extends AbstractChosenComponent<Array<strin
     let lastOption = this.multipleSelectedOptions[this.multipleSelectedOptions.length - 1];
   }
 
-   onDoucumentClick(event){
-    if(!this.el.nativeElement.contains(event.target)){
-        this.chosenBlur();
-    }
-  }
-
   getOptionToHighlight() {
     let options = this.filterMode ? this.dropOptions : this.options_;
     if (options !== null) {
@@ -254,5 +252,30 @@ export class ChosenMultipleComponent extends AbstractChosenComponent<Array<strin
       }
     }
     return null;
+  }
+
+  add(event){
+    event.stopPropagation();
+    this.router.navigate(["apps/product/tag","add"]);
+  }
+
+  more(event){
+    event.stopPropagation();
+    let initIds = this.multipleSelectedOptions.map((item)=>{return item.value});
+    this.dialogService.modalTable("product.tag",initIds).then((res) => {
+         if (!this.multipleSelectedOptions) {
+            this.multipleSelectedOptions = [];
+          }
+          res.selectedObjs.forEach((item)=>{
+              if(initIds.indexOf(item._id)<0){
+                var option = new InternalChosenOption(item._id,item.name,"")
+                this.multipleSelectedOptions.push(option)
+              }
+          })
+          this.updateModel();
+          this.chosenBlur();
+      }, (reason) => {
+        console.log(reason)
+    })
   }
 }

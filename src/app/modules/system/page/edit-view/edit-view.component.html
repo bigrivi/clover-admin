@@ -4,7 +4,7 @@
       	<ng-container *ngIf="!params.id">新增</ng-container>
       </nb-card-header>
       <nb-card-body>
-       <form-view [params]="params" [config]="config"></form-view>
+       <form-view [config]="config"></form-view>
       </nb-card-body>
        <nb-card-footer>
              <button type="submit" (click)="save()"  class="btn btn-danger">保存</button>
