@@ -5,6 +5,7 @@ import { HttpModule, Http, XHRBackend, RequestOptions } from '@angular/http';
 
 import { ListViewComponent } from './page/list-view/list-view.component';
 import { EditViewComponent } from './page/edit-view/edit-view.component';
+import { ExportViewComponent } from './page/export-view/export-view.component';
 import { ThemeModule } from '../../@theme/theme.module';
 import { SystemComponent } from './system.component'
 
@@ -22,6 +23,9 @@ const routes: Routes = [
   {
     path: ':module/add',
     component: EditViewComponent,
+  }, {
+    path: ':module/export',
+    component: ExportViewComponent,
   }, {
     path: ':module/:id/edit',
     component: EditViewComponent,
@@ -42,7 +46,8 @@ const routes: Routes = [
   declarations: [
     SystemComponent,
     ListViewComponent,
-    EditViewComponent
+    EditViewComponent,
+    ExportViewComponent
   ],
   entryComponents: [
    

@@ -36,6 +36,11 @@ export class ListViewComponent implements OnInit {
     this.router.navigate(["apps/"+routeMap.app+"/"+routeMap.module,"add"]);
   }
 
+  export(){
+    let routeMap = parseRouteMap(this.router.url)
+    this.router.navigate(["apps/"+routeMap.app+"/"+routeMap.module,"export"]);
+  }
+
   onDataLoadComplete(totalDataNum){
     if(this.config.treeable){
       if(totalDataNum>0)

@@ -1,0 +1,99 @@
+   <nb-card>
+        <nb-card-header>
+        导出
+        </nb-card-header>
+        <nb-card-body>
+        <fieldset>
+              <legend (click)="toggleFieldsShow()">
+              <i class='fa fa-chevron-down' *ngIf="fieldsExpand"></i>
+              <i class='fa fa-chevron-right' *ngIf="!fieldsExpand"></i>
+              字段选择
+              </legend>
+              <div class='control-group' *ngIf="fieldsExpand">
+                <label class='control-label' data-original-title='Click to reverse selection' (click)='fanxuan()' rel='tooltip'>字段列表</label>
+                 <div class='controls'>
+                    <label class='checkbox' *ngFor="let fieldItem of fields" [for]='fieldItem.field'>
+                     <input [(ngModel)]="fieldItem.checked" [id]="fieldItem.field" name="schema[only][]" type="checkbox" [value]="fieldItem.field" />
+                      {{fieldItem.label}}
+                    </label>
+                  
+                  </div>
+              </div>
+          </fieldset>
+          <fieldset>
+            <legend (click)="toggleOptionShow()">
+              <i class='fa fa-chevron-down' *ngIf="optionExpand"></i>
+              <i class='fa fa-chevron-right' *ngIf="!optionExpand"></i>
+              csv/Excel选项
+              </legend>
+        <div class='control-group' *ngIf="optionExpand">
+        <label class='control-label' for='csv_options_encoding_to'>编码</label>
+        <div class='controls'>
+        <select id="csv_options_encoding_to" [(ngModel)]="encodingTo" name="csv_options[encoding_to]">
+            <option value=""></option>
+            <option value="UTF-8">UTF-8</option>
+            <option value="UTF-16LE">UTF-16LE</option>
+            <option value="UTF-16BE">UTF-16BE</option>
+            <option value="UTF-32LE">UTF-32LE</option>
+            <option value="UTF-32BE">UTF-32BE</option>
+            <option value="UTF-7">UTF-7</option>
+            <option value="ISO-8859-1">ISO-8859-1</option>
+            <option value="ISO-8859-15">ISO-8859-15</option>
+            <option value="IBM-850">IBM-850</option>
+            <option value="MacRoman">MacRoman</option>
+            <option value="Windows-1252">Windows-1252</option>
+            <option value="ISO-8859-3">ISO-8859-3</option>
+            <option value="IBM-852">IBM-852</option>
+            <option value="ISO-8859-2">ISO-8859-2</option>
+            <option value="MacCE">MacCE</option>
+            <option value="Windows-1250">Windows-1250</option>
+            <option value="IBM-855">IBM-855</option>
+            <option value="ISO-8859-5">ISO-8859-5</option>
+            <option value="ISO-IR-111">ISO-IR-111</option>
+            <option value="KOI8-R">KOI8-R</option>
+            <option value="MacCyrillic">MacCyrillic</option>
+            <option value="Windows-1251">Windows-1251</option>
+            <option value="CP-866">CP-866</option>
+            <option value="KOI-U">KOI-U</option>
+            <option value="MacUkranian">MacUkranian</option>
+            <option value="GB2312">GB2312</option>
+            <option value="GBK">GBK</option>
+            <option value="GB18030">GB18030</option>
+            <option value="HZ">HZ</option>
+            <option value="ISO-2022-CN">ISO-2022-CN</option>
+            <option value="Big5">Big5</option>
+            <option value="Big5-HKSCS">Big5-HKSCS</option>
+            <option value="EUC-TW">EUC-TW</option>
+            <option value="EUC-JP">EUC-JP</option>
+            <option value="ISO-2022-JP">ISO-2022-JP</option>
+            <option value="Shift_JIS">Shift_JIS</option>
+            <option value="EUC-KR">EUC-KR</option>
+            <option value="UHC">UHC</option>
+            <option value="JOHAB">JOHAB</option>
+            <option value="ISO-2022-KR">ISO-2022-KR</option></select>
+        <p class='help-block'>选择编码 默认为(UTF-8)</p>
+        </div>
+        <label class='control-label' for='csv_options_skip_header'>没有表格头</label>
+        <div class='controls'>
+        <input id="csv_options_skip_header" name="csv_options[skip_header]" type="checkbox" [(ngModel)]="skipHeader" />
+        <p class='help-block'>不输入表格头</p>
+        </div>
+        <label class='control-label' for='csv_options_generator_col_sep'>列分隔符</label>
+        <div class='controls'>
+        <select id="csv_options_generator_col_sep" [(ngModel)]="colSep" name="csv_options[generator][col_sep]"><option value=","></option>
+        <option value=",">&lt;comma&gt; ','</option>
+        <option value=";">&lt;semicolon&gt; ';'</option>
+        <option value="'  '">&lt;tabs&gt;</option></select>
+        <p class='help-block'>默认 (',')</p>
+        </div>
+        </div>
+        </fieldset>
+        </nb-card-body>
+         <nb-card-footer>
+             <button type="button" (click)="export('csv')" class="btn btn-danger">导出为Csv</button>
+             <button type="button" (click)="export('excel')" class="btn btn-primary">导出为Excel</button>
+             <button type="button" (click)="export('json')" class="btn btn-primary">导出为Json</button>
+             <button type="button" (click)="export('xml')"  class="btn btn-primary">导出为Xml</button>
+   	       <button type="button" (click)="back()" class="btn">取消</button>
+         </nb-card-footer>
+  </nb-card>
