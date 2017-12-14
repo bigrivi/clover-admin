@@ -52,7 +52,6 @@ export const ChosenItemSelectComponent_CONTROL_VALUE_ACCESSOR: any = {
     providers: [ChosenItemSelectComponent_CONTROL_VALUE_ACCESSOR]
 })
 export class ChosenItemSelectComponent extends AbstractChosenComponent<Array<string>> {
-  //<div><i class="fa fa-plus" (click)="add($event)"></i><i (click)="more($event)" class="fa fa-ellipsis-h"></i></div>
   @Input()
   no_results_text = AbstractChosenComponent.NO_RESULTS_TEXT_DEFAULT;
 

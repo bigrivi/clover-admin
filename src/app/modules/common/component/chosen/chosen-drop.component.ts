@@ -21,7 +21,7 @@ import {InternalChosenOption, InternalChosenOptionGroup} from "./chosen-commons"
                 </li>
 
             </ng-container>
-            <li *ngIf="filterMode && options_ == null" class="no-results">{{no_results_text}} "<span>{{inputValue}}</span>"</li>
+            <li *ngIf="filterMode&&options_==null" class="no-results">{{no_results_text}} "<span>{{inputValue}}</span>"</li>
         </ul>
     `,
     host: {
@@ -80,7 +80,7 @@ export class ChosenDropComponent {
     this.groups_ = groups;
   }
 
-  options_: Array<InternalChosenOption>;
+  options_: Array<InternalChosenOption> = [];
 
   groups_: Array<InternalChosenOptionGroup>;
 
@@ -159,6 +159,8 @@ export class ChosenDropComponent {
       this.inputKeyUp.emit("");
     }
   }
+
+
 
 
   selectedNext(){

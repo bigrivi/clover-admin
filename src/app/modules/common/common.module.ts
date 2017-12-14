@@ -8,15 +8,16 @@ import { TreeModule } from 'angular-tree-component';
 
 import {ChosenModule} from './component/chosen/chosen.module';
 import { FormViewComponent } from './component/form-view/form-view.component';
-import { InputFieldComponent } from './component/form-view/form-fields/input.comonent';
-import { SelectFieldComponent } from './component/form-view/form-fields/select.comonent';
-import { ItemSelectFieldComponent } from './component/form-view/form-fields/item-select.comonent';
-import { DateFieldComponent } from './component/form-view/form-fields/date.comonent';
-import { RadioButtonFieldComponent } from './component/form-view/form-fields/radio.comonent';
-import { CheckboxFieldComponent } from './component/form-view/form-fields/checkbox.comonent';
-import {UploaderFieldComponent} from './component/form-view/form-fields/uploader.comonent';
-import {FileUploaderComponent} from './component/form-view/form-fields/cv-uploader.comonent';
-import {CheckboxComponent} from './component/form-view/form-fields/cv-checkbox.comonent';
+import { InputFieldComponent } from './component/form-view/form-fields/input/input.comonent';
+import { SelectFieldComponent } from './component/form-view/form-fields/select/select.comonent';
+import { ItemSelectFieldComponent } from './component/form-view/form-fields/select/item-select.comonent';
+import { Select3FieldComponent } from './component/form-view/form-fields/select/select3.comonent';
+import { DateFieldComponent } from './component/form-view/form-fields/date/date.comonent';
+import { RadioButtonFieldComponent } from './component/form-view/form-fields/radio/radio.comonent';
+import { CheckboxFieldComponent } from './component/form-view/form-fields/checkbox/checkbox.comonent';
+import {UploaderFieldComponent} from './component/form-view/form-fields/uploader/uploader.comonent';
+import {FileUploaderComponent} from './component/form-view/form-fields/uploader/cv-uploader.comonent';
+import {CheckboxComponent} from './component/form-view/form-fields/checkbox/cv-checkbox.comonent';
 
 import { DynamicFieldDirective } from './directive/dynamic-field.directive';
 import { InputDebounceDirective } from './directive/input-deboune';
@@ -51,6 +52,7 @@ import {AuthGuardService} from "./services/auth-guard.service"
     DateFieldComponent,
     SelectFieldComponent,
     ItemSelectFieldComponent,
+    Select3FieldComponent,
     DynamicFieldDirective,
     InputDebounceDirective,
     RadioButtonFieldComponent,
@@ -67,6 +69,7 @@ import {AuthGuardService} from "./services/auth-guard.service"
     InputFieldComponent,
     SelectFieldComponent,
     ItemSelectFieldComponent,
+    Select3FieldComponent,
     DateFieldComponent,
     RadioButtonFieldComponent,
     CheckboxFieldComponent,

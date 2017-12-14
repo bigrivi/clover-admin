@@ -34,13 +34,15 @@ export const ProductConfig = {
 		},
 		category_id:{
 			label:"类别",
-			widget:"select",
+			widget:"select3",
 			populateable:true,
 			dataSource:"product.category",
 			multiple:false,
 			require:true,
 			get_display:function(item){
-				return item["category_id"].name
+				if(item["category_id"])
+					return item["category_id"].name
+				return ""
 			}
 		},
 		measuring_unit:{

@@ -1,6 +1,6 @@
 import { Component, Input, forwardRef } from '@angular/core';
 import { FormGroup, ControlValueAccessor, NG_VALUE_ACCESSOR, ValidatorFn, NG_VALIDATORS, AbstractControl, ValidationErrors } from '@angular/forms';
-import {ResourceService} from '../../../../../@core/utils/resource.service'
+import {ResourceService} from '@core/utils/resource.service'
 
 
 export interface FileObject {

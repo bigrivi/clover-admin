@@ -133,18 +133,7 @@
       }
 
       position:relative;
-      div{
-        position:absolute;
-        right:0px;
-        top:0;
-        padding: 0.65rem 0rem;
-        i{
-          display:inline-block;
-          margin-right:10px;
-          font-size:18px;
-          cursor:pointer;
-        }
-      }
+     
 
     }
 
@@ -158,6 +147,35 @@
       .chosen-choices{
         background:#efefef !important;
         cursor:pointer;
+      }
+    }
+
+    select3{
+      .chosen-container-single{
+        padding-right:0px;
+        padding-left:0px;
+        .chosen-single{
+           padding:0px;
+           border:0px;
+           position:relative;
+           input{
+            width:100%;
+            height:100%;
+            padding-right:50px;
+           }
+            div{
+              position:absolute;
+              right:30px;
+              top:0;
+              padding: 0.65rem 0rem;
+              i{
+                display:inline-block;
+                margin-right:10px;
+                font-size:18px;
+                cursor:pointer;
+              }
+            }
+        }
       }
     }
 

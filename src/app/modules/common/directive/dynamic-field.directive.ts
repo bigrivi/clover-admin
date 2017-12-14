@@ -1,13 +1,14 @@
 import { ComponentFactoryResolver, ComponentRef, ComponentFactory, Directive, Input, OnChanges, OnInit, Type, ViewContainerRef } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 
-import { InputFieldComponent } from '../component/form-view/form-fields/input.comonent';
-import { SelectFieldComponent } from '../component/form-view/form-fields/select.comonent';
-import { DateFieldComponent } from '../component/form-view/form-fields/date.comonent';
-import { RadioButtonFieldComponent } from '../component/form-view/form-fields/radio.comonent';
-import {UploaderFieldComponent} from '../component/form-view/form-fields/uploader.comonent';
-import { CheckboxFieldComponent } from '../component/form-view/form-fields/checkbox.comonent';
-import { ItemSelectFieldComponent } from '../component/form-view/form-fields/item-select.comonent';
+import { InputFieldComponent } from '../component/form-view/form-fields/input/input.comonent';
+import { SelectFieldComponent } from '../component/form-view/form-fields/select/select.comonent';
+import { DateFieldComponent } from '../component/form-view/form-fields/date/date.comonent';
+import { RadioButtonFieldComponent } from '../component/form-view/form-fields/radio/radio.comonent';
+import {UploaderFieldComponent} from '../component/form-view/form-fields/uploader/uploader.comonent';
+import { CheckboxFieldComponent } from '../component/form-view/form-fields/checkbox/checkbox.comonent';
+import { ItemSelectFieldComponent } from '../component/form-view/form-fields/select/item-select.comonent';
+import { Select3FieldComponent } from '../component/form-view/form-fields/select/select3.comonent';
 
 
 const dynamicComponents: any = {
@@ -23,7 +24,8 @@ const dynamicComponents: any = {
   radio:RadioButtonFieldComponent,
   uploader:UploaderFieldComponent,
   checkbox:CheckboxFieldComponent,
-  itemselect:ItemSelectFieldComponent
+  itemselect:ItemSelectFieldComponent,
+  select3:Select3FieldComponent
 };
 
 @Directive({

@@ -1,8 +1,8 @@
 import { Component,Input } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import * as _ from 'lodash';
-import {ResourceService} from '../../../../../@core/utils/resource.service'
-import {AppService} from '../../../services/app.service'
+import {ResourceService} from '@core/utils/resource.service'
+import {AppService} from '../../../../services/app.service'
 
 @Component({
   selector: 'form-select',
