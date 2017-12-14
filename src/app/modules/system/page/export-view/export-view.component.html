@@ -76,18 +76,47 @@
         <label class='control-label' for='csv_options_skip_header'>没有表格头</label>
         <div class='controls'>
         <input id="csv_options_skip_header" name="csv_options[skip_header]" type="checkbox" [(ngModel)]="skipHeader" />
-        <p class='help-block'>不输入表格头</p>
+        <p class='help-block'>不输出表格头(没有字段描述)</p>
         </div>
         <label class='control-label' for='csv_options_generator_col_sep'>列分隔符</label>
         <div class='controls'>
-        <select id="csv_options_generator_col_sep" [(ngModel)]="colSep" name="csv_options[generator][col_sep]"><option value=","></option>
-        <option value=",">&lt;comma&gt; ','</option>
-        <option value=";">&lt;semicolon&gt; ';'</option>
-        <option value="'  '">&lt;tabs&gt;</option></select>
-        <p class='help-block'>默认 (',')</p>
+          <select id="csv_options_generator_col_sep" [(ngModel)]="colSep" name="csv_options[generator][col_sep]">
+            <option value=","></option>
+            <option value=",">&lt;comma&gt; ','</option>
+            <option value=";">&lt;semicolon&gt; ';'</option>
+            <option value="'  '">&lt;tabs&gt;</option></select>
+          <p class='help-block'>默认 (',')</p>
         </div>
         </div>
         </fieldset>
+         <fieldset>
+              <legend (click)="toggleSortShow()">
+              <i class='fa fa-chevron-down' *ngIf="fieldsExpand"></i>
+              <i class='fa fa-chevron-right' *ngIf="!fieldsExpand"></i>
+              排序
+              </legend>
+              <div class='control-group' *ngIf="sortExpand">
+                <label class='control-label' data-original-title='Click to reverse selection' rel='tooltip'>
+                排序字段</label>
+                 <div class='controls'>
+                   <select id="csv_options_sort_field" [(ngModel)]="sortField" name="csv_options[generator][sortField]">
+                    <option *ngFor="let fieldItem of fields" value="{{fieldItem.field}}">{{fieldItem.label}}</option>
+                  </select>
+                  <p class='help-block'>排序字段(默认为id)</p>
+                  </div>
+              </div>
+              <div class='control-group' *ngIf="sortExpand">
+                   <label class='control-label'>排序</label>
+                  <div class='controls'>
+                        <select id="csv_options_generator_sort" [(ngModel)]="sort" name="csv_options[generator][sort]">
+                          <option value="desc"></option>
+                          <option value="desc">降序</option>
+                          <option value="asc">升序</option>
+                        </select>
+                        <p class='help-block'>默认 (降序)</p>
+                    </div>
+              </div>
+          </fieldset>
         </nb-card-body>
          <nb-card-footer>
              <button type="button" (click)="export('csv')" class="btn btn-danger">导出为Csv</button>

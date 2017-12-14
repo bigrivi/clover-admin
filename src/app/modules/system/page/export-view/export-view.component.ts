@@ -22,9 +22,12 @@ export class ExportViewComponent implements OnInit {
   fields = [];
   fieldsExpand = true
   optionExpand = true
+  sortExpand = true
   skipHeader = true; //去掉表格头
   encodingTo = ""; //导出编码
   colSep = ""; //列分割副
+  sortField = "_id";//排序字段
+  sort = "desc"
 
 
   constructor(public route: ActivatedRoute,
@@ -70,6 +73,10 @@ export class ExportViewComponent implements OnInit {
     this.optionExpand = !this.optionExpand
   }
 
+  toggleSortShow(){
+    this.sortExpand = !this.sortExpand
+  }
+
   fanxuan(){
     this.fields.forEach((item)=>{
       item.checked = !item.checked;
@@ -87,7 +94,9 @@ export class ExportViewComponent implements OnInit {
       resource:this.config.resource,
       skipHeader:this.skipHeader,
       encodingTo:this.encodingTo,
-      colSep:this.colSep
+      colSep:this.colSep,
+      sortField:this.sortField,
+      sort:this.sort
     }
     console.log(formData)
 
