@@ -9,15 +9,17 @@
               <i class='fa fa-chevron-right' *ngIf="!fieldsExpand"></i>
               字段选择
               </legend>
-              <div class='control-group' *ngIf="fieldsExpand">
-                <label class='control-label' data-original-title='Click to reverse selection' (click)='fanxuan()' rel='tooltip'>字段列表</label>
-                 <div class='controls'>
-                    <label class='checkbox' *ngFor="let fieldItem of fields" [for]='fieldItem.field'>
-                     <input [(ngModel)]="fieldItem.checked" [id]="fieldItem.field" name="schema[only][]" type="checkbox" [value]="fieldItem.field" />
-                      {{fieldItem.label}}
-                    </label>
-                  
-                  </div>
+              <div class='control-groups' *ngIf="fieldsExpand">
+                <div class='control-group'>
+                  <label class='control-label' data-original-title='Click to reverse selection' (click)='fanxuan()' rel='tooltip'>字段列表</label>
+                   <div class='controls'>
+                      <label class='checkbox' *ngFor="let fieldItem of fields" [for]='fieldItem.field'>
+                       <input [(ngModel)]="fieldItem.checked" [id]="fieldItem.field" name="schema[only][]" type="checkbox" [value]="fieldItem.field" />
+                        {{fieldItem.label}}
+                      </label>
+                    
+                    </div>
+                </div>
               </div>
           </fieldset>
           <fieldset>
@@ -104,8 +106,6 @@
                   </select>
                   <p class='help-block'>排序字段(默认为id)</p>
                   </div>
-              </div>
-              <div class='control-group' *ngIf="sortExpand">
                    <label class='control-label'>排序</label>
                   <div class='controls'>
                         <select id="csv_options_generator_sort" [(ngModel)]="sort" name="csv_options[generator][sort]">
@@ -116,6 +116,7 @@
                         <p class='help-block'>默认 (降序)</p>
                     </div>
               </div>
+                  
           </fieldset>
         </nb-card-body>
          <nb-card-footer>

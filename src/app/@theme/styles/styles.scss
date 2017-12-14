@@ -12,6 +12,7 @@
 @import './date-picker.theme';
 @import './table.theme';
 @import './tree.theme';
+@import './fieldset.theme';
 
 
 // install the framework and custom global styles
@@ -21,13 +22,13 @@
   @include nb-theme-global();
   @include nb-auth-global();
 
-  // loading progress bar
   @include ngx-pace-theme();
   @include ngx-bootstrap-theme();
   @include ngx-chosen-theme();
   @include ngx-date-picker-theme();
   @include ngx-table-theme();
   @include ngx-tree-theme();
+  @include ngx-fieldset-theme();
 
 };
 
