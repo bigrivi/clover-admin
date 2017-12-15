@@ -2,6 +2,7 @@ import { Component, OnInit,ViewChild } from '@angular/core';
 import { Routes, RouterModule,ActivatedRoute } from '@angular/router';
 import {Observable} from 'rxjs'
 import { Router, NavigationEnd } from '@angular/router';
+import { Http, Request,URLSearchParams, RequestOptionsArgs, Response, RequestOptions, ConnectionBackend, Headers } from '@angular/http';
 import {AppService} from '../../../common/services/app.service'
 import {parseRouteMap} from '../../../common/utils/route.utils'
 import {FormViewComponent} from '../../../common/component/form-view/form-view.component'
@@ -9,6 +10,7 @@ import { ToasterService, ToasterConfig, Toast, BodyOutputType } from 'angular2-t
 import {ResourceService} from '../../../../@core/utils/resource.service'
 import {Subscription} from 'rxjs'
 import * as _ from 'lodash';
+import {API_ROOT} from "../../../../config"
 
 @Component({
   selector: 'app-export-view',
@@ -87,18 +89,39 @@ export class ExportViewComponent implements OnInit {
   //导出类型
   //csv/excel/json/xml
   export(format){
-    console.log("export format:"+format)
-    let fields = this.fields.filter((item)=>{return item.checked}).map((item)=>{return item.field}).join(",")
+    let fields = this.fields.filter((item)=>{return item.checked}).map((item)=>{return item.field})
+    let  populates= _.filter(fields,(field)=>{
+        if(field=="_id")
+          return false;
+        return this.config["fields"][field].populateable?true:false
+    })
+
+    let  fieldNames= _.map(fields,(field)=>{
+        if(field=="_id")
+          return "Id";
+        return this.config["fields"][field].label
+    })
+
     let formData = {
-      fields:fields,
+      fields:fields.join(","),
+      fieldNames:fieldNames.join(","),
       resource:this.config.resource,
       skipHeader:this.skipHeader,
       encodingTo:this.encodingTo,
       colSep:this.colSep,
       sortField:this.sortField,
-      sort:this.sort
+      sort:this.sort,
+      populates:populates.join(","),
+      format:format
     }
-    console.log(formData)
+     
+    var url = API_ROOT+"export?"+this.resourceService.formEncode(formData);
+    var anchorElement = document.createElement('a');
+    anchorElement.href = url; 
+    anchorElement.target="_parent"
+    document.body.appendChild(anchorElement);
+    anchorElement.click();
+    document.body.removeChild(anchorElement);
 
   }
 
