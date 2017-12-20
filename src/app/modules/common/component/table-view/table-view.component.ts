@@ -1,4 +1,4 @@
-import { Component, OnInit,EventEmitter, ViewChild, ViewContainerRef, Renderer2, ElementRef, Input,Output,ChangeDetectionStrategy,ChangeDetectorRef } from '@angular/core';
+import { Component,Inject,Injector, OnInit,EventEmitter, ViewChild, ViewContainerRef, Renderer2, ElementRef, Input,Output,ChangeDetectionStrategy,ChangeDetectorRef } from '@angular/core';
 import { Http, URLSearchParams } from '@angular/http';
 import { Location } from '@angular/common';
 import { Router, NavigationEnd,ActivatedRoute } from '@angular/router';
@@ -24,6 +24,7 @@ const PAGE_SIZE = 10;
 export class TableViewComponent implements OnInit {
 
   constructor(
+   public injector: Injector,
    public toasterService: ToasterService,
    public renderer: Renderer2, 
    public el: ElementRef, 
@@ -35,7 +36,9 @@ export class TableViewComponent implements OnInit {
    public appService:AppService,
    public ref: ChangeDetectorRef,
    public resourceService:ResourceService,
-   public dialogService: DialogService) { }
+   public dialogService: DialogService) { 
+    
+  }
   _config;
 
   @Output() dataLoadComplete:EventEmitter<any> = new EventEmitter();
@@ -45,6 +48,8 @@ export class TableViewComponent implements OnInit {
   @Input() modalMode = false; //是否为弹窗模式
   @Input()
   set config(val) {
+    console.log(this.injector.get("prduct.productDataApi"))
+     console.log(this.injector.get("prduct.categoryDataApi").resource)
     this._config = _.cloneDeep(val);
     this._config.listHide = this._config.listHide || [];
     this._config.modalListShow = this._config.modalListShow || [];
