@@ -1,7 +1,6 @@
 import { Component,Input } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import * as _ from 'lodash';
-import {ResourceService} from '@core/utils/resource.service'
 import {AppService} from '../../../../services/app.service'
 
 @Component({
@@ -14,7 +13,7 @@ import {AppService} from '../../../../services/app.service'
 })
 export class Select3FieldComponent {
 
-    constructor(private resourceService:ResourceService,private appService:AppService){
+    constructor(private appService:AppService){
 
     }
      _config;

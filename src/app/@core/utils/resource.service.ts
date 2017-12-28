@@ -7,6 +7,8 @@ import {PubSubService} from "./pubsub.service"
 import {NbAuthService} from '../../modules/auth/services/auth.service'
 import {NbAuthSimpleToken,NbTokenService} from '../../modules/auth/services/token.service'
 
+
+
 @Injectable()
 export class ResourceService{
     token:NbAuthSimpleToken;
@@ -186,3 +188,84 @@ export class ResourceService{
 
 	
 }
+
+
+
+@Injectable()
+export class RestfulService extends ResourceService{
+    token:NbAuthSimpleToken;
+    _resourceApi = ""
+    constructor(resource: string,public http:Http,public pubsub:PubSubService,public authService:NbAuthService,public tokenService:NbTokenService) {
+        super(http,pubsub,authService,tokenService)
+        this._resourceApi = resource;
+    }
+
+
+    get resourceApi(){
+        return this._resourceApi
+    }
+
+
+   
+
+    /**
+     * Get请求
+     *
+     * @param {string} url
+     * @param {any} body
+     * @param {RequestOptionsArgs} [options]
+     * @returns {Observable < Response >}
+     * @memberof KnxHttp
+     */
+    get(body?,extraPath?, options ? : RequestOptionsArgs): Observable < Response > {
+       extraPath = extraPath || ""
+       return super.get(this._resourceApi+extraPath,body,options)
+    }
+
+
+
+
+
+    /**
+     * Post请求
+     *
+     * @param {string} url
+     * @param {any} body
+     * @param {RequestOptionsArgs} [options]
+     * @returns {Observable < Response >}
+     * @memberof KnxHttp
+     */
+    post(body,options ? : RequestOptionsArgs): Observable < Response > {
+        return super.post(this._resourceApi,body,options)
+    }
+
+
+    /**
+     * Put请求
+     *
+     * @param {string} url
+     * @param {any} body
+     * @param {RequestOptionsArgs} [options]
+     * @returns {Observable < Response >}
+     * @memberof KnxHttp
+     */
+    put(id,body, options ? : RequestOptionsArgs): Observable < Response > {
+        return super.put(this._resourceApi+"/"+id,body,options)
+
+    }
+
+    /**
+     * Delete请求
+     *
+     * @param {string} url
+     * @param {RequestOptionsArgs} [options]
+     * @returns {Observable < Response >}
+     * @memberof KnxHttp
+     */
+    delete(id,options ? : RequestOptionsArgs): Observable < Response > {
+       return super.delete(this._resourceApi+"/"+id,options)
+    }
+
+    
+}
+

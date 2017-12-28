@@ -1,10 +1,9 @@
-import { Component,ViewChild } from '@angular/core';
+import { Component,ViewChild,Injector} from '@angular/core';
 import { Routes, RouterModule,ActivatedRoute } from '@angular/router';
 import {AppService} from '../../../common/services/app.service'
 import {UserService} from '../../../../@core/data/users.service'
 import {FormViewComponent} from '../../../common/component/form-view/form-view.component'
 import { ToasterService, ToasterConfig, Toast, BodyOutputType } from 'angular2-toaster';
-import {ResourceService} from '../../../../@core/utils/resource.service'
 
 
 @Component({
@@ -31,9 +30,9 @@ export class ProfileComponent {
 
   constructor(
     public route: ActivatedRoute,
+    public injector:Injector,
     public appService:AppService,
     public toasterService:ToasterService,
-    public resourceService:ResourceService,
     public userService:UserService ) {
       let config = this.appService.getAppModuleConfig("account","userInfo")
       this.config = config
@@ -45,7 +44,8 @@ export class ProfileComponent {
 
   save(){
     if(this.formView.validata()){
-       this.resourceService.put("users/"+this.params["id"],this.formView.form.value).subscribe((res)=>{
+       let resource = this.injector.get("account.userInfoDataApi").resource 
+       resource.put(this.params["id"],this.formView.form.value).subscribe((res)=>{
           this.toasterService.pop('success', '修改成功');
           this.fetchFromRemote()
        })
@@ -53,7 +53,8 @@ export class ProfileComponent {
   }
 
   fetchFromRemote(){
-     this.resourceService.get("users/"+this.params["id"],this.formView.form.value).subscribe((res)=>{
+     let resource = this.injector.get("account.userInfoDataApi").resource 
+     resource.get(this.formView.form.value,"/"+this.params["id"]).subscribe((res)=>{
           this.userService.setUserInfo(res.json()).subscribe(()=>{})
      })
   }

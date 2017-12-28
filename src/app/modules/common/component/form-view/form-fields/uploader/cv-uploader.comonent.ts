@@ -1,6 +1,6 @@
-import { Component, Input, forwardRef } from '@angular/core';
+import { Component, Input, forwardRef,Injector } from '@angular/core';
 import { FormGroup, ControlValueAccessor, NG_VALUE_ACCESSOR, ValidatorFn, NG_VALIDATORS, AbstractControl, ValidationErrors } from '@angular/forms';
-import {ResourceService} from '@core/utils/resource.service'
+import {ResourceService,RestfulService} from '@core/utils/resource.service'
 
 
 export interface FileObject {
@@ -46,7 +46,7 @@ export class FileUploaderComponent implements ControlValueAccessor {
 
   @Input() multiple = false;
 
-  constructor(public resourceService:ResourceService) {
+  constructor(public injector:Injector, public resourceService:ResourceService,) {
       this.fileObjects = [];
   }
 
@@ -58,6 +58,11 @@ export class FileUploaderComponent implements ControlValueAccessor {
 
   remove(index){
     var fileObject = this.fileObjects[index]
+
+    let apiName = `DataApi`;
+    let resource = this.injector.get(apiName).resource 
+
+
     if(fileObject.id){
        this.resourceService.delete("attachments"+"/"+fileObject.id).subscribe(()=>{})
     }

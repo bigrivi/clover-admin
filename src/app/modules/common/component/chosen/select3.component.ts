@@ -1,5 +1,5 @@
 import {NgModel} from "@angular/forms";
-import {Component,EventEmitter,ViewChild,ViewContainerRef, Input, ComponentFactoryResolver,ViewChildren, QueryList, ElementRef, Renderer , forwardRef} from "@angular/core";
+import {Component,Injector,EventEmitter,ViewChild,ViewContainerRef, Input, ComponentFactoryResolver,ViewChildren, QueryList, ElementRef, Renderer , forwardRef} from "@angular/core";
 import {InternalChosenOption, ChosenOption, ChosenOptionGroup} from "./chosen-commons";
 import {AbstractChosenComponent} from "./chosen-abstract";
 import {ChosenDropComponent} from "./chosen-drop.component";
@@ -8,7 +8,6 @@ import * as _ from 'lodash';
 import { Routes, Router,RouterModule,ActivatedRoute } from '@angular/router';
 import {DialogService} from "../dialog/dialog.service"
 import {Observable,Subscription} from 'rxjs/Rx';
-import {ResourceService} from '../../../../@core/utils/resource.service'
 import {AppService} from '../../services/app.service'
 
 export const ChosenSelect3Component_CONTROL_VALUE_ACCESSOR: any = {
@@ -86,9 +85,9 @@ export class Select3Component extends AbstractChosenComponent<string>  {
   constructor( public router: Router,
     protected el: ElementRef, 
     protected renderer: Renderer,
+    public injector: Injector,
     public dialogService:DialogService,
     private appService:AppService,
-    public resourceService:ResourceService,
     public componentFactoryResolver: ComponentFactoryResolver,) {
     super(el, renderer);
   }
@@ -242,7 +241,9 @@ export class Select3Component extends AbstractChosenComponent<string>  {
     }
     let moduleArr = this.config["dataSource"].split(".")
     let moduleConfig = this.appService.getAppModuleConfig(moduleArr[0],moduleArr[1])
-    this.resourceService.get(moduleConfig.resource, params).subscribe((data) => {
+    let apiName = `${moduleArr[0]}.${moduleArr[1]}DataApi`;
+    let resource = this.injector.get(apiName).resource 
+    resource.get(params).subscribe((data) => {
       let res = data.json()
       let results = res.result;
       if(!this.chosenDropComponent._visible)

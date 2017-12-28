@@ -1,4 +1,4 @@
-import { Component, OnInit,Input,HostBinding } from '@angular/core';
+import { Component, Injector,OnInit,Input,HostBinding } from '@angular/core';
 import { Routes, RouterModule,ActivatedRoute } from '@angular/router';
 import { Http } from '@angular/http';
 import { FormGroup, FormBuilder,Validators,AbstractControl } from '@angular/forms';
@@ -10,7 +10,6 @@ import { Router, NavigationEnd } from '@angular/router';
 import * as _ from 'lodash';
 import {formatDate} from '../../utils/date.utils'
 import {parseRouteMap} from '../../utils/route.utils'
-import {ResourceService} from '../../../../@core/utils/resource.service'
 
 
 @Component({
@@ -80,8 +79,8 @@ export class FormViewComponent {
     private http:Http,
     public route: ActivatedRoute,
     public router: Router,
+    public injector: Injector,
     public activeRouter: ActivatedRoute,
-    public resourceService:ResourceService,
     public toasterService: ToasterService) {
     this._params["id"] = this.route.snapshot.params["id"]
     
@@ -97,7 +96,9 @@ export class FormViewComponent {
     let requestUrl = this._config.resource+"/"+this._params["id"]
     if(populates.length>0)
       requestUrl+= "?populate="+populates.join(" ")
-    this.resourceService.get(requestUrl).subscribe((res)=>{
+    let apiName = `${this._config.app}.${this._config.module}DataApi`;
+    let resource = this.injector.get(apiName).resource 
+    resource.get({populate:populates.join(" ")},"/"+this._params["id"]).subscribe((res)=>{
           let data = res.json()
           let controls = Object.keys(this.form.controls)
            controls.forEach((controlKey)=>{

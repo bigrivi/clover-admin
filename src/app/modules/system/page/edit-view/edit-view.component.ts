@@ -1,4 +1,4 @@
-import { Component, OnInit,ViewChild } from '@angular/core';
+import { Component, OnInit,ViewChild,Injector } from '@angular/core';
 import { Routes, RouterModule,ActivatedRoute } from '@angular/router';
 import {Observable} from 'rxjs'
 import { Router, NavigationEnd } from '@angular/router';
@@ -6,7 +6,6 @@ import {AppService} from '../../../common/services/app.service'
 import {parseRouteMap} from '../../../common/utils/route.utils'
 import {FormViewComponent} from '../../../common/component/form-view/form-view.component'
 import { ToasterService, ToasterConfig, Toast, BodyOutputType } from 'angular2-toaster';
-import {ResourceService} from '../../../../@core/utils/resource.service'
 import {Subscription} from 'rxjs'
 
 @Component({
@@ -26,8 +25,8 @@ export class EditViewComponent implements OnInit {
 
   constructor(public route: ActivatedRoute,
     public appService:AppService,
+    public injector: Injector,
     public toasterService:ToasterService,
-    public resourceService:ResourceService,
     public router: Router,) {
 
     let routeMap = parseRouteMap(this.router.url)
@@ -67,17 +66,19 @@ export class EditViewComponent implements OnInit {
   }
 
   save(){
-    console.log(this.formView.form.value)
+    // console.log(this.formView.form.value)
+    let apiName = `${this.config.app}.${this.config.module}DataApi`;
+    let resource = this.injector.get(apiName).resource 
     if(this.formView.validata()){
         if(this.params["id"]){
-            this.resourceService.put(this.config.resource+"/"+this.params["id"],this.formView.form.value).subscribe((res)=>{
+            resource.put(this.params["id"],this.formView.form.value).subscribe((res)=>{
               this.navigateToList()
               this.toasterService.pop('success', '修改成功');
            })
         }
         else{
           let postData = Object.assign(this.formView.form.value,this.queryParams)
-           this.resourceService.post(this.config.resource,postData).subscribe((res)=>{
+          resource.post(postData).subscribe((res)=>{
               this.navigateToList()
               this.toasterService.pop('success', '保存成功');
            })

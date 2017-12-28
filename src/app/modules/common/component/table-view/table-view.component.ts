@@ -7,7 +7,7 @@ import * as _ from 'lodash';
 import {Subscription} from 'rxjs'
 import { NbMenuService, NbSidebarService } from '@nebular/theme';
 import { ToasterService, ToasterConfig, Toast, BodyOutputType } from 'angular2-toaster';
-import {ResourceService} from '@core/utils/resource.service'
+import {RestfulService} from '@core/utils/resource.service'
 import {AppService} from '../../services/app.service'
 import {formatDate} from '../../utils/date.utils'
 import {parseRouteMap} from '../../utils/route.utils'
@@ -35,11 +35,11 @@ export class TableViewComponent implements OnInit {
    public activeRouter: ActivatedRoute,
    public appService:AppService,
    public ref: ChangeDetectorRef,
-   public resourceService:ResourceService,
    public dialogService: DialogService) { 
     
   }
   _config;
+  resource;
 
   @Output() dataLoadComplete:EventEmitter<any> = new EventEmitter();
   @Output() onSelectedChange:EventEmitter<any> = new EventEmitter();
@@ -48,9 +48,9 @@ export class TableViewComponent implements OnInit {
   @Input() modalMode = false; //是否为弹窗模式
   @Input()
   set config(val) {
-    console.log(this.injector.get("prduct.productDataApi"))
-     console.log(this.injector.get("prduct.categoryDataApi").resource)
     this._config = _.cloneDeep(val);
+    let apiName = `${this._config.app}.${this._config.module}DataApi`;
+    this.resource = this.injector.get(apiName).resource 
     this._config.listHide = this._config.listHide || [];
     this._config.modalListShow = this._config.modalListShow || [];
     this._config.actionable = this._config.actionable || true; //出现操作列
@@ -109,12 +109,10 @@ export class TableViewComponent implements OnInit {
          item.dataSource = []
          let moduleArr = dataSource.split(".")
          let moduleConfig = this.appService.getAppModuleConfig(moduleArr[0],moduleArr[1])
-         let resorce= moduleConfig.resource;
-         if(item.tree){
-           resorce+="/getTreeNode";
-         }
-         this.resourceService.get(resorce).subscribe((res)=>{
-             res = res.json().result;
+         let apiName = `${moduleArr[0]}.${moduleArr[1]}DataApi`;
+         let resource = this.injector.get(apiName).resource
+         resource.get({},item.tree?"/getTreeNode":"").map((res)=>res.json().result)
+         .subscribe((res)=>{
              if(item.tree){
                item.dataSource = res;
              }else{
@@ -269,11 +267,10 @@ export class TableViewComponent implements OnInit {
 
   treeNodeSelected(filterItem,e){
      let moduleArr = filterItem.dataSourceOrigin.split(".")
-     let moduleConfig = this.appService.getAppModuleConfig(moduleArr[0],moduleArr[1])
-     let resorce= moduleConfig.resource;
-     this.resourceService.get(resorce+"?parentId="+e.node.data.id).subscribe((res)=>{
-       res = res.json()
-       var idList = _.map(res["result"],(item)=>{
+     let apiName = `${moduleArr[0]}.${moduleArr[1]}DataApi`;
+     let resource = this.injector.get(apiName).resource
+     resource.get({parentId:e.node.data.id}).map((res)=>res.json().result).subscribe((res)=>{
+       var idList = _.map(res,(item)=>{
          return item._id;
        })
        this.queryIn[filterItem.key] = idList.join(",");
@@ -385,7 +382,7 @@ export class TableViewComponent implements OnInit {
       params["populate"] = populates.join(" ")
      //console.log(params)
 
-   this.lastLoadSub = this.resourceService.get(this._config.resource, params).subscribe((data) => {
+   this.lastLoadSub = this.resource.get(params).subscribe((data) => {
       let res = data.json()
       let results = res.result;
       this.pagerData.recordCount = res.record_count;
@@ -446,7 +443,7 @@ export class TableViewComponent implements OnInit {
       this.dialogService.confirm("确认删除吗?").then((res) => {
         let deleteCount = ids.length;
         _.each(ids, (id) => {
-          this.resourceService.delete(this._config.resource + "/" + id).subscribe((res) => {
+          this.resource.delete(id).subscribe((res) => {
             deleteCount--;
             if (deleteCount <= 0) {
               this.refresh()
@@ -463,7 +460,7 @@ export class TableViewComponent implements OnInit {
 
   delete(id) {
     this.dialogService.confirm("确认删除吗?").then((res) => {
-      this.resourceService.delete(this._config.resource + "/" + id).subscribe((res) => {
+      this.resource.delete(id).subscribe((res) => {
         this.toasterService.pop('success', '删除成功');
         this.refresh()
       })

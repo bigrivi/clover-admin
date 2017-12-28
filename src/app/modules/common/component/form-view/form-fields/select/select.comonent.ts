@@ -1,7 +1,6 @@
-import { Component,Input } from '@angular/core';
+import { Component,Input,Injector } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import * as _ from 'lodash';
-import {ResourceService} from '@core/utils/resource.service'
 import {AppService} from '../../../../services/app.service'
 
 @Component({
@@ -17,7 +16,7 @@ import {AppService} from '../../../../services/app.service'
 })
 export class SelectFieldComponent {
 
-    constructor(private resourceService:ResourceService,private appService:AppService){
+    constructor(private appService:AppService,public injector: Injector,){
 
     }
      _config;
@@ -30,8 +29,9 @@ export class SelectFieldComponent {
          this._config.dataSource = []
          let moduleArr = val.dataSource.split(".")
          let moduleConfig = this.appService.getAppModuleConfig(moduleArr[0],moduleArr[1])
-         this.resourceService.get(moduleConfig.resource).subscribe((res)=>{
-             res = res.json().result;
+         let apiName = `${moduleArr[0]}.${moduleArr[1]}DataApi`;
+         let resource = this.injector.get(apiName).resource 
+         resource.get().map((res)=>res.json().result).subscribe((res)=>{
              this._config.dataSource = _.map(res,(item)=>{
                  return {
                    label:item[moduleConfig.labelField||"name"],

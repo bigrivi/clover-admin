@@ -22,7 +22,7 @@ import {ProductConfig,CategoryConfig,TagConfig} from './apps/product/config'
 import {UserInfoConfig,DepartmentConfig} from './apps/account/config'
 
 let appConfig = {
-  prduct :{
+  product :{
      product:ProductConfig,
       category:CategoryConfig,
       tag:TagConfig
@@ -40,6 +40,8 @@ let appConfig = {
 let appProviders = []
 _.each(appConfig,(modules,appName)=>{
   _.each(modules,(moduleConfig,moduleName)=>{
+    moduleConfig.app = appName;
+    moduleConfig.module = moduleName;
     let providerName = appName+"."+moduleName+"DataApi"
     appProviders.push( {
             provide: providerName,
