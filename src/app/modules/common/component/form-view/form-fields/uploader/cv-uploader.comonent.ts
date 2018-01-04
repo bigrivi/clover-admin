@@ -1,6 +1,5 @@
 import { Component, Input, forwardRef,Injector } from '@angular/core';
 import { FormGroup, ControlValueAccessor, NG_VALUE_ACCESSOR, ValidatorFn, NG_VALIDATORS, AbstractControl, ValidationErrors } from '@angular/forms';
-import {ResourceService,RestfulService} from '@core/utils/resource.service'
 
 
 export interface FileObject {
@@ -46,7 +45,7 @@ export class FileUploaderComponent implements ControlValueAccessor {
 
   @Input() multiple = false;
 
-  constructor(public injector:Injector, public resourceService:ResourceService,) {
+  constructor(public injector:Injector) {
       this.fileObjects = [];
   }
 
@@ -59,12 +58,10 @@ export class FileUploaderComponent implements ControlValueAccessor {
   remove(index){
     var fileObject = this.fileObjects[index]
 
-    let apiName = `DataApi`;
-    let resource = this.injector.get(apiName).resource 
-
+    let resource = this.injector.get("uploader.attachmentDataApi").resource 
 
     if(fileObject.id){
-       this.resourceService.delete("attachments"+"/"+fileObject.id).subscribe(()=>{})
+       resource.delete(fileObject.id).subscribe(()=>{})
     }
     this.fileObjects.splice(index,1);
     this.valueChange(this.getFinalResult())
@@ -73,10 +70,11 @@ export class FileUploaderComponent implements ControlValueAccessor {
   writeValue(value: any) {
     if(value){
       let valueArr = value.split(",")
+       let resource = this.injector.get("uploader.attachmentDataApi").resource 
       if(valueArr.length>0){
         this.fileObjects = [];
         valueArr.forEach((attachemtId)=>{
-          this.resourceService.get("attachments"+"/"+attachemtId).subscribe((res)=>{
+          resource.get({},"/"+attachemtId).subscribe((res)=>{
             var attachmentObject = res.json()
             this.fileObjects.push({id:attachmentObject._id,filetype:attachmentObject.file_mime,filename:attachmentObject.source_name,filesize:attachmentObject.file_size})
             this.valueChange(this.getFinalResult())

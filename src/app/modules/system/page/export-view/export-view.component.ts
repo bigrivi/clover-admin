@@ -105,6 +105,7 @@ export class ExportViewComponent implements OnInit {
       fields:fields.join(","),
       fieldNames:fieldNames.join(","),
       resource:this.config.resource,
+      app:this.config.app,
       skipHeader:this.skipHeader,
       encodingTo:this.encodingTo,
       colSep:this.colSep,

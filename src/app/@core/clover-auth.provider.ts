@@ -29,7 +29,7 @@ export class CloverAuthProvider extends NbAbstractAuthProvider {
     console.log(data)
 
     return Observable.create((observer)=>{
-       this.http.get(API_ROOT+"users/authenticate?"+this.formEncode(data)).subscribe((response)=>{
+       this.http.get(API_ROOT+"account/users/authenticate?"+this.formEncode(data)).subscribe((response)=>{
           response = response.json();
           if(response["err"]){
             observer.next(new NbAuthResult(false,

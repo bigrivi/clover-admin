@@ -20,6 +20,7 @@ import {CommonModule} from "../common/common.module"
 
 import {ProductConfig,CategoryConfig,TagConfig} from './apps/product/config'
 import {UserInfoConfig,DepartmentConfig} from './apps/account/config'
+import {AttachmentConfig} from './apps/uploader/config'
 
 let appConfig = {
   product :{
@@ -30,6 +31,9 @@ let appConfig = {
   account:{
      userInfo:UserInfoConfig,
      department:DepartmentConfig
+  },
+  uploader:{
+     attachment:AttachmentConfig
   }
 }
 
@@ -46,7 +50,7 @@ _.each(appConfig,(modules,appName)=>{
     appProviders.push( {
             provide: providerName,
             useFactory: (http: Http,pubsub:PubSubService,authService:NbAuthService,tokenService:NbTokenService)=>{
-               return new DataApiService(moduleConfig.resource, moduleConfig, http,pubsub,authService,tokenService);
+               return new DataApiService(appName+"/"+moduleConfig.resource, moduleConfig, http,pubsub,authService,tokenService);
             },
             deps: [Http,PubSubService,NbAuthService,NbTokenService]
         })

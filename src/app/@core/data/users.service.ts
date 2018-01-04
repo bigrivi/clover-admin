@@ -4,7 +4,6 @@ import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 import 'rxjs/add/operator/do';
 import 'rxjs/add/operator/switchMap';
 import 'rxjs/add/observable/of';
-import {ResourceService} from '../utils/resource.service'
 
 
 @Injectable()

@@ -10,7 +10,7 @@ import {NbAuthSimpleToken,NbTokenService} from '../../modules/auth/services/toke
 
 
 @Injectable()
-export class ResourceService{
+export class HttpService{
     token:NbAuthSimpleToken;
 	constructor(public http:Http,public pubsub:PubSubService,public authService:NbAuthService,public tokenService:NbTokenService) {
 		tokenService.tokenChange().subscribe((token)=>{
@@ -192,7 +192,7 @@ export class ResourceService{
 
 
 @Injectable()
-export class RestfulService extends ResourceService{
+export class ResourceService extends HttpService{
     token:NbAuthSimpleToken;
     _resourceApi = ""
     constructor(resource: string,public http:Http,public pubsub:PubSubService,public authService:NbAuthService,public tokenService:NbTokenService) {
