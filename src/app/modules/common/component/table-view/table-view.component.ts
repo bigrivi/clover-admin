@@ -7,7 +7,6 @@ import * as _ from 'lodash';
 import {Subscription} from 'rxjs'
 import { NbMenuService, NbSidebarService } from '@nebular/theme';
 import { ToasterService, ToasterConfig, Toast, BodyOutputType } from 'angular2-toaster';
-import {RestfulService} from '@core/utils/resource.service'
 import {AppService} from '../../services/app.service'
 import {formatDate} from '../../utils/date.utils'
 import {parseRouteMap} from '../../utils/route.utils'
