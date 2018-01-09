@@ -39,7 +39,8 @@ export class ExportViewComponent implements OnInit {
       let routeMap = parseRouteMap(this.router.url)
       this.module = routeMap["module"];
       this.app = routeMap["app"];
-      this.config = this.appService.getAppModuleConfig(this.app,this.module)
+      let apiName = `${this.app}.${this.module}DataApi`;
+      this.config = this.injector.get(apiName).config 
       let fieldKeys = Object.keys(this.config["fields"]);
       let fields = []
       fields = fieldKeys.map((item) => {

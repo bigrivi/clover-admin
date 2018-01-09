@@ -34,8 +34,7 @@ export class ProfileComponent {
     public appService:AppService,
     public toasterService:ToasterService,
     public userService:UserService ) {
-      let config = this.appService.getAppModuleConfig("account","userInfo")
-      this.config = config
+      this.config = this.injector.get("account.userInfoDataApi").config 
        this.userService.userInfoChange().subscribe((userInfo)=>{
          this.params = {id:userInfo._id};
       })

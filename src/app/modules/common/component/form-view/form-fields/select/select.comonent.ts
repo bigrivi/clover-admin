@@ -28,9 +28,10 @@ export class SelectFieldComponent {
        if(!_.isArray(this._config.dataSource)){
          this._config.dataSource = []
          let moduleArr = val.dataSource.split(".")
-         let moduleConfig = this.appService.getAppModuleConfig(moduleArr[0],moduleArr[1])
          let apiName = `${moduleArr[0]}.${moduleArr[1]}DataApi`;
-         let resource = this.injector.get(apiName).resource 
+         let dataApi = this.injector.get(apiName)
+         let moduleConfig = dataApi.config 
+         let resource = dataApi.resource 
          resource.get().map((res)=>res.json().result).subscribe((res)=>{
              this._config.dataSource = _.map(res,(item)=>{
                  return {

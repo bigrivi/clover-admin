@@ -240,9 +240,10 @@ export class Select3Component extends AbstractChosenComponent<string>  {
       "name__regex":text
     }
     let moduleArr = this.config["dataSource"].split(".")
-    let moduleConfig = this.appService.getAppModuleConfig(moduleArr[0],moduleArr[1])
     let apiName = `${moduleArr[0]}.${moduleArr[1]}DataApi`;
-    let resource = this.injector.get(apiName).resource 
+    let dataApi = this.injector.get(apiName)
+    let resource = dataApi.resource 
+    let moduleConfig = dataApi.config
     resource.get(params).subscribe((data) => {
       let res = data.json()
       let results = res.result;

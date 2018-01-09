@@ -48,6 +48,7 @@ export class TableViewComponent implements OnInit {
   @Input()
   set config(val) {
     this._config = _.cloneDeep(val);
+    console.log(val)
     let apiName = `${this._config.app}.${this._config.module}DataApi`;
     this.resource = this.injector.get(apiName).resource 
     this._config.listHide = this._config.listHide || [];
@@ -107,9 +108,10 @@ export class TableViewComponent implements OnInit {
        if(!_.isArray(dataSource)){
          item.dataSource = []
          let moduleArr = dataSource.split(".")
-         let moduleConfig = this.appService.getAppModuleConfig(moduleArr[0],moduleArr[1])
          let apiName = `${moduleArr[0]}.${moduleArr[1]}DataApi`;
-         let resource = this.injector.get(apiName).resource
+    	 let dataApi = this.injector.get(apiName)
+         let resource = dataApi.resource
+         let moduleConfig = dataApi.config
          resource.get({},item.tree?"/getTreeNode":"").map((res)=>res.json().result)
          .subscribe((res)=>{
              if(item.tree){

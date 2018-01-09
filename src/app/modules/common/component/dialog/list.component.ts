@@ -1,4 +1,4 @@
-import { Component,Input,ViewChild } from '@angular/core';
+import { Component,Input,ViewChild,Injector } from '@angular/core';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import {AppService} from '../../../common/services/app.service'
 import {TableViewComponent} from "../table-view/table-view.component"
@@ -29,14 +29,14 @@ export class TableViewDailogComponent {
 
   initSelectedIds = [];
   selectedObjs = [];
-  constructor(private activeModal: NgbActiveModal,public appService:AppService) {
+  constructor(private activeModal: NgbActiveModal,public injector:Injector) {
        
    }
 
    ngOnInit(){
-       console.log(this.config)
        let module = this.config["module"].split(".");
-       this.tableConfig = this.appService.getAppModuleConfig(module[0],module[1]);
+       let apiName = `${module[0]}.${module[1]}DataApi`;
+       this.tableConfig = this.injector.get(apiName).config 
        this.initSelectedIds = this.config["selectedIds"] || []
    }
 

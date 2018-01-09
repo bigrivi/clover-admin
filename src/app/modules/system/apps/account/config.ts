@@ -153,3 +153,26 @@ export const DepartmentConfig = {
 }
 
 
+
+export const UserRoleConfig = {
+	resource:"userRoles",
+	module:"userRole",
+	name:"用户角色管理",
+	treeable:false,
+	fields : {
+		name:{
+			label:"名称",
+			widget:"text",
+			titleabled :true,
+			require:true
+		},
+		description:{
+			label:"描述",
+			widget:"textarea",
+			require:false
+		}
+	}
+}
+
+
+

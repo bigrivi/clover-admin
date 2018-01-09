@@ -32,7 +32,8 @@ export class EditViewComponent implements OnInit {
     let routeMap = parseRouteMap(this.router.url)
     this.module = routeMap["module"];
     this.app = routeMap["app"];
-    this.config = this.appService.getAppModuleConfig(this.app,this.module)
+    let apiName = `${this.app}.${this.module}DataApi`;
+    this.config = this.injector.get(apiName).config
 
     this.route.params.subscribe(params => {
       this.params = params;
@@ -46,7 +47,8 @@ export class EditViewComponent implements OnInit {
       let routeMap = parseRouteMap(this.router.url)
       this.module = routeMap["module"];
       this.app = routeMap["app"];
-      this.config = this.appService.getAppModuleConfig(this.app,this.module)
+      let apiName = `${this.app}.${this.module}DataApi`;
+      this.config = this.injector.get(apiName).config
     })
 
   }
