@@ -8,6 +8,7 @@ import { DataModule } from './data/data.module';
 import { AnalyticsService } from './utils/analytics.service';
 import { ResourceService } from './utils/resource.service';
 import { PubSubService } from './utils/pubsub.service';
+import { TranslateService } from './utils/translate.service';
 
 const CORE_PROVIDERS = [
   ...DataModule.forRoot().providers,
@@ -28,7 +29,8 @@ const CORE_PROVIDERS = [
    CloverAuthProvider,
   AnalyticsService,
   ResourceService,
-  PubSubService
+  PubSubService,
+  TranslateService
 ];
 
 @NgModule({

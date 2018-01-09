@@ -1,8 +1,10 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnInit,Injector } from '@angular/core';
 
 import { NbMenuService, NbSidebarService } from '@nebular/theme';
 import { AnalyticsService } from '../../../@core/utils/analytics.service';
 import { UserService } from '../../../@core/data/users.service';
+import { NavService } from '../../../@core/data/nav.service';
+import { TranslateService } from '../../../@core/utils/translate.service';
 import { API_ROOT } from '../../../config';
 
 @Component({
@@ -17,11 +19,18 @@ export class HeaderComponent implements OnInit {
 
   user: any;
 
+  navs = []
+
+  activeNavIndex = 0;
+
   userMenu = [{ title: 'Profile',link:'/apps/account/profile' }, { title: 'Log out',link:'/auth/logout' }];
 
   constructor(private sidebarService: NbSidebarService,
               private menuService: NbMenuService,
+              public injector:Injector,
+              public translateService:TranslateService,
               private userService: UserService,
+              private navService:NavService,
               private analyticsService: AnalyticsService) {
      this.userService.userInfoChange().subscribe((userInfo)=>{
         this.user = userInfo
@@ -32,8 +41,22 @@ export class HeaderComponent implements OnInit {
   }
 
   ngOnInit() {
+     let resource = this.injector.get("home.navDataApi").resource 
+       resource.get().map(res=>res.json()).subscribe((res)=>{
+           this.navService.setNavData(res)
+           this.navs = res;
+           this.selectedNav(0)
+           console.log(res)
+       })
+
+      this.navService.onNavChangeState().subscribe((index)=>{
+         this.activeNavIndex = index;
+      })
      
-     
+  }
+
+  selectedNav(activeIndex){
+    this.navService.setCurrNav(activeIndex)
   }
 
   toggleSidebar(): boolean {

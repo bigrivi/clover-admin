@@ -21,6 +21,7 @@ import {CommonModule} from "../common/common.module"
 import {ProductConfig,CategoryConfig,TagConfig} from './apps/product/config'
 import {UserInfoConfig,DepartmentConfig} from './apps/account/config'
 import {AttachmentConfig} from './apps/uploader/config'
+import {NavConfig} from './apps/home/config'
 
 let appConfig = {
   product :{
@@ -32,8 +33,8 @@ let appConfig = {
      userInfo:UserInfoConfig,
      department:DepartmentConfig
   },
-  uploader:{
-     attachment:AttachmentConfig
+  home:{
+     nav:NavConfig
   }
 }
 

@@ -5,6 +5,13 @@
     <a (click)="toggleSidebar()" href="#" class="navigation"><i class="nb-menu"></i></a>
     <div class="logo" (click)="goToHome()">clover-<span>admin</span></div>
   </div>
+
+  <div class="navs">
+    <ul>
+      <li *ngFor="let item of navs;let i=index" (click)="selectedNav(i)" [class.active]='activeNavIndex==i'>
+      {{item.alias | translate}}</li>
+    </ul>
+  </div>
   
 </div>
 
