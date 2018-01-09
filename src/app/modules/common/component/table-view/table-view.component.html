@@ -63,9 +63,7 @@
                 </div>
               </td>
               <td *ngIf="column.field=='action'"><div class="table-cell" [style.width]="column.width+'px'">
-                  <button *ngIf="_config.treeable" (click)="addChild(row._id)"  type="button" class="btn btn-secondary btn-tn">增加子节点</button>
-                  <button (click)="edit(row._id)"  type="button" class="btn btn-secondary btn-tn">编辑</button>
-                  <button (click)="delete(row._id)"  type="button" class="btn btn-danger btn-tn">删除</button>
+                 <button *ngFor="let action of _config.actions" (click)="doAction(action,row._id)"  type="button" class="btn btn-secondary btn-tn">{{action | translate}}</button>
               </div></td>
             </ng-container>
           </tr>
@@ -120,9 +118,7 @@
              <ng-container *ngFor="let column of fixedRight">
               <td *ngIf="column.field!='action'"><div class="table-cell" [style.width]="column.width+'px'">{{row[column.field]}}</div></td>
               <td *ngIf="column.field=='action'"><div class="table-cell" [style.width]="column.width+'px'">
-                   <button *ngIf="_config.treeable" (click)="addChild(row._id)"  type="button" class="btn btn-secondary btn-tn">增加子节点</button>
-                  <button (click)="edit(row._id)"  type="button" class="btn btn-secondary btn-tn">编辑</button>
-                  <button (click)="delete(row._id)"  type="button" class="btn btn-danger btn-tn">删除</button>
+                  <button *ngFor="let action of _config.actions" (click)="doAction(action,row._id)"  type="button" class="btn btn-secondary btn-tn">{{action | translate}}</button>
               </div></td>
             </ng-container>
             </tr>

@@ -58,6 +58,7 @@ export class TableViewComponent implements OnInit {
     this._config.addable = this._config.addable || true; //出现新增按钮
     this._config.filters = this._config.filters || []; //过滤器
     this._config.treeable = this._config.treeable || false; //是否是树
+    this._config.actions = this._config.actions || ["edit","delete"]; //操作
     this.filters = {}
     this.queryIn = {}
     this.rows = [];
@@ -433,6 +434,22 @@ export class TableViewComponent implements OnInit {
   addChild(id) {
     let routeMap = parseRouteMap(this.router.url)
     this.router.navigate(["apps/"+routeMap.app+"/"+routeMap.module+"/","add"],{queryParams: {parentId:id,page: this.pagerData.currentPage}});
+  }
+
+  doAction(action,id){
+    if(action=="edit"){
+      this.edit(id)
+    }
+    else if(action=="delete"){
+      this.delete(id)
+    }
+    else if(action=="addChild"){
+      this.addChild(id)
+    }
+    else{
+      let routeMap = parseRouteMap(this.router.url)
+      this.router.navigate(["apps/"+routeMap.app+"/"+routeMap.module+"/"+id+"/","authorize"],{queryParams: {page: this.pagerData.currentPage}});
+    }
   }
 
   deleteAll() {

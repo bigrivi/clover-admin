@@ -106,6 +106,7 @@ export const DepartmentConfig = {
 	name:"部门管理",
 	treeable:true,
 	listHide:["lft","rgt","depth"],
+	actions:["edit","addChild","delete"],
 	fields : {
 		name:{
 			label:"名称",
@@ -159,6 +160,7 @@ export const UserRoleConfig = {
 	module:"userRole",
 	name:"用户角色管理",
 	treeable:false,
+	actions:["edit","authorize","delete"],
 	fields : {
 		name:{
 			label:"名称",
