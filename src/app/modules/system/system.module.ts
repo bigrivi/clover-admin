@@ -19,7 +19,7 @@ import {AuthGuardService} from "../common/services/auth-guard.service"
 import {CommonModule} from "../common/common.module"
 
 import {ProductConfig,CategoryConfig,TagConfig} from './apps/product/config'
-import {UserInfoConfig,DepartmentConfig,UserRoleConfig} from './apps/account/config'
+import {UserInfoConfig,DepartmentConfig,UserRoleConfig,AuthNodeConfig,AuthorizeConfig} from './apps/account/config'
 import {AttachmentConfig} from './apps/uploader/config'
 import {NavConfig} from './apps/home/config'
 
@@ -32,7 +32,9 @@ let appConfig = {
   account:{
     userInfo:UserInfoConfig,
     userRole:UserRoleConfig,
-    department:DepartmentConfig
+    department:DepartmentConfig,
+    authNode:AuthNodeConfig,
+    authorize:AuthorizeConfig
   },
   home:{
     nav:NavConfig

@@ -42,12 +42,15 @@ export class HeaderComponent implements OnInit {
 
   ngOnInit() {
      let resource = this.injector.get("home.navDataApi").resource 
-       resource.get().map(res=>res.json()).subscribe((res)=>{
-           this.navService.setNavData(res)
-           this.navs = res;
-           this.selectedNav(0)
-           console.log(res)
-       })
+     setTimeout(()=>{
+        resource.get().map(res=>res.json()).subscribe((res)=>{
+             this.navService.setNavData(res)
+             this.navs = res;
+             this.selectedNav(0)
+             console.log(res)
+        })
+      },100)
+      
 
       this.navService.onNavChangeState().subscribe((index)=>{
          this.activeNavIndex = index;

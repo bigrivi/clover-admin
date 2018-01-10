@@ -19,7 +19,6 @@ export class TranslateService{
 
 	loadLangs(){
 		this.http.get(API_ROOT+"home/i18n").map(res=>res.json()).subscribe((res)=>{
-			console.log(res)
 			this.langs = res;
 		})
 	}
@@ -32,11 +31,21 @@ export class TranslateService{
 		}
 		var app = key_items.shift()
         var lang = this.langs[app];
-        key = key_items.pop()
-        var ret = lang[key]
-        if(ret)
-			return ret;
-		return key;
+        try{
+        	for(var i=0;i<key_items.length;i++){
+	        	key = key_items[i];
+	        	if(lang[key])
+	        		lang = lang[key]
+	        	else{
+	        		key_items.unshift("common")
+	        		return this.instant(key_items.join("."))
+	        	}
+	        }
+	        return lang
+        }catch(e){
+        	return key;
+        }
+        
 	}
 
 
