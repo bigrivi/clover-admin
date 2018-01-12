@@ -1,5 +1,6 @@
 import { ModuleWithProviders, NgModule, Optional, SkipSelf } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { LocalStorageService } from 'angular-web-storage';
 import { NbAuthModule } from '../modules/auth/auth.module';
 import { CloverAuthProvider } from './clover-auth.provider';
 
@@ -9,6 +10,16 @@ import { AnalyticsService } from './utils/analytics.service';
 import { ResourceService } from './utils/resource.service';
 import { PubSubService } from './utils/pubsub.service';
 import { TranslateService } from './utils/translate.service';
+
+import { SettingsService } from './services/settings.service';
+import { ThemesService } from './services/themes.service';
+import { ScrollService } from './services/scroll.service';
+import { ColorsService } from './services/colors.service';
+import { MenuService } from './services/menu.service';
+import { _HttpClient } from './services/http.client';
+import { ACLService } from './acl/acl.service';
+
+
 
 const CORE_PROVIDERS = [
   ...DataModule.forRoot().providers,
@@ -29,8 +40,16 @@ const CORE_PROVIDERS = [
    CloverAuthProvider,
   AnalyticsService,
   ResourceService,
+  LocalStorageService,
   PubSubService,
-  TranslateService
+  TranslateService,
+  SettingsService,
+  ThemesService,
+  ScrollService,
+  ColorsService,
+  MenuService,
+  ACLService,
+  _HttpClient
 ];
 
 @NgModule({

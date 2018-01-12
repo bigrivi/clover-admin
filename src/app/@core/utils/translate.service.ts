@@ -14,13 +14,17 @@ export class TranslateService{
 
 	langs = {}
 	constructor(public http:Http) {
-       
+
 	}
 
-	loadLangs(){
-		this.http.get(API_ROOT+"home/i18n").map(res=>res.json()).subscribe((res)=>{
-			this.langs = res;
+	loadLangs():Observable<any>{
+		return Observable.create((observer)=>{
+			this.http.get(API_ROOT+"home/i18n").map(res=>res.json()).subscribe((res)=>{
+				this.langs = res;
+				observer.next()
+			})
 		})
+
 	}
 
 
@@ -45,10 +49,10 @@ export class TranslateService{
         }catch(e){
         	return key;
         }
-        
+
 	}
 
 
 
-	
+
 }

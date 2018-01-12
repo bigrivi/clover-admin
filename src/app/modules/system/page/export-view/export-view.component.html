@@ -1,8 +1,8 @@
-   <nb-card>
-        <nb-card-header>
-        导出
-        </nb-card-header>
-        <nb-card-body>
+  <nz-card [nzBordered]="false">
+       <ng-template #title>
+           数据导出
+      </ng-template>
+        <ng-template #body>
         <fieldset>
               <legend (click)="toggleFieldsShow()">
               <i class='fa fa-chevron-down' *ngIf="fieldsExpand"></i>
@@ -17,7 +17,7 @@
                        <input [(ngModel)]="fieldItem.checked" [id]="fieldItem.field" name="schema[only][]" type="checkbox" [value]="fieldItem.field" />
                         {{fieldItem.label}}
                       </label>
-                    
+
                     </div>
                 </div>
               </div>
@@ -116,14 +116,12 @@
                         <p class='help-block'>默认 (降序)</p>
                     </div>
               </div>
-                  
+
           </fieldset>
-        </nb-card-body>
-         <nb-card-footer>
-             <button type="button" (click)="export('csv')" class="btn btn-danger">导出为Csv</button>
-             <button type="button" (click)="export('excel')" class="btn btn-primary">导出为Excel</button>
-             <button type="button" (click)="export('json')" class="btn btn-primary">导出为Json</button>
-             <button type="button" (click)="export('xml')"  class="btn btn-primary">导出为Xml</button>
-   	       <button type="button" (click)="back()" class="btn">取消</button>
-         </nb-card-footer>
-  </nb-card>
+             <button nz-button (click)="export('csv')">导出为Csv</button>
+             <button nz-button (click)="export('excel')">导出为Excel</button>
+             <button nz-button (click)="export('json')">导出为Json</button>
+             <button nz-button (click)="export('xml')">导出为Xml</button>
+   	       <button nz-button (click)="back()">取消</button>
+           </ng-template>
+</nz-card>

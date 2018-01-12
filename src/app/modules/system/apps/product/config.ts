@@ -13,7 +13,7 @@ export const ProductConfig = {
 	labelField:"name",
 	addable:false,
 	name:"产品管理",
-	listHide:["introduction"],
+	listHide:["introduction","bar_code","pic"],
 	modalListShow:["name","price","serial_number"],
 	fields : {
 		name:{
@@ -34,7 +34,7 @@ export const ProductConfig = {
 		},
 		category_id:{
 			label:"类别",
-			widget:"select3",
+			widget:"select",
 			populateable:true,
 			dataSource:"product.category",
 			multiple:false,
@@ -75,7 +75,7 @@ export const ProductConfig = {
 		},
 		tags:{
 			label:"标签",
-			widget:"itemselect",
+			widget:"select",
 			dataSource:"product.tag",
 			populateable:true,
 			multiple:true,

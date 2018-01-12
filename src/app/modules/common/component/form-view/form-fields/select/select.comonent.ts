@@ -7,10 +7,24 @@ import {AppService} from '../../../../services/app.service'
   selector: 'form-select',
   template: `
   <ng-container *ngIf="_config.multiple" [formGroup]="group">
-      <chosen-multiple [placeholder_text_single]="_config.placeholder" class="form-chosen-select" [groups]="[]" [(ngModel)]="_config.value" [formControlName]="_config.field" [options]="_config.dataSource"></chosen-multiple>
+  <nz-select [nzMode]="'multiple'" [formControlName]="_config.field" [(ngModel)]="_config.value" [nzPlaceHolder]="_config.placeholder" nzAllowClear>
+      <nz-option
+        *ngFor="let option of _config.dataSource"
+        [nzLabel]="option.label"
+        [nzValue]="option.value"
+        [nzDisabled]="option.disabled">
+      </nz-option>
+    </nz-select>
   </ng-container>
    <ng-container *ngIf="!_config.multiple" [formGroup]="group">
-    <chosen-single [placeholder_text_single]="_config.placeholder" class="form-chosen-select" [(ngModel)]="_config.value" [formControlName]="_config.field"  [options]="_config.dataSource"></chosen-single>
+   <nz-select [formControlName]="_config.field" [(ngModel)]="_config.value" [nzPlaceHolder]="_config.placeholder" nzAllowClear>
+      <nz-option
+        *ngFor="let option of _config.dataSource"
+        [nzLabel]="option.label"
+        [nzValue]="option.value"
+        [nzDisabled]="option.disabled">
+      </nz-option>
+    </nz-select>
   </ng-container>
   `
 })
@@ -30,8 +44,8 @@ export class SelectFieldComponent {
          let moduleArr = val.dataSource.split(".")
          let apiName = `${moduleArr[0]}.${moduleArr[1]}DataApi`;
          let dataApi = this.injector.get(apiName)
-         let moduleConfig = dataApi.config 
-         let resource = dataApi.resource 
+         let moduleConfig = dataApi.config
+         let resource = dataApi.resource
          resource.get().map((res)=>res.json().result).subscribe((res)=>{
              this._config.dataSource = _.map(res,(item)=>{
                  return {

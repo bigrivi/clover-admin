@@ -1,31 +1,48 @@
-<div class="header-container"
-     [class.left]="position === 'normal'"
-     [class.right]="position === 'inverse'">
-  <div class="logo-containter">
-    <a (click)="toggleSidebar()" href="#" class="navigation"><i class="nb-menu"></i></a>
-    <div class="logo" (click)="goToHome()">clover-<span>admin</span></div>
-  </div>
-
-  <div class="navs">
-    <ul>
-      <li *ngFor="let item of navs;let i=index" (click)="selectedNav(i)" [class.active]='activeNavIndex==i'>
-      {{item.alias | translate}}</li>
-    </ul>
-  </div>
-  
+<div class="logo">
+    <a [routerLink]="['/main/home']">
+        <img class="expanded" src="./assets/img/logo-full.svg" alt="{{settings.app.name}}" style="max-height:40px;" />
+        <img class="collapsed" src="./assets/img/logo.svg" alt="{{settings.app.name}}" style="max-height:30px;" />
+    </a>
 </div>
-
-<nb-actions
-  size="medium"
-  class="header-container"
-  [class.right]="position === 'normal'"
-  [class.left]="position === 'inverse'">
-  <nb-action>
-    <nb-user [menu]="userMenu" [name]="user?.realname" [picture]="user?.picture"></nb-user>
-  </nb-action>
-  <nb-action class="control-item" icon="nb-notifications"></nb-action>
-  <nb-action class="control-item" icon="nb-email"></nb-action>
-  <nb-action class="control-item">
-    <nb-search type="rotate-layout" (click)="startSearch()"></nb-search>
-  </nb-action>
-</nb-actions>
+<div class="top-nav-wrap">
+    <ul class="top-nav">
+        <!-- Menu -->
+        <li>
+            <div class="item" (click)="toggleCollapsedSideabar()">
+                <i class="anticon anticon-menu-{{settings.layout.collapsed ? 'unfold' : 'fold'}}"></i>
+            </div>
+        </li>
+    </ul>
+    <ul class="top-nav">
+        <li class="nav-model">
+            <header-module></header-module>
+        </li>
+        <!-- Notify -->
+        <li>
+            <header-notify></header-notify>
+        </li>
+        <!-- App Icons -->
+        <li class="hidden-xs">
+            <header-icon></header-icon>
+        </li>
+        <!-- Settings -->
+        <li class="hidden-xs">
+            <nz-dropdown nzTrigger="click" nzPlacement="bottomRight">
+                <div class="item" nz-dropdown>
+                    <i class="anticon anticon-setting"></i>
+                </div>
+                <div nz-menu style="width:200px">
+                    <div nz-menu-item class="theme-switch">
+                        <header-theme></header-theme>
+                    </div>
+                    <div nz-menu-item>
+                        <header-langs></header-langs>
+                    </div>
+                </div>
+            </nz-dropdown>
+        </li>
+        <li class="hidden-xs">
+            <header-user></header-user>
+        </li>
+    </ul>
+</div>

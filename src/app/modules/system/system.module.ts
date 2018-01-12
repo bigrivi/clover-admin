@@ -102,14 +102,14 @@ const routes: Routes = [
     ExportViewComponent
   ],
   entryComponents: [
-   
+
 
   ],
   providers: [
      ...appProviders
   ],
   exports: [
-    
+
   ],
 })
 export class SystemModule {

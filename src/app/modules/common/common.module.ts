@@ -5,6 +5,9 @@ import { HttpModule, Http, XHRBackend, RequestOptions } from '@angular/http';
 import {DpDatePickerModule} from 'ng2-date-picker';
 import {ToasterModule, ToasterService} from 'angular2-toaster';
 import { TreeModule } from 'angular-tree-component';
+import { NgZorroAntdExtraModule } from 'ng-zorro-antd-extra';
+import { CountdownModule } from 'ngx-countdown';
+import { AngularWebStorageModule } from 'angular-web-storage';
 
 import {ChosenModule} from './component/chosen/chosen.module';
 import { FormViewComponent } from './component/form-view/form-view.component';
@@ -35,15 +38,37 @@ import { ThemeModule } from '../../@theme/theme.module';
 import {AppService} from "./services/app.service"
 import {AuthGuardService} from "./services/auth-guard.service"
 
+// import { shared_entry_components, shared_components } from './component/index';
+
+import { ImageDirective } from './directive/image.directive';
+import { FixedBtnsDirective } from './directive/fixed-btns.directive';
+import { ErrorCollectComponent } from './directive/error-collect.directive';
+
+import { MomentDatePipe } from './pipes/moment-date.pipe';
+import { CNCurrencyPipe } from './pipes/cn-currency.pipe';
+import { KeysPipe } from './pipes/keys.pipe';
+import { YNPipe } from './pipes/yn.pipe';
+import { ModalHelper } from './helper/modal.helper';
+
+const DIRECTIVES = [ ImageDirective, FixedBtnsDirective, ErrorCollectComponent];
+const PIPES = [MomentDatePipe, CNCurrencyPipe, KeysPipe, YNPipe];
+const HELPERS = [ ModalHelper ];
+
+
+
+
 
 @NgModule({
   imports: [
     HttpModule,
     ThemeModule,
+    RouterModule,
     TreeModule,
     ReactiveFormsModule,
     ChosenModule,
     DpDatePickerModule,
+    AngularWebStorageModule,
+    NgZorroAntdExtraModule.forRoot()
   ],
   declarations: [
     FormViewComponent,
@@ -63,7 +88,8 @@ import {AuthGuardService} from "./services/auth-guard.service"
     ConfirmComponent,
     AlertComponent,
     TableViewDailogComponent,
-    toUploadFileThumbPipe
+    toUploadFileThumbPipe,
+    ...DIRECTIVES, ...PIPES
   ],
   entryComponents: [
     InputFieldComponent,
@@ -89,7 +115,16 @@ import {AuthGuardService} from "./services/auth-guard.service"
   ],
   exports: [
     FormViewComponent,
-    TableViewComponent
+    TableViewComponent,
+    RouterModule,
+    NgZorroAntdExtraModule,
+    AngularWebStorageModule,
+    // 第三方
+    CountdownModule,
+    // 多语言
+    // 业务级
+    ...DIRECTIVES,
+    ...PIPES
   ],
 })
 export class CommonModule {

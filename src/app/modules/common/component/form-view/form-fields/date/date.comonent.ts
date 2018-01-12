@@ -5,13 +5,13 @@ import { FormGroup } from '@angular/forms';
   selector: 'form-input',
   template: `
   <ng-container [formGroup]="group" *ngIf="config.widget=='date'">
-  <input [formControlName]="config.field" [dpDayPicker]="datePickerConfig1" [mode]="'day'"  [(ngModel)]="config.value" class="form-control" id="config.field" [theme]="'dp-material'" placeholder="{{config.placeholder}}">
+       <nz-datepicker [formControlName]="config.field" [nzFormat]="'YYYY-MM-DD'" [(ngModel)]="config.value" [nzPlaceHolder]="config.placeholder"></nz-datepicker>
   </ng-container>
   <ng-container [formGroup]="group" *ngIf="config.widget=='datetime'">
-  <input [formControlName]="config.field" [dpDayPicker]="datePickerConfig2" [mode]="'daytime'"  [(ngModel)]="config.value" class="form-control" id="config.field" [theme]="'dp-material'" placeholder="{{config.placeholder}}">
+     <nz-datepicker nzShowTime [formControlName]="config.field" [nzFormat]="'YYYY-MM-DD HH:mm'" [(ngModel)]="config.value" [nzPlaceHolder]="config.placeholder"></nz-datepicker>
   </ng-container>
   <ng-container [formGroup]="group" *ngIf="config.widget=='time'">
-  <input [formControlName]="config.field" [dpDayPicker]="datePickerConfig3" [mode]="'time'"  [(ngModel)]="config.value" class="form-control" id="config.field" [theme]="'dp-material'" placeholder="{{config.placeholder}}">
+      <nz-timepicker [formControlName]="config.field" [(ngModel)]="config.value" [nzPlaceHolder]="config.placeholder"></nz-timepicker>
   </ng-container>
   `
 })

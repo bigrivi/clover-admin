@@ -16,21 +16,21 @@
 
 
 // install the framework and custom global styles
-@include nb-install() {
+// @include nb-install() {
 
   // framework global styles
-  @include nb-theme-global();
-  @include nb-auth-global();
+  // @include nb-theme-global();
+  // @include nb-auth-global();
 
-  @include ngx-pace-theme();
-  @include ngx-bootstrap-theme();
-  @include ngx-chosen-theme();
-  @include ngx-date-picker-theme();
-  @include ngx-table-theme();
-  @include ngx-tree-theme();
+  // @include ngx-pace-theme();
+  // @include ngx-bootstrap-theme();
+  // @include ngx-chosen-theme();
+  // @include ngx-date-picker-theme();
+  // @include ngx-table-theme();
+  // @include ngx-tree-theme();
   @include ngx-fieldset-theme();
 
-};
+// };
 
 
 

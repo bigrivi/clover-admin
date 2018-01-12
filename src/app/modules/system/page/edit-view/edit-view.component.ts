@@ -7,6 +7,7 @@ import {parseRouteMap} from '../../../common/utils/route.utils'
 import {FormViewComponent} from '../../../common/component/form-view/form-view.component'
 import { ToasterService, ToasterConfig, Toast, BodyOutputType } from 'angular2-toaster';
 import {Subscription} from 'rxjs'
+import {NzNotificationService} from 'ng-zorro-antd';
 
 @Component({
   selector: 'app-edit-view',
@@ -26,6 +27,7 @@ export class EditViewComponent implements OnInit {
   constructor(public route: ActivatedRoute,
     public appService:AppService,
     public injector: Injector,
+    public notificationService:NzNotificationService,
     public toasterService:ToasterService,
     public router: Router,) {
 
@@ -70,19 +72,20 @@ export class EditViewComponent implements OnInit {
   save(){
     // console.log(this.formView.form.value)
     let apiName = `${this.config.app}.${this.config.module}DataApi`;
-    let resource = this.injector.get(apiName).resource 
+    let resource = this.injector.get(apiName).resource
     if(this.formView.validata()){
         if(this.params["id"]){
             resource.put(this.params["id"],this.formView.form.value).subscribe((res)=>{
               this.navigateToList()
-              this.toasterService.pop('success', '修改成功');
+               this.notificationService.create('success', '标题', '修改成功');
            })
         }
         else{
           let postData = Object.assign(this.formView.form.value,this.queryParams)
           resource.post(postData).subscribe((res)=>{
               this.navigateToList()
-              this.toasterService.pop('success', '保存成功');
+              this.notificationService.create('success', '标题', '保存成功');
+
            })
         }
     }

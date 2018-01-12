@@ -64,7 +64,7 @@ export class FormViewComponent {
       }
       return true;
     })
-   
+
 
     this._fields.forEach(control => {
           this.form.addControl(control.field, this.createControl(control))
@@ -83,7 +83,7 @@ export class FormViewComponent {
     public activeRouter: ActivatedRoute,
     public toasterService: ToasterService) {
     this._params["id"] = this.route.snapshot.params["id"]
-    
+
   }
 
   loadData(){
@@ -93,11 +93,12 @@ export class FormViewComponent {
     populates = _.map(populates,(item)=>{
       return item.field
     })
+    populates = []
     let requestUrl = this._config.resource+"/"+this._params["id"]
     if(populates.length>0)
       requestUrl+= "?populate="+populates.join(" ")
     let apiName = `${this._config.app}.${this._config.module}DataApi`;
-    let resource = this.injector.get(apiName).resource 
+    let resource = this.injector.get(apiName).resource
     resource.get({populate:populates.join(" ")},"/"+this._params["id"]).subscribe((res)=>{
           let data = res.json()
           let controls = Object.keys(this.form.controls)

@@ -12,11 +12,11 @@ import * as _ from 'lodash';
 @Component({
   selector: 'account-pages',
   template: `
-       <nb-card>
-      <nb-card-header>
-      	角色授权
-      </nb-card-header>
-      <nb-card-body>
+        <nz-card [nzBordered]="false">
+        <ng-template #title>
+           角色授权
+      </ng-template>
+       <ng-template #body>
        <fieldset *ngFor="let app of node_apps;let i=index">
               <legend (click)="toggleExpand(i)">
               <i class='fa fa-chevron-down' *ngIf="app.expand"></i>
@@ -32,17 +32,15 @@ import * as _ from 'lodash';
                        <input [(ngModel)]="nodes_model[fieldItem.node]" [id]="fieldItem.node" name="schema[only][]" type="checkbox" [value]="fieldItem.field" />
                         {{fieldItem.label}}
                       </label>
-                    
+
                     </div>
                 </div>
               </div>
           </fieldset>
-      </nb-card-body>
-       <nb-card-footer>
-          <button type="submit" (click)="save()" class="btn btn-danger">授权</button>
+           <button type="submit" (click)="save()" class="btn btn-danger">授权</button>
           <button type="button" (click)="back()" class="btn">取消</button>
-       </nb-card-footer>
-</nb-card>
+      </ng-template>
+</nz-card>
 
   `,
 })
@@ -85,7 +83,7 @@ export class AuthorizeComponent {
          })
          this.node_apps = node_apps
       })
-      
+
 
       this.injector.get("account.authorizeDataApi").resource.get({populate:"auth_node_id",auth_role_id:this.route.snapshot.params["id"]}).map(res=>res.json().result).subscribe((res)=>{
         res.forEach((item)=>{
@@ -93,7 +91,7 @@ export class AuthorizeComponent {
         })
       })
 
-    	
+
   }
 
   save(){
@@ -104,12 +102,12 @@ export class AuthorizeComponent {
                 selected_nodes.push(this.node_id_by_app[item.node])
           })
         })
-        let resource = this.injector.get("account.authorizeDataApi").resource 
+        let resource = this.injector.get("account.authorizeDataApi").resource
         let postData = {role_id:this.route.snapshot.params["id"],nodes:selected_nodes}
         resource.post(postData).map(res=>res.json()).subscribe((res)=>{
           this.toasterService.pop('success', '授权成功');
         })
-    
+
   }
 
 
@@ -129,6 +127,6 @@ export class AuthorizeComponent {
     window.history.go(-1)
   }
 
- 
+
 
 }

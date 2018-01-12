@@ -1,0 +1,43 @@
+<div class="logo">
+    <a [routerLink]="['/main/home']">
+        <img class="expanded" src="./assets/img/logo-full.svg" alt="{{settings.app.name}}" style="max-height:40px;" />
+        <img class="collapsed" src="./assets/img/logo.svg" alt="{{settings.app.name}}" style="max-height:30px;" />
+    </a>
+</div>
+<div class="top-nav-wrap">
+    <ul class="top-nav">
+    </ul>
+    <ul class="top-nav">
+
+        <li class="nav-model">
+            <header-module></header-module>
+        </li>
+        <!-- Notify -->
+        <li>
+            <header-notify></header-notify>
+        </li>
+        <!-- App Icons -->
+        <li class="hidden-xs">
+            <header-icon></header-icon>
+        </li>
+        <!-- Settings -->
+        <li class="hidden-xs">
+            <nz-dropdown nzTrigger="click" nzPlacement="bottomRight">
+                <div class="item" nz-dropdown>
+                    <i class="anticon anticon-setting"></i>
+                </div>
+                <div nz-menu style="width:200px">
+                    <div nz-menu-item class="theme-switch">
+                        <header-theme></header-theme>
+                    </div>
+                    <div nz-menu-item>
+                        <!--<header-langs></header-langs>-->
+                    </div>
+                </div>
+            </nz-dropdown>
+        </li>
+        <li class="hidden-xs">
+            <header-user></header-user>
+        </li>
+    </ul>
+</div>

@@ -5,10 +5,11 @@ import { FormGroup } from '@angular/forms';
   selector: 'form-input',
   template: `
   <ng-container *ngIf="config.widget=='textarea'" [formGroup]="group">
-  <textarea class="form-control" [formControlName]="config.field"  [(ngModel)]="config.value" placeholder="{{config.placeholder}}"></textarea>
+        <nz-input [formControlName]="config.field"  [(ngModel)]="config.value" nzType="textarea" [nzAutosize]="autosize" nzPlaceHolder="{{config.placeholder}}"></nz-input>
   </ng-container>
    <ng-container *ngIf="config.widget!='textarea'" [formGroup]="group">
-  <input  [type]="config.widget" [formControlName]="config.field"  [(ngModel)]="config.value" class="form-control" id="config.field" placeholder="{{config.placeholder}}">
+   <nz-input [nzType]="config.type" [nzSize]="'large'" [formControlName]="config.field" [nzId]="config.field" [nzPlaceHolder]="config.placeholder" [(ngModel)]="config.value">
+  </nz-input>
   </ng-container>
   `
 })

@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg width="150px" height="60px" viewBox="0 0 150 60" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 47.1 (45422) - http://www.bohemiancoding.com/sketch -->
+    <title>Artboard 2</title>
+    <desc>Created with Sketch.</desc>
+    <defs></defs>
+    <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="Artboard-2" fill="#FFFFFF">
+            <g id="Page-1" transform="translate(2.000000, 7.000000)">
+                <polygon id="Fill-1" points="38.6146502 11 26 18.1567146 26.9693023 24.7695654 31.2081186 29 29.5063071 18.8356839 40 14.3982885"></polygon>
+                <polygon id="Fill-2" points="33 20.7466598 34.7153626 32.6855476 38.5237274 36 36.5665955 23.2333459 44 21.5054102 43.2637028 18"></polygon>
+                <polygon id="Fill-3" points="25.2953942 0 23 0.658861236 25.2725355 13.8800406 32.8625757 14 37 11.4890931 28.713722 11.4442228"></polygon>
+                <polygon id="Fill-4" points="28.9732202 3 27 3.78608393 29.0302524 13.8587222 37.510752 14 41 11.251035 31.9159877 11.2225725"></polygon>
+                <polygon id="Fill-5" points="13.2354441 27.6977702 9 31.7561961 18.1396925 29.5433144 32.4706697 44 35 41.5764121 19.5606646 26"></polygon>
+                <polygon id="Fill-6" points="9.49122488 32.5544623 7 35.4917525 17.5845106 33.1089532 31.0223565 47 33 45.3019019 18.5108506 30"></polygon>
+                <polygon id="Fill-7" points="13.8052136 11 12.2826907 11.1929049 16.4057991 16.6649753 6 29.8321158 8.39564006 32 20 17.317637"></polygon>
+                <polygon id="Fill-8" points="4.94325793 11.1286485 8.33236446 17.1371387 0 27.6984051 1.90075403 29 11 17.4678259 6.651249 11"></polygon>
+                <g id="Group-13" transform="translate(9.000000, 0.000000)">
+                    <polygon id="Fill-9" points="12.6191333 0.116924138 8.29873333 6.99237241 4.68206667 6.24264828 2.68893333 8.25044138 8.5694 9.85802759 12.7647333 3.10761379"></polygon>
+                    <polygon id="Fill-11" points="1.87898667 9.06586897 0.13552 10.8231103 9.25418667 13.9373862 13.53632 7.60166207 13.1699867 5.08504138 9.03578667 11.771731"></polygon>
+                </g>
+            </g>
+            <text id="survey" font-family="STBaoli-SC-Regular, Baoli SC" font-size="30" font-weight="normal" letter-spacing="1.875">
+                <tspan x="49" y="34">survey</tspan>
+            </text>
+        </g>
+    </g>
+</svg>

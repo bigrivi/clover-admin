@@ -1,10 +1,12 @@
-<nb-card>
-  <nb-card-header>
-        {{config?.name}}
-     &nbsp;&nbsp;<button *ngIf="addable" (click)="add()"  type="button" class="btn btn-success btn-tn"><i class="fa fa-plus"></i>&nbsp;{{ 'Add New' | translate}}</button>
-     &nbsp;&nbsp;<button  (click)="export()"  type="button" class="btn btn-primary btn-tn"><i class="fa fa-share"></i>&nbsp;{{ 'Export' | translate}}</button>
-  </nb-card-header>
- <nb-card-body>
-	<table-view (dataLoadComplete)="onDataLoadComplete($event)" [config]="config"></table-view>
-  </nb-card-body>
-</nb-card>
+<nz-card [nzBordered]="false">
+    <ng-template #title>
+            {{config?.name}}
+     &nbsp;&nbsp;
+     <button nz-button *ngIf="addable" [nzType]="'primary'" (click)="add()" ><i class="fa fa-plus"></i>&nbsp;{{ 'Add New' | translate}}</button>
+     &nbsp;&nbsp;
+     <button  nz-button (click)="export()"><i class="fa fa-share"></i>&nbsp;{{ 'Export' | translate}}</button>
+      </ng-template>
+      <ng-template #body>
+            <table-view (dataLoadComplete)="onDataLoadComplete($event)" [config]="config"></table-view>
+      </ng-template>
+</nz-card>

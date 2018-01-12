@@ -8,17 +8,15 @@ import { NbMenuItem } from '@nebular/theme';
 @Component({
   selector: 'ngx-pages',
   template: `
-   <app-base-layout>
-       <nb-menu [items]="menu"></nb-menu>
-      <router-outlet></router-outlet>
-    </app-base-layout>
+   <app-layout>
+    </app-layout>
   `,
 })
 export class SystemComponent {
   menu = [];
   constructor(public route: ActivatedRoute,public navService:NavService,public translateService:TranslateService ) {
     	this.route.params.subscribe(params => {
-       
+
       });
 
       this.navService.onNavChangeState().subscribe((index)=>{
@@ -45,7 +43,7 @@ export class SystemComponent {
             })
              this.menu = menus;
           }
-         
+
       })
     }
 }

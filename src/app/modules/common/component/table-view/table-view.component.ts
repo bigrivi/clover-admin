@@ -25,17 +25,17 @@ export class TableViewComponent implements OnInit {
   constructor(
    public injector: Injector,
    public toasterService: ToasterService,
-   public renderer: Renderer2, 
-   public el: ElementRef, 
+   public renderer: Renderer2,
+   public el: ElementRef,
    public location: Location,
-   public http: Http, 
+   public http: Http,
    public sidebarService:NbSidebarService,
-   public router: Router, 
+   public router: Router,
    public activeRouter: ActivatedRoute,
    public appService:AppService,
    public ref: ChangeDetectorRef,
-   public dialogService: DialogService) { 
-    
+   public dialogService: DialogService) {
+
   }
   _config;
   resource;
@@ -50,7 +50,7 @@ export class TableViewComponent implements OnInit {
     this._config = _.cloneDeep(val);
     console.log(val)
     let apiName = `${this._config.app}.${this._config.module}DataApi`;
-    this.resource = this.injector.get(apiName).resource 
+    this.resource = this.injector.get(apiName).resource
     this._config.listHide = this._config.listHide || [];
     this._config.modalListShow = this._config.modalListShow || [];
     this._config.actionable = this._config.actionable || true; //出现操作列
@@ -131,7 +131,7 @@ export class TableViewComponent implements OnInit {
 
                })
              }
-             
+
          })
        }
     })
@@ -154,20 +154,20 @@ export class TableViewComponent implements OnInit {
     }
     if(this.viewInited){
       setTimeout(()=>{
-        this.visibleWidth = this._scrollBody.element.nativeElement.offsetWidth; //不准确
+        // this.visibleWidth = this._scrollBody.element.nativeElement.offsetWidth; //不准确
         this.checkHorScroll()
       },0)
-      
+
       let currPath = this.location.path()
       if(currPath.indexOf("?page")<0) //从其他路由切换过来的情况
         this.loadPageDate()
     }
-   
+
   }
 
-  @ViewChild('scorllBody', { read: ViewContainerRef }) _scrollBody: ViewContainerRef;
-  @ViewChild('scorllHeader', { read: ViewContainerRef }) _scorllHeader: ViewContainerRef;
-  @ViewChild('scrollRight', { read: ViewContainerRef }) _scrollRight: ViewContainerRef;
+  // @ViewChild('scorllBody', { read: ViewContainerRef }) _scrollBody: ViewContainerRef;
+  // @ViewChild('scorllHeader', { read: ViewContainerRef }) _scorllHeader: ViewContainerRef;
+  // @ViewChild('scrollRight', { read: ViewContainerRef }) _scrollRight: ViewContainerRef;
   //最大可视区域高度
   fullHeight = 0;
   //固定区域右边距离宽度,区别有没有滚动条的情况，没有需要设置为0
@@ -219,31 +219,31 @@ export class TableViewComponent implements OnInit {
 
      this.toggleSub = this.sidebarService.onToggle().subscribe((data: { compact: boolean, tag: string }) => {
          setTimeout(()=>{
-             this.visibleWidth = this._scrollBody.element.nativeElement.offsetWidth;
+             // this.visibleWidth = this._scrollBody.element.nativeElement.offsetWidth;
              this.onResize();
          },0)
-        
+
       });
   }
 
   ngAfterViewInit() {
     this.viewInited = true;
-    this.visibleWidth = this._scrollBody.element.nativeElement.offsetWidth;
+    // this.visibleWidth = this._scrollBody.element.nativeElement.offsetWidth;
     this.onResize()
     //同步滚动条
-    let fixedBodyList = Array.prototype.slice.call(this.el.nativeElement.querySelectorAll(".table-fixed .table-body"))
-    this.scrollHandler = this.renderer.listen(this._scrollBody.element.nativeElement, "scroll", (evt) => {
-      let scorllHeaderElement = this._scorllHeader.element.nativeElement
-      scorllHeaderElement.scrollLeft = evt.target.scrollLeft
-      fixedBodyList.forEach((item) => {
-        item.scrollTop = evt.target.scrollTop
-      })
-    })
+    // let fixedBodyList = Array.prototype.slice.call(this.el.nativeElement.querySelectorAll(".table-fixed .table-body"))
+    // this.scrollHandler = this.renderer.listen(this._scrollBody.element.nativeElement, "scroll", (evt) => {
+    //   let scorllHeaderElement = this._scorllHeader.element.nativeElement
+    //   scorllHeaderElement.scrollLeft = evt.target.scrollLeft
+    //   fixedBodyList.forEach((item) => {
+    //     item.scrollTop = evt.target.scrollTop
+    //   })
+    // })
 
-    this.resizeHandler = this.renderer.listen(window, "resize", (evt) => {
-      this.visibleWidth = this._scrollBody.element.nativeElement.offsetWidth;
-      this.onResize()
-    })
+    // this.resizeHandler = this.renderer.listen(window, "resize", (evt) => {
+    //   this.visibleWidth = this._scrollBody.element.nativeElement.offsetWidth;
+    //   this.onResize()
+    // })
 
   }
 
@@ -281,20 +281,10 @@ export class TableViewComponent implements OnInit {
   }
 
 
-  doSorting(sortabld,sortKey){
-    if(!sortabld){
-      return;
-    }
+  doSorting(sortKey,sortValue){
     this.sorting["key"] = sortKey
-    let sortValue = this.sorting["value"];
-    if(sortValue==""){
-      sortValue = "ascending"
-    }
-    else if(sortValue=="ascending"){
-      sortValue = "descending"
-    }
-    else{
-      sortValue = ""
+    if(sortValue==null){
+      sortValue = "descend"
     }
     this.sorting["value"] = sortValue;
     this.refresh()
@@ -356,7 +346,7 @@ export class TableViewComponent implements OnInit {
 
 
     if(this.sorting.key!=""&&this.sorting.value!=""){
-      if(this.sorting.value=="ascending"){
+      if(this.sorting.value=="ascend"){
         params.sort = this.sorting.key;
       }
       else{
@@ -486,7 +476,7 @@ export class TableViewComponent implements OnInit {
     })
 
   }
- 
+
  /**
  获取列的总宽度
  **/
@@ -512,7 +502,7 @@ export class TableViewComponent implements OnInit {
 
 
   onPageChange(newPage) {
-  
+
     if(this.modalMode){
         this.pagerData.currentPage = newPage
       this.loadPageDate()
@@ -521,13 +511,13 @@ export class TableViewComponent implements OnInit {
        let routeMap = parseRouteMap(this.router.url)
        this.router.navigate(["apps/"+routeMap.app+"/"+routeMap.module+"/"],{queryParams:{page: newPage}})
     }
-  
-    
+
+
   }
 
-  onSelectedAllChange(event) {
+  onSelectedAllChange(checked) {
     this.rows.forEach((row) => {
-      row.selected = event.target.checked;
+      row.selected = checked;
     })
     this.onSelectedChange.emit(this.getSelectedData())
   }
