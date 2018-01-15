@@ -43,7 +43,7 @@ import { NbAuthResult, AuthService } from '../../services/auth.service';
     </nb-auth-block>
   `,
 })
-export class NbLoginComponent {
+export class LoginComponent {
 
  validateForm: FormGroup;
  redirectDelay: number = 0;

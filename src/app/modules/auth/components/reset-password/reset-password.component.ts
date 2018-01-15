@@ -80,7 +80,7 @@ import { NbAuthResult, AuthService } from '../../services/auth.service';
     </nb-auth-block>
   `,
 })
-export class NbResetPasswordComponent {
+export class ResetPasswordComponent {
 
   redirectDelay: number = 0;
   showMessages: any = {};

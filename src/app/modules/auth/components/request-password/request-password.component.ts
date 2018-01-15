@@ -58,7 +58,7 @@ import { NbAuthResult, AuthService } from '../../services/auth.service';
     </nb-auth-block>
   `,
 })
-export class NbRequestPasswordComponent {
+export class RequestPasswordComponent {
 
   redirectDelay: number = 0;
   showMessages: any = {};

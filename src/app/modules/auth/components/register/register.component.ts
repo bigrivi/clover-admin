@@ -118,7 +118,7 @@ import { NbAuthResult, AuthService } from '../../services/auth.service';
     </nb-auth-block>
   `,
 })
-export class NbRegisterComponent {
+export class RegisterComponent {
 
   redirectDelay: number = 0;
   showMessages: any = {};

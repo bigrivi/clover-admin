@@ -23,11 +23,11 @@ import { AuthComponent } from './components/auth.component';
 import { NbAuthSimpleToken, NbTokenService } from './services/token.service';
 
 import { NbAuthBlockComponent } from './components/auth-block/auth-block.component';
-import { NbLoginComponent } from './components/login/login.component';
-import { NbRegisterComponent } from './components/register/register.component';
-import { NbLogoutComponent } from './components/logout/logout.component';
-import { NbRequestPasswordComponent } from './components/request-password/request-password.component';
-import { NbResetPasswordComponent } from './components/reset-password/reset-password.component';
+import { LoginComponent } from './components/login/login.component';
+import { RegisterComponent } from './components/register/register.component';
+import { LogoutComponent } from './components/logout/logout.component';
+import { RequestPasswordComponent } from './components/request-password/request-password.component';
+import { ResetPasswordComponent } from './components/reset-password/reset-password.component';
 
 import { routes } from './auth.routes';
 import { deepExtend } from './helpers';
@@ -61,20 +61,20 @@ export function nbOptionsFactory(options) {
   declarations: [
     AuthComponent,
     NbAuthBlockComponent,
-    NbLoginComponent,
-    NbRegisterComponent,
-    NbRequestPasswordComponent,
-    NbResetPasswordComponent,
-    NbLogoutComponent,
+    LoginComponent,
+    RegisterComponent,
+    RequestPasswordComponent,
+    ResetPasswordComponent,
+    LogoutComponent,
   ],
   exports: [
     AuthComponent,
     NbAuthBlockComponent,
-    NbLoginComponent,
-    NbRegisterComponent,
-    NbRequestPasswordComponent,
-    NbResetPasswordComponent,
-    NbLogoutComponent,
+    LoginComponent,
+    RegisterComponent,
+    RequestPasswordComponent,
+    ResetPasswordComponent,
+    LogoutComponent,
   ],
 })
 export class NbAuthModule {

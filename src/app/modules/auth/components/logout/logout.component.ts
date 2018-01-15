@@ -9,7 +9,7 @@ import { AuthService, NbAuthResult } from '../../services/auth.service';
     <div align="center">登出中, 请稍后...</div>
   `,
 })
-export class NbLogoutComponent implements OnInit {
+export class LogoutComponent implements OnInit {
 
   redirectDelay: number = 1500;
 

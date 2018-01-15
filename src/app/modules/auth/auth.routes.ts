@@ -1,11 +1,11 @@
 import { Routes } from '@angular/router';
 
 import { AuthComponent } from './components/auth.component';
-import { NbLoginComponent } from './components/login/login.component';
-import { NbRegisterComponent } from './components/register/register.component';
-import { NbLogoutComponent } from './components/logout/logout.component';
-import { NbRequestPasswordComponent } from './components/request-password/request-password.component';
-import { NbResetPasswordComponent } from './components/reset-password/reset-password.component';
+import { LoginComponent } from './components/login/login.component';
+import { RegisterComponent } from './components/register/register.component';
+import { LogoutComponent } from './components/logout/logout.component';
+import { RequestPasswordComponent } from './components/request-password/request-password.component';
+import { ResetPasswordComponent } from './components/reset-password/reset-password.component';
 
 export const routes: Routes = [
   {
@@ -19,23 +19,23 @@ export const routes: Routes = [
       },
       {
         path: 'login',
-        component: NbLoginComponent,
+        component: LoginComponent,
       },
       {
         path: 'register',
-        component: NbRegisterComponent,
+        component: RegisterComponent,
       },
       {
         path: 'logout',
-        component: NbLogoutComponent,
+        component: LogoutComponent,
       },
       {
         path: 'request-password',
-        component: NbRequestPasswordComponent,
+        component: RequestPasswordComponent,
       },
       {
         path: 'reset-password',
-        component: NbResetPasswordComponent,
+        component: ResetPasswordComponent,
       },
     ],
   },
