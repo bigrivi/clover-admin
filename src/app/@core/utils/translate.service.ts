@@ -4,8 +4,6 @@ import 'rxjs/Rx';
 import { Observable } from 'rxjs/Observable';
 import {API_ROOT} from "../../config"
 import {PubSubService} from "./pubsub.service"
-import {NbAuthService} from '../../modules/auth/services/auth.service'
-import {NbAuthSimpleToken,NbTokenService} from '../../modules/auth/services/token.service'
 import {ResourceService} from "./resource.service"
 
 

@@ -3,7 +3,7 @@ import { Router } from '@angular/router';
 import { NB_AUTH_OPTIONS_TOKEN } from '../../auth.options';
 import { getDeepFromObject } from '../../helpers';
 
-import { NbAuthResult, NbAuthService } from '../../services/auth.service';
+import { NbAuthResult, AuthService } from '../../services/auth.service';
 
 @Component({
   selector: 'nb-reset-password-page',
@@ -91,7 +91,7 @@ export class NbResetPasswordComponent {
   messages: string[] = [];
   user: any = {};
 
-  constructor(protected service: NbAuthService,
+  constructor(protected service: AuthService,
               @Inject(NB_AUTH_OPTIONS_TOKEN) protected config = {},
               protected router: Router) {
 

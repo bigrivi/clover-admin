@@ -1,5 +1,5 @@
 import { Component, OnDestroy } from '@angular/core';
-import { NbAuthService } from '../services/auth.service';
+import { AuthService } from '../services/auth.service';
 
 @Component({
   selector: 'nb-auth',
@@ -8,7 +8,7 @@ import { NbAuthService } from '../services/auth.service';
       <router-outlet></router-outlet>
   `,
 })
-export class NbAuthComponent implements OnDestroy {
+export class AuthComponent implements OnDestroy {
 
   subscription: any;
 
@@ -16,7 +16,7 @@ export class NbAuthComponent implements OnDestroy {
   token: string = '';
 
   // showcase of how to use the onAuthenticationChange method
-  constructor(protected auth: NbAuthService) {
+  constructor(protected auth: AuthService) {
 
     this.subscription = auth.onAuthenticationChange()
       .subscribe((authenticated: boolean) => {

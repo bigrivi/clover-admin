@@ -72,25 +72,7 @@ export class NbAuthJWTToken extends NbAuthSimpleToken {
   }
 }
 
-/**
- * Nebular token service. Provides access to the stored token.
- * By default returns NbAuthSimpleToken instance,
- * but you can inject NbAuthJWTToken if you need additional methods for JWT token.
- *
- * @example Injecting NbAuthJWTToken, so that NbTokenService will now return NbAuthJWTToken instead
- * of the default NbAuthSimpleToken
- *
- * ```
- * // import token and service into your AppModule
- * import { NB_AUTH_TOKEN_WRAPPER_TOKEN,  NbAuthJWTToken} from '@nebular/auth';
- *
- * // add to a list of providers
- * providers: [
- *  // ...
- *  { provide: NB_AUTH_TOKEN_WRAPPER_TOKEN, useClass: NbAuthJWTToken },
- * ],
- * ```
- */
+
 @Injectable()
 export class NbTokenService {
 

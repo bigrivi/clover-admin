@@ -3,7 +3,7 @@ import { Router } from '@angular/router';
 import { NB_AUTH_OPTIONS_TOKEN } from '../../auth.options';
 import { getDeepFromObject } from '../../helpers';
 import { FormBuilder,FormGroup,Validators } from '@angular/forms';
-import { NbAuthResult, NbAuthService } from '../../services/auth.service';
+import { NbAuthResult, AuthService } from '../../services/auth.service';
 
 @Component({
   selector: 'nb-login',
@@ -56,7 +56,7 @@ export class NbLoginComponent {
 
   constructor(
     private fb: FormBuilder,
-    protected service: NbAuthService,
+    protected service: AuthService,
               @Inject(NB_AUTH_OPTIONS_TOKEN) protected config = {},
               protected router: Router
   ) {

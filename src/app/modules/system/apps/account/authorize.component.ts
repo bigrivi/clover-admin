@@ -5,8 +5,8 @@ import {pascalCaseSpace} from '../../../common/utils/common.utils'
 import {UserService} from '../../../../@core/data/users.service'
 import {TranslateService} from '../../../../@core/utils/translate.service'
 import {FormViewComponent} from '../../../common/component/form-view/form-view.component'
-import { ToasterService, ToasterConfig, Toast, BodyOutputType } from 'angular2-toaster';
 import * as _ from 'lodash';
+import {NzNotificationService,NzMessageService} from 'ng-zorro-antd';
 
 
 @Component({
@@ -60,9 +60,9 @@ export class AuthorizeComponent {
   constructor(
     public route: ActivatedRoute,
     public injector:Injector,
+    public messageService: NzMessageService,
     public translateService:TranslateService,
     public appService:AppService,
-    public toasterService:ToasterService,
     public userService:UserService ) {
       let resource = this.injector.get("account.authNodeDataApi").resource
       resource.get().map(res=>res.json().result).subscribe((res)=>{
@@ -111,7 +111,7 @@ export class AuthorizeComponent {
         let resource = this.injector.get("account.authorizeDataApi").resource
         let postData = {role_id:this.route.snapshot.params["id"],nodes:selected_nodes}
         resource.post(postData).map(res=>res.json()).subscribe((res)=>{
-          this.toasterService.pop('success', '授权成功');
+          this.messageService.success('授权成功');
         })
 
   }

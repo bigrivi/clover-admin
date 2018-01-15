@@ -1,5 +1,5 @@
 import { Component, OnInit,Inject,Injector } from '@angular/core';
-import { Routes, Router,RouterModule,ActivatedRoute } from '@angular/router';
+import { Routes, Router,RouterModule,ActivatedRoute,NavigationEnd } from '@angular/router';
 import {AppService} from '../../../common/services/app.service'
 import {parseRouteMap} from '../../../common/utils/route.utils'
 import {Subscription} from 'rxjs'
@@ -19,13 +19,19 @@ export class ListViewComponent implements OnInit {
   routeChangeSub:Subscription
   addable = true;
   constructor(   public router: Router, public route: ActivatedRoute,public appService:AppService,public injector: Injector, ) {
-    console.log(this.router.url)
+    // console.log(this.router.url)
     this.routeChangeSub = this.router.events.subscribe((event)=>{
-      let routeMap = parseRouteMap(this.router.url)
-      this.module = routeMap["module"];
-      this.app = routeMap["app"];
-      let apiName = `${this.app}.${this.module}DataApi`;
-      this.config = this.injector.get(apiName).config
+      if (event instanceof NavigationEnd) {
+          let routeMap = parseRouteMap(this.router.url)
+          this.module = routeMap["module"];
+          this.app = routeMap["app"];
+          let apiName = `${this.app}.${this.module}DataApi`;
+          this.config = this.injector.get(apiName).config
+          console.log(apiName)
+
+
+      }
+
     })
   }
 

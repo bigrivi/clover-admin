@@ -12,7 +12,7 @@ import { SystemComponent } from './system.component'
 import { DataApiService } from '../../@core/utils/dataApi.service'
 
 import {PubSubService} from "../../@core/utils/pubsub.service"
-import {NbAuthService} from '../../modules/auth/services/auth.service'
+import {AuthService} from '../../modules/auth/services/auth.service'
 import {NbAuthSimpleToken,NbTokenService} from '../../modules/auth/services/token.service'
 
 import {AuthGuardService} from "../common/services/auth-guard.service"
@@ -56,10 +56,10 @@ _.each(appConfig,(modules,appName)=>{
     let providerName = appName+"."+moduleName+"DataApi"
     appProviders.push( {
             provide: providerName,
-            useFactory: (http: Http,pubsub:PubSubService,authService:NbAuthService,tokenService:NbTokenService)=>{
+            useFactory: (http: Http,pubsub:PubSubService,authService:AuthService,tokenService:NbTokenService)=>{
                return new DataApiService(appName+"/"+moduleConfig.resource, moduleConfig, http,pubsub,authService,tokenService);
             },
-            deps: [Http,PubSubService,NbAuthService,NbTokenService]
+            deps: [Http,PubSubService,AuthService,NbTokenService]
         })
   })
 })

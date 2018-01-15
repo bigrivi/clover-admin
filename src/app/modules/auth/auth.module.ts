@@ -6,7 +6,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { ThemeModule } from '../../@theme/theme.module';
 import { NbLayoutModule, NbCardModule, NbCheckboxModule } from '@nebular/theme';
 
-import { NbAuthService } from './services/auth.service';
+import { AuthService } from './services/auth.service';
 import { NbDummyAuthProvider } from './providers/dummy-auth.provider';
 import { NbEmailPassAuthProvider } from './providers/email-pass-auth.provider';
 
@@ -19,7 +19,7 @@ import {
   NbAuthOptions, NB_AUTH_INTERCEPTOR_HEADER,
 } from './auth.options';
 
-import { NbAuthComponent } from './components/auth.component';
+import { AuthComponent } from './components/auth.component';
 import { NbAuthSimpleToken, NbTokenService } from './services/token.service';
 
 import { NbAuthBlockComponent } from './components/auth-block/auth-block.component';
@@ -43,7 +43,7 @@ export function nbAuthServiceFactory(config: any, tokenService: NbTokenService, 
     }
   }
 
-  return new NbAuthService(tokenService, injector, providers);
+  return new AuthService(tokenService, injector, providers);
 }
 
 export function nbOptionsFactory(options) {
@@ -59,7 +59,7 @@ export function nbOptionsFactory(options) {
     HttpClientModule,
   ],
   declarations: [
-    NbAuthComponent,
+    AuthComponent,
     NbAuthBlockComponent,
     NbLoginComponent,
     NbRegisterComponent,
@@ -68,7 +68,7 @@ export function nbOptionsFactory(options) {
     NbLogoutComponent,
   ],
   exports: [
-    NbAuthComponent,
+    AuthComponent,
     NbAuthBlockComponent,
     NbLoginComponent,
     NbRegisterComponent,
@@ -88,7 +88,7 @@ export class NbAuthModule {
         { provide: NB_AUTH_TOKEN_WRAPPER_TOKEN, useClass: NbAuthSimpleToken },
         { provide: NB_AUTH_INTERCEPTOR_HEADER, useValue: 'Authorization' },
         {
-          provide: NbAuthService,
+          provide: AuthService,
           useFactory: nbAuthServiceFactory,
           deps: [NB_AUTH_OPTIONS_TOKEN, NbTokenService, Injector],
         },

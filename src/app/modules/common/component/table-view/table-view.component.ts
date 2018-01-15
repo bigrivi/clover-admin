@@ -4,8 +4,8 @@ import { Location } from '@angular/common';
 import { Router, NavigationEnd,ActivatedRoute } from '@angular/router';
 import { DialogService } from "../dialog/dialog.service"
 import * as _ from 'lodash';
+import {NzNotificationService,NzMessageService} from 'ng-zorro-antd';
 import {Subscription} from 'rxjs'
-import { ToasterService, ToasterConfig, Toast, BodyOutputType } from 'angular2-toaster';
 import {AppService} from '../../services/app.service'
 import {formatDate} from '../../utils/date.utils'
 import {parseRouteMap} from '../../utils/route.utils'
@@ -23,11 +23,11 @@ export class TableViewComponent implements OnInit {
 
   constructor(
    public injector: Injector,
-   public toasterService: ToasterService,
    public renderer: Renderer2,
    public el: ElementRef,
    public location: Location,
    public http: Http,
+   public messageService: NzMessageService,
    public router: Router,
    public activeRouter: ActivatedRoute,
    public appService:AppService,
@@ -46,7 +46,6 @@ export class TableViewComponent implements OnInit {
   @Input()
   set config(val) {
     this._config = _.cloneDeep(val);
-    console.log(val)
     let apiName = `${this._config.app}.${this._config.module}DataApi`;
     this.resource = this.injector.get(apiName).resource
     this._config.listHide = this._config.listHide || [];
@@ -448,7 +447,7 @@ export class TableViewComponent implements OnInit {
             }
           })
         })
-        this.toasterService.pop('success', '删除成功');
+        this.messageService.success('删除成功');
       }, (reason) => {
         console.log(reason)
       })
@@ -459,7 +458,7 @@ export class TableViewComponent implements OnInit {
   delete(id) {
     this.dialogService.confirm("确认删除吗?").then((res) => {
       this.resource.delete(id).subscribe((res) => {
-        this.toasterService.pop('success', '删除成功');
+        this.messageService.success('删除成功');
         this.refresh()
       })
     }, (reason) => {

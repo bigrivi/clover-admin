@@ -2,7 +2,7 @@ import { ExtraOptions, RouterModule, Routes } from '@angular/router';
 import { NgModule } from '@angular/core';
 
 import {
-  NbAuthComponent,
+  AuthComponent,
   NbLoginComponent,
   NbLogoutComponent,
   NbRegisterComponent,
@@ -14,7 +14,7 @@ const routes: Routes = [
   { path: 'apps',loadChildren: 'app/modules/system/system.module#SystemModule' },
   {
     path: 'auth',
-    component: NbAuthComponent,
+    component: AuthComponent,
     children: [
       {
         path: '',

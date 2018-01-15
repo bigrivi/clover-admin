@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 
-import { NbAuthService, NbAuthResult } from '../../services/auth.service';
+import { AuthService, NbAuthResult } from '../../services/auth.service';
 
 @Component({
   selector: 'nb-logout',
@@ -13,7 +13,7 @@ export class NbLogoutComponent implements OnInit {
 
   redirectDelay: number = 1500;
 
-  constructor(protected service: NbAuthService,
+  constructor(protected service: AuthService,
               protected router: Router) {
   }
 

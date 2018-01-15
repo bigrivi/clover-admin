@@ -4,7 +4,7 @@ import 'rxjs/Rx';
 import { Observable } from 'rxjs/Observable';
 import {API_ROOT} from "../../config"
 import {PubSubService} from "./pubsub.service"
-import {NbAuthService} from '../../modules/auth/services/auth.service'
+import {AuthService} from '../../modules/auth/services/auth.service'
 import {NbAuthSimpleToken,NbTokenService} from '../../modules/auth/services/token.service'
 
 
@@ -12,7 +12,7 @@ import {NbAuthSimpleToken,NbTokenService} from '../../modules/auth/services/toke
 @Injectable()
 export class HttpService{
     token:NbAuthSimpleToken;
-	constructor(public http:Http,public pubsub:PubSubService,public authService:NbAuthService,public tokenService:NbTokenService) {
+	constructor(public http:Http,public pubsub:PubSubService,public authService:AuthService,public tokenService:NbTokenService) {
 		tokenService.tokenChange().subscribe((token)=>{
             console.log("token change")
             console.log(token)
@@ -105,7 +105,7 @@ export class HttpService{
                 'accesstoken': this.token.getValue()
             });
         }
-        
+
         return options;
     }
 
@@ -186,7 +186,7 @@ export class HttpService{
        // return encodedString.replace(/%20/g, '+');
     }
 
-	
+
 }
 
 
@@ -195,7 +195,7 @@ export class HttpService{
 export class ResourceService extends HttpService{
     token:NbAuthSimpleToken;
     _resourceApi = ""
-    constructor(resource: string,public http:Http,public pubsub:PubSubService,public authService:NbAuthService,public tokenService:NbTokenService) {
+    constructor(resource: string,public http:Http,public pubsub:PubSubService,public authService:AuthService,public tokenService:NbTokenService) {
         super(http,pubsub,authService,tokenService)
         this._resourceApi = resource;
     }
@@ -206,7 +206,7 @@ export class ResourceService extends HttpService{
     }
 
 
-   
+
 
     /**
      * Get请求
@@ -266,6 +266,6 @@ export class ResourceService extends HttpService{
        return super.delete(this._resourceApi+"/"+id,options)
     }
 
-    
+
 }
 

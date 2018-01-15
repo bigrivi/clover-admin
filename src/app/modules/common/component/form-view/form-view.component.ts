@@ -3,13 +3,13 @@ import { Routes, RouterModule,ActivatedRoute } from '@angular/router';
 import { Http } from '@angular/http';
 import { FormGroup, FormBuilder,Validators,AbstractControl } from '@angular/forms';
 import {Observable} from 'rxjs'
-import { ToasterService, ToasterConfig, Toast, BodyOutputType } from 'angular2-toaster';
 import {AppService} from '../../services/app.service'
 import {ChosenOption, ChosenOptionGroup} from "../chosen/chosen-commons";
 import { Router, NavigationEnd } from '@angular/router';
 import * as _ from 'lodash';
 import {formatDate} from '../../utils/date.utils'
 import {parseRouteMap} from '../../utils/route.utils'
+import {NzNotificationService,NzMessageService} from 'ng-zorro-antd';
 
 
 @Component({
@@ -79,9 +79,9 @@ export class FormViewComponent {
     private http:Http,
     public route: ActivatedRoute,
     public router: Router,
+    public messageService: NzMessageService,
     public injector: Injector,
-    public activeRouter: ActivatedRoute,
-    public toasterService: ToasterService) {
+    public activeRouter: ActivatedRoute) {
     this._params["id"] = this.route.snapshot.params["id"]
 
   }
@@ -123,7 +123,7 @@ export class FormViewComponent {
       control.markAsDirty()
     })
     if(!this.form.valid){
-      this.toasterService.pop('error', '请正确填写数据');
+      this.messageService.error('请正确填写数据');
       return false
     }
     return true;

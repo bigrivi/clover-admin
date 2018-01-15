@@ -3,7 +3,7 @@ import { HttpEvent, HttpHandler, HttpInterceptor, HttpRequest } from '@angular/c
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/operator/switchMap';
 
-import { NbAuthService } from '../auth.service';
+import { AuthService } from '../auth.service';
 import { NbAuthJWTToken } from '../token.service';
 
 @Injectable()
@@ -28,7 +28,7 @@ export class NbAuthJWTInterceptor implements HttpInterceptor {
       });
   }
 
-  protected get authService(): NbAuthService {
-    return this.injector.get(NbAuthService);
+  protected get authService(): AuthService {
+    return this.injector.get(AuthService);
   }
 }

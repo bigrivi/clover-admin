@@ -2,12 +2,12 @@
 import { Injectable } from '@angular/core';
 import {Subject,Observable} from 'rxjs'
 import { CanActivate, Router, ActivatedRouteSnapshot, RouterStateSnapshot } from '@angular/router';
-import { ToasterService, ToasterConfig, Toast, BodyOutputType } from 'angular2-toaster';
-import {NbAuthService} from "../../auth/services/auth.service"
+import {NzNotificationService,NzMessageService} from 'ng-zorro-antd';
+import {AuthService} from "../../auth/services/auth.service"
 @Injectable()
 export class AuthGuardService implements CanActivate {
 
-  constructor(private router: Router,private toasterService:ToasterService,private authService:NbAuthService) { }
+  constructor(private router: Router,private messageService:NzMessageService,private authService:AuthService) { }
 
   canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<boolean>|boolean {
     // if (sessionStorage.getItem('use_id') !== null) {
@@ -17,7 +17,7 @@ export class AuthGuardService implements CanActivate {
     return Observable.create((observer)=>{
         this.authService.isAuthenticated().subscribe((res)=>{
           if(!res){
-            this.toasterService.pop('error', '请先登录');
+            this.messageService.error('请先登录');
             this.router.navigate(['/auth/login']);
           }
           observer.next(res);

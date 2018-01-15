@@ -6,7 +6,6 @@ import { Http, Request,URLSearchParams, RequestOptionsArgs, Response, RequestOpt
 import {AppService} from '../../../common/services/app.service'
 import {parseRouteMap} from '../../../common/utils/route.utils'
 import {FormViewComponent} from '../../../common/component/form-view/form-view.component'
-import { ToasterService, ToasterConfig, Toast, BodyOutputType } from 'angular2-toaster';
 import {Subscription} from 'rxjs'
 import * as _ from 'lodash';
 import {API_ROOT} from "../../../../config"
@@ -33,14 +32,13 @@ export class ExportViewComponent implements OnInit {
 
   constructor(public route: ActivatedRoute,
     public appService:AppService,
-    public toasterService:ToasterService,
     public injector:Injector,
     public router: Router) {
       let routeMap = parseRouteMap(this.router.url)
       this.module = routeMap["module"];
       this.app = routeMap["app"];
       let apiName = `${this.app}.${this.module}DataApi`;
-      this.config = this.injector.get(apiName).config 
+      this.config = this.injector.get(apiName).config
       let fieldKeys = Object.keys(this.config["fields"]);
       let fields = []
       fields = fieldKeys.map((item) => {
@@ -115,13 +113,13 @@ export class ExportViewComponent implements OnInit {
       populates:populates.join(","),
       format:format
     }
-     
+
     let apiName = `${this.config.app}.${this.config.module}DataApi`;
-    let resource = this.injector.get(apiName).resource 
+    let resource = this.injector.get(apiName).resource
     var url = API_ROOT+resource.resourceApi+"/export?"+resource.formEncode(formData);
 
     var anchorElement = document.createElement('a');
-    anchorElement.href = url; 
+    anchorElement.href = url;
     anchorElement.target="_parent"
     document.body.appendChild(anchorElement);
     anchorElement.click();

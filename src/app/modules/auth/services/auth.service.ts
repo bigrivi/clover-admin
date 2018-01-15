@@ -71,7 +71,7 @@ export class NbAuthResult {
 }
 
 @Injectable()
-export class NbAuthService {
+export class AuthService {
 
   constructor(protected tokenService: NbTokenService,
               protected injector: Injector,

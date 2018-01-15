@@ -5,7 +5,6 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NgModule,APP_INITIALIZER } from '@angular/core';
 import { HttpModule } from '@angular/http';
 import { CoreModule } from './@core/core.module';
-import {ToasterModule, ToasterService} from 'angular2-toaster';
 
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
@@ -21,7 +20,6 @@ export function StartupServiceFactory(startupService: StartupService): Function 
   declarations: [AppComponent],
   imports: [
     BrowserModule,
-    ToasterModule,
     BrowserAnimationsModule,
     HttpModule,
     AppRoutingModule,

@@ -1,6 +1,6 @@
 import { Routes } from '@angular/router';
 
-import { NbAuthComponent } from './components/auth.component';
+import { AuthComponent } from './components/auth.component';
 import { NbLoginComponent } from './components/login/login.component';
 import { NbRegisterComponent } from './components/register/register.component';
 import { NbLogoutComponent } from './components/logout/logout.component';
@@ -10,7 +10,7 @@ import { NbResetPasswordComponent } from './components/reset-password/reset-pass
 export const routes: Routes = [
   {
     path: '',
-    component: NbAuthComponent,
+    component: AuthComponent,
     children: [
       {
         path: '',

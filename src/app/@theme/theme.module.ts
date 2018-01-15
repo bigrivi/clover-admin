@@ -121,28 +121,7 @@ const ZORROMODULES = [
     NzAvatarModule
 ];
 
-// import {
-//   NbActionsModule,
-//   NbCardModule,
-//   NbLayoutModule,
-//   NbMenuModule,
-//   NbRouteTabsetModule,
-//   NbSearchModule,
-//   NbSidebarModule,
-//   NbTabsetModule,
-//   NbThemeModule,
-//   NbUserModule,
-//   NbCheckboxModule,
-// } from '@nebular/theme';
 
-import {
-  Footer1Component,
-  Header1Component,
-  SearchInputComponent,
-  ThemeSettingsComponent,
-  ThemeSwitcherComponent,
-  TinyMCEComponent,
-} from './components';
 import { CapitalizePipe, PluralPipe, RoundPipe, TimingPipe,TranslatePipe } from './pipes';
 import {
   BaseLayoutComponent,LayoutComponent,LayoutMainComponent
@@ -151,21 +130,6 @@ import { DEFAULT_THEME } from './styles/theme.default';
 import { COSMIC_THEME } from './styles/theme.cosmic';
 
 const BASE_MODULES = [CommonModule, FormsModule, ReactiveFormsModule,RouterModule];
-
-// const NB_MODULES = [
-//   NbCardModule,
-//   NbLayoutModule,
-//   NbTabsetModule,
-//   NbRouteTabsetModule,
-//   NbMenuModule,
-//   NbUserModule,
-//   NbActionsModule,
-//   NbSearchModule,
-//   NbSidebarModule,
-//   NbCheckboxModule,
-//   NgbModule,
-// ];
-
 
 const HEADERCOMPONENTS = [
     HeaderModuleComponent,
@@ -183,11 +147,7 @@ const PRO = [
 
 
 const COMPONENTS = [
-  ThemeSwitcherComponent,
   ProHeaderComponent,
-  SearchInputComponent,
-  ThemeSettingsComponent,
-  TinyMCEComponent,
   LayoutComponent,
   LayoutMainComponent,
   HeaderComponent,
