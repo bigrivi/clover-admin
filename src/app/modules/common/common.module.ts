@@ -2,7 +2,6 @@ import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { ReactiveFormsModule } from '@angular/forms';
 import { HttpModule, Http, XHRBackend, RequestOptions } from '@angular/http';
-import {DpDatePickerModule} from 'ng2-date-picker';
 import {ToasterModule, ToasterService} from 'angular2-toaster';
 import { TreeModule } from 'angular-tree-component';
 import { NgZorroAntdExtraModule } from 'ng-zorro-antd-extra';
@@ -66,7 +65,6 @@ const HELPERS = [ ModalHelper ];
     TreeModule,
     ReactiveFormsModule,
     ChosenModule,
-    DpDatePickerModule,
     AngularWebStorageModule,
     NgZorroAntdExtraModule.forRoot()
   ],

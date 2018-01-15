@@ -2,109 +2,82 @@ import { Component, Inject } from '@angular/core';
 import { Router } from '@angular/router';
 import { NB_AUTH_OPTIONS_TOKEN } from '../../auth.options';
 import { getDeepFromObject } from '../../helpers';
-
+import { FormBuilder,FormGroup,Validators } from '@angular/forms';
 import { NbAuthResult, NbAuthService } from '../../services/auth.service';
 
 @Component({
   selector: 'nb-login',
+  styleUrls: ['./login.component.less'],
   template: `
     <nb-auth-block>
-      <h2 class="title">登录</h2>
-      <small class="form-text sub-title"></small>
-
-      <form (ngSubmit)="login()" #form="ngForm" autocomplete="nope">
-
-        <div *ngIf="showMessages.error && errors && errors.length > 0 && !submitted"
-             class="alert alert-danger" role="alert">
-          <div *ngFor="let error of errors">{{ error }}</div>
-        </div>
-
-        <div *ngIf="showMessages.success && messages && messages.length > 0 && !submitted"
-             class="alert alert-success" role="alert">
-          <div *ngFor="let message of messages">{{ message }}</div>
-        </div>
-
-        <div class="form-group">
-          <label for="input-email" class="sr-only">用户名</label>
-          <input name="username" [(ngModel)]="user.username" id="input-username"
-                 class="form-control" placeholder="用户名" #username="ngModel"
-                 [class.form-control-danger]="username.invalid && username.touched" autofocus
-                 [required]="getConfigValue('forms.validation.username.required')"
-                 [maxlength]="getConfigValue('forms.validation.username.maxLength')"
-                 [minlength]="getConfigValue('forms.validation.username.minLength')">
-          <small class="form-text error" *ngIf="username.invalid && username.touched && username.errors?.required">
-            用户名不可为空
-          </small>
-           <small
-            class="form-text error"
-            *ngIf="username.invalid && username.touched && (username.errors?.minlength || username.errors?.maxlength)">
-            用户名最少包括
-             {{ getConfigValue('forms.validation.username.minLength') }}
-            到 {{ getConfigValue('forms.validation.username.maxLength') }}
-            个字符
-          </small>
-        </div>
-
-        <div class="form-group">
-          <label for="input-password" class="sr-only">Password</label>
-          <input name="password" [(ngModel)]="user.password" type="password" id="input-password"
-                 class="form-control" placeholder="密码" #password="ngModel"
-                 [class.form-control-danger]="password.invalid && password.touched"
-                 [required]="getConfigValue('forms.validation.password.required')"
-                 [minlength]="getConfigValue('forms.validation.password.minLength')"
-                 [maxlength]="getConfigValue('forms.validation.password.maxLength')">
-          <small class="form-text error" *ngIf="password.invalid && password.touched && password.errors?.required">
-            密码不可为空
-          </small>
-          <small
-            class="form-text error"
-            *ngIf="password.invalid && password.touched && (password.errors?.minlength || password.errors?.maxlength)">
-            密码最少包括
-             {{ getConfigValue('forms.validation.password.minLength') }}
-            到 {{ getConfigValue('forms.validation.password.maxLength') }}
-            个字符
-          </small>
-        </div>
-
-        <div class="form-group accept-group col-sm-12">
-          <nb-checkbox name="rememberMe" [(ngModel)]="user.rememberMe">Remember me</nb-checkbox>
-          <a class="forgot-password" routerLink="../request-password"></a>
-        </div>
-
-        <button [disabled]="submitted || !form.valid" class="btn btn-block btn-hero-success"
-                [class.btn-pulse]="submitted">
-          Sign In
-        </button>
-      </form>
-
-     
+     <form nz-form [formGroup]="validateForm" class="login-form" (ngSubmit)="_submitForm()">
+    <div nz-form-item>
+      <div nz-form-control [nzValidateStatus]="validateForm.controls.username">
+        <nz-input formControlName="username" [nzPlaceHolder]="'账号'" [nzSize]="'large'">
+          <ng-template #prefix>
+            <i class="anticon anticon-user"></i>
+          </ng-template>
+        </nz-input>
+        <div nz-form-explain *ngIf="validateForm.controls.username.dirty&&validateForm.controls.username.hasError('required')">请输入账号</div>
+      </div>
+    </div>
+    <div nz-form-item>
+      <div nz-form-control [nzValidateStatus]="validateForm.controls.password">
+        <nz-input formControlName="password" [nzType]="'password'" [nzPlaceHolder]="'密码'" [nzSize]="'large'">
+          <ng-template #prefix>
+            <i class="anticon anticon-lock"></i>
+          </ng-template>
+        </nz-input>
+        <div nz-form-explain *ngIf="validateForm.controls.password.dirty&&validateForm.controls.password.hasError('required')">请输入密码</div>
+      </div>
+    </div>
+    <div nz-form-item>
+      <div nz-form-control>
+        <label nz-checkbox formControlName="remember">
+          <span>记住密码</span>
+        </label>
+        <button [disabled]="submitted || !validateForm.valid" nz-button class="login-form-button" [nzType]="'primary'" [nzSize]="'large'">登录</button>
+      </div>
+    </div>
+  </form>
     </nb-auth-block>
   `,
 })
 export class NbLoginComponent {
 
-  redirectDelay: number = 0;
+ validateForm: FormGroup;
+ redirectDelay: number = 0;
   showMessages: any = {};
   provider: string = '';
 
   errors: string[] = [];
   messages: string[] = [];
-  user: any = {};
   submitted: boolean = false;
 
-  constructor(protected service: NbAuthService,
+  constructor(
+    private fb: FormBuilder,
+    protected service: NbAuthService,
               @Inject(NB_AUTH_OPTIONS_TOKEN) protected config = {},
-              protected router: Router) {
-
-    this.redirectDelay = this.getConfigValue('forms.login.redirectDelay');
-    this.showMessages = this.getConfigValue('forms.login.showMessages');
-    this.provider = this.getConfigValue('forms.login.provider');
+              protected router: Router
+  ) {
+     this.redirectDelay = this.getConfigValue('forms.login.redirectDelay');
+     this.showMessages = this.getConfigValue('forms.login.showMessages');
+     this.provider = this.getConfigValue('forms.login.provider');
   }
 
-  login(): void {
-    this.errors = this.messages = [];
+  ngOnInit() {
+    this.validateForm = this.fb.group({
+      username: [ null, [ Validators.required ] ],
+      password: [ null, [ Validators.required ] ],
+      remember: [ true ],
+    });
+  }
+
+
+  _submitForm() {
+     this.errors = this.messages = [];
     this.submitted = true;
-    this.service.authenticate(this.provider, this.user).subscribe((result: NbAuthResult) => {
+    this.service.authenticate(this.provider, this.validateForm.value).subscribe((result: NbAuthResult) => {
       this.submitted = false;
       console.log(result)
       if (result.isSuccess()) {
@@ -121,9 +94,10 @@ export class NbLoginComponent {
         }, this.redirectDelay);
       }
     });
+
   }
 
-  getConfigValue(key: string): any {
+   getConfigValue(key: string): any {
     return getDeepFromObject(this.config, key, null);
   }
 }

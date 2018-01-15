@@ -14,13 +14,10 @@ const FORM_CHECKBOX_VALUE_ACCESSOR: any = {
   selector: 'form-checkbox',
   providers: [FORM_CHECKBOX_VALUE_ACCESSOR],
   template: `
-    <div class="demo-checkboxes">
-         <label class="custom-control custom-checkbox" *ngFor="let item of _config.dataSource;let i=index">
-              <input type="checkbox" [checked]="_checklist[i]" (change)="selected($event,i)" [value]="item.value" class="custom-control-input">
-              <span class="custom-control-indicator"></span>
-              <span class="custom-control-description">{{item.label}}</span>
-          </label>
-    </div>
+  <label nz-checkbox *ngFor="let item of _config.dataSource;let i=index" [(ngModel)]="_checklist[i]" (ngModelChange)="selected($event,i)">
+      <span>{{item.label}}</span>
+    </label>
+
   `
 })
 export class CheckboxComponent implements ControlValueAccessor {
@@ -37,12 +34,12 @@ export class CheckboxComponent implements ControlValueAccessor {
        for(var i=0;i<this._config.dataSource.length;i++){
            this._checklist[i] = false;
        }
-      
+
      }
      @Input() group;
 
      selected(event,index){
-      this._checklist[index] = event.target.checked;
+      this._checklist[index] = event;
       let values = _.filter(this._config.dataSource,(item,index)=>{
           return this._checklist[index]
       })

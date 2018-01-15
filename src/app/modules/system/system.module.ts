@@ -66,25 +66,29 @@ _.each(appConfig,(modules,appName)=>{
 
 
 const routes: Routes = [
-{ path: 'account',component: SystemComponent, loadChildren: 'app/modules/system/apps/account/account.module#AccountModule' },
 {
-  path: ':app',
-  component: SystemComponent,
-  canActivate: [ AuthGuardService ],
-  children: [
-  {
-    path: ':module/add',
-    component: EditViewComponent,
-  }, {
-    path: ':module/export',
-    component: ExportViewComponent,
-  }, {
-    path: ':module/:id/edit',
-    component: EditViewComponent,
-  },{
-    path: ':module',
-    component: ListViewComponent,
-  }],
+  path:"",component:SystemComponent,
+  children:[
+    { path: 'account', loadChildren: 'app/modules/system/apps/account/account.module#AccountModule' },
+    {
+      path: ':app',
+      canActivate: [ AuthGuardService ],
+      children: [
+      {
+        path: ':module/add',
+        component: EditViewComponent,
+      }, {
+        path: ':module/export',
+        component: ExportViewComponent,
+      }, {
+        path: ':module/:id/edit',
+        component: EditViewComponent,
+      },{
+        path: ':module',
+        component: ListViewComponent,
+      }],
+    }
+  ]
 }
 ];
 

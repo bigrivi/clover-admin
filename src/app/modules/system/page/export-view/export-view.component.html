@@ -13,10 +13,10 @@
                 <div class='control-group'>
                   <label class='control-label' data-original-title='Click to reverse selection' (click)='fanxuan()' rel='tooltip'>字段列表</label>
                    <div class='controls'>
-                      <label class='checkbox' *ngFor="let fieldItem of fields" [for]='fieldItem.field'>
-                       <input [(ngModel)]="fieldItem.checked" [id]="fieldItem.field" name="schema[only][]" type="checkbox" [value]="fieldItem.field" />
-                        {{fieldItem.label}}
-                      </label>
+                     <label nz-checkbox *ngFor="let fieldItem of fields" [(ngModel)]="fieldItem.checked">
+                      <span>{{fieldItem.label}}</span>
+                    </label>
+
 
                     </div>
                 </div>
@@ -118,10 +118,19 @@
               </div>
 
           </fieldset>
-             <button nz-button (click)="export('csv')">导出为Csv</button>
-             <button nz-button (click)="export('excel')">导出为Excel</button>
-             <button nz-button (click)="export('json')">导出为Json</button>
-             <button nz-button (click)="export('xml')">导出为Xml</button>
+           <fieldset>
+            <label class='control-label'>
+                </label>
+                <div class='control-group'>
+                 <div class='controls'>
+                  <br>
+             <button nz-button [nzType]="'primary'" (click)="export('csv')">导出为Csv</button>
+             <button nz-button [nzType]="'primary'" (click)="export('excel')">导出为Excel</button>
+             <button nz-button [nzType]="'primary'" (click)="export('json')">导出为Json</button>
+             <button nz-button  [nzType]="'primary'" (click)="export('xml')">导出为Xml</button>
    	       <button nz-button (click)="back()">取消</button>
+           </div>
+           </div>
+            </fieldset>
            </ng-template>
 </nz-card>

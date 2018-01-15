@@ -25,20 +25,26 @@ import * as _ from 'lodash';
               </legend>
               <div class='control-groups' *ngIf="app.expand">
                 <div class='control-group'>
-                  <label class='control-label' data-original-title='Click to reverse selection' rel='tooltip'>
-                  <input [id]="app.app" [(ngModel)]="app.checkedAll" (ngModelChange)="fanxuan(i)" type='checkbox'>&nbsp;授权节点</label>
+                   <label class='control-label' nz-checkbox [(ngModel)]="app.checkedAll" (ngModelChange)="fanxuan(i)"><span>&nbsp;授权节点</span></label>
                    <div class='controls'>
-                      <label class='checkbox' *ngFor="let fieldItem of app.items" [for]='fieldItem.node'>
-                       <input [(ngModel)]="nodes_model[fieldItem.node]" [id]="fieldItem.node" name="schema[only][]" type="checkbox" [value]="fieldItem.field" />
-                        {{fieldItem.label}}
+                      <label nz-checkbox *ngFor="let fieldItem of app.items" [(ngModel)]="nodes_model[fieldItem.node]">
+                        <span>{{fieldItem.label}}</span>
                       </label>
-
                     </div>
                 </div>
               </div>
           </fieldset>
-           <button type="submit" (click)="save()" class="btn btn-danger">授权</button>
-          <button type="button" (click)="back()" class="btn">取消</button>
+          <fieldset>
+            <label class='control-label'>
+                </label>
+                <div class='control-group'>
+                 <div class='controls'>
+                  <br>
+             <button nz-button [nzType]="'primary'" (click)="save()">保存</button>
+            <button nz-button (click)="back()">取消</button>
+           </div>
+           </div>
+            </fieldset>
       </ng-template>
 </nz-card>
 
