@@ -124,10 +124,8 @@ const ZORROMODULES = [
 
 import { CapitalizePipe, PluralPipe, RoundPipe, TimingPipe,TranslatePipe } from './pipes';
 import {
-  BaseLayoutComponent,LayoutComponent,LayoutMainComponent
+  LayoutComponent,LayoutMainComponent
 } from './layouts';
-import { DEFAULT_THEME } from './styles/theme.default';
-import { COSMIC_THEME } from './styles/theme.cosmic';
 
 const BASE_MODULES = [CommonModule, FormsModule, ReactiveFormsModule,RouterModule];
 

@@ -462,6 +462,7 @@ export class TableViewComponent implements OnInit {
         this.refresh()
       })
     }, (reason) => {
+
     })
 
   }
