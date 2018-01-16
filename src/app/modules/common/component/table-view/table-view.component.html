@@ -31,7 +31,7 @@
                 <div *ngIf="column.titleabled"[attr.title]="row[column.field]">{{row[column.field]}}</div>
                 <div *ngIf="!column.titleabled">
                   <ng-container *ngIf="column.field!='selectedId'">
-                      {{row[column.field]}}
+                     {{row[column.field]}}
                   </ng-container>
                    <ng-container *ngIf="column.field=='selectedId'">
                     <label nz-checkbox [(ngModel)]="row.selected" (ngModelChange)="onSelectedSingleChange($event)">

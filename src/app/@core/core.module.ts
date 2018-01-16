@@ -29,7 +29,7 @@ const CORE_PROVIDERS = [
         service: CloverAuthProvider,
         config: {
           delay: 0,
-          redirect:"/apps/product/product",
+          redirect:"/apps/research/home",
           login: {
             rememberMe: true,
           },

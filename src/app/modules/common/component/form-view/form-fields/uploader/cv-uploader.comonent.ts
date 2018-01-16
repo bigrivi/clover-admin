@@ -20,10 +20,11 @@ const FORM_UPLOAD_VALUE_ACCESSOR: any = {
 
 @Component({
   selector: 'file-uploader',
+  styleUrls: ['./file-uploader.less'],
   providers: [FORM_UPLOAD_VALUE_ACCESSOR],
   template: `
   <input  type="file" (change)="fileChangeHandler($event)"  class="form-control">
-  <table width="100%" border="1" class="uploader-table">
+  <table width="100%" border="0" class="uploader-table">
   <tr>
     <th style="text-align:center">文件名</th>
     <th style="text-align:center">大小</th>
@@ -58,7 +59,7 @@ export class FileUploaderComponent implements ControlValueAccessor {
   remove(index){
     var fileObject = this.fileObjects[index]
 
-    let resource = this.injector.get("uploader.attachmentDataApi").resource 
+    let resource = this.injector.get("uploader.attachmentDataApi").resource
 
     if(fileObject.id){
        resource.delete(fileObject.id).subscribe(()=>{})
@@ -70,7 +71,7 @@ export class FileUploaderComponent implements ControlValueAccessor {
   writeValue(value: any) {
     if(value){
       let valueArr = value.split(",")
-       let resource = this.injector.get("uploader.attachmentDataApi").resource 
+       let resource = this.injector.get("uploader.attachmentDataApi").resource
       if(valueArr.length>0){
         this.fileObjects = [];
         valueArr.forEach((attachemtId)=>{
@@ -82,7 +83,7 @@ export class FileUploaderComponent implements ControlValueAccessor {
         })
       }
     }
-    
+
   }
 
   registerOnChange(fn: any) {

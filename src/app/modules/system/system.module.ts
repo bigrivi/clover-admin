@@ -23,6 +23,8 @@ import {UserInfoConfig,DepartmentConfig,UserRoleConfig,AuthNodeConfig,AuthorizeC
 import {AttachmentConfig} from './apps/uploader/config'
 import {NavConfig} from './apps/home/config'
 import {ResearchConfig} from './apps/research/config'
+import {TemplateConfig,EmailConfig,SmsConfig,WinningConfig} from './apps/notification/config'
+
 
 
 let appConfig = {
@@ -46,7 +48,13 @@ let appConfig = {
   },
   research:{
     research:ResearchConfig
-  }
+  },
+  notification:{
+    template:TemplateConfig,
+    email:EmailConfig,
+    sms:SmsConfig,
+    winning:WinningConfig
+  },
 }
 
 // export function createDataApiProvider(http: Http,pubsub:PubSubService,authService:NbAuthService,tokenService:NbTokenService) {
@@ -76,6 +84,7 @@ const routes: Routes = [
   children:[
     { path: 'account', loadChildren: 'app/modules/system/apps/account/account.module#AccountModule' },
     { path: 'research', loadChildren: 'app/modules/system/apps/research/research.module#ResearchModule' },
+    { path: 'notification', loadChildren: 'app/modules/system/apps/notification/notification.module#NotificationModule' },
     {
       path: ':app',
       canActivate: [ AuthGuardService ],

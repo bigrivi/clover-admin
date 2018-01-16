@@ -1,0 +1,157 @@
+<div nz-row nzGutter="16">
+    <div nz-col nzXs="24" nzSm="12" nzMd="6" class="mb-md">
+        <div nz-row nzType="flex" nzAlign="middle" class="bg-success rounded-md">
+            <div nz-col nzSpan="12" class="p-md text-white">
+                <div class="h2 mt0">{{ templatedata.emailOK }}</div>
+                <p class="text-nowrap">邮件模板启用</p>
+            </div>
+        </div>
+    </div>
+    <div nz-col nzXs="24" nzSm="12" nzMd="6" class="mb-md">
+        <div nz-row nzType="flex" nzAlign="middle" class="bg-error rounded-md">
+            <div nz-col nzSpan="12" class="p-md text-white">
+                <div class="h2 mt0">{{ templatedata.emailERROR }}</div>
+                <p class="text-nowrap">邮件模板禁用</p>
+            </div>
+        </div>
+    </div>
+    <div nz-col nzXs="24" nzSm="12" nzMd="6" class="mb-md">
+        <div nz-row nzType="flex" nzAlign="middle" class="bg-success rounded-md">
+            <div nz-col nzSpan="12" class="p-md text-white">
+                <div class="h2 mt0">{{ templatedata.smsOK }}</div>
+                <p class="text-nowrap">短信模板启用</p>
+            </div>
+        </div>
+    </div>
+    <div nz-col nzXs="24" nzSm="12" nzMd="6" class="mb-md">
+        <div nz-row nzType="flex" nzAlign="middle" class="bg-error rounded-md">
+            <div nz-col nzSpan="12" class="p-md text-white">
+                <div class="h2 mt0">{{ templatedata.smsERROR }}</div>
+                <p class="text-nowrap">邮件模板禁用</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<nz-card [nzLoading]="loading" [nzBordered]="false" nzNoPadding class="tzhi-card">
+    <ng-template #body>
+        <nz-tabset>
+            <nz-tab>
+                <ng-template #nzTabHeading>邮件</ng-template>
+                <div nz-row>
+                    <div nz-col nzXs="24" nzSm="24" nzMd="12" nzLg="16">
+                        <div class="bar">
+                            <bar height="295" [title]="'邮件发送成功趋势'" [data]="emailchartdata"></bar>
+                        </div>
+                    </div>
+                    <div nz-col nzXs="24" nzSm="24" nzMd="12" nzLg="8">
+                        <div class="rank-list">
+                            <h4 class="rank-title">调研活动邮件排名</h4>
+                            <ul>
+                                <li *ngFor="let i of email.listdata; let idx = index">
+                                    <div>
+                                        <span class="icon" [ngClass]="{'active': idx < 3}">{{idx+1}}</span>
+                                        {{i.title}}
+                                    </div>
+                                    <span>{{i.total}}</span>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </nz-tab>
+            <nz-tab>
+                <ng-template #nzTabHeading>短信</ng-template>
+                <div nz-row>
+                    <div nz-col nzXs="24" nzSm="24" nzMd="12" nzLg="16">
+                        <div class="bar">
+                            <bar height="295" [title]="'短信发送成功趋势'" [data]="smschartdata"></bar>
+                        </div>
+                    </div>
+                    <div nz-col nzXs="24" nzSm="24" nzMd="12" nzLg="8">
+                        <div class="rank-list">
+                            <h4 class="rank-title">调研活动短信排名</h4>
+                            <ul>
+                                <li *ngFor="let i of sms.listdata; let idx = index">
+                                    <div>
+                                        <span class="icon" [ngClass]="{'active': idx < 3}">{{idx+1}}</span>
+                                        {{i.title}}
+                                    </div>
+                                    <span>{{i.total}}</span>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </nz-tab>
+        </nz-tabset>
+    </ng-template>
+</nz-card>
+
+<div nz-row [nzGutter]="24">
+    <div nz-col nzXs="24" nzSm="24" nzMd="24" nzLg="12">
+        <nz-card [nzLoading]="loading" [nzBordered]="false" nzTitle="邮件发送占比" [nzBodyStyle]="{'padding.px': 24}" class="tzhi-card" style="min-height: 400px;">
+            <ng-template #body>
+                <pie [hasLegend]="true" subTitle="邮件" [height]="248" [lineWidth]="4" [total]="emailstatustotal" [data]="email.status">
+                </pie>
+            </ng-template>
+        </nz-card>
+    </div>
+    <div nz-col nzXs="24" nzSm="24" nzMd="24" nzLg="12">
+        <nz-card [nzLoading]="loading" [nzBordered]="false" nzTitle="短信发送占比" [nzBodyStyle]="{'padding.px': 24}" class="tzhi-card" style="min-height: 400px;">
+            <ng-template #body>
+                <pie [hasLegend]="true" subTitle="短信" [height]="248" [lineWidth]="4" [total]="smsstatustotal" [data]="sms.status">
+                </pie>
+            </ng-template>
+        </nz-card>
+    </div>
+</div>
+
+<div nz-row [nzGutter]="24">
+    <div nz-col nzXs="24" nzSm="24">
+        <nz-card [nzLoading]="loading" [nzBordered]="false" nzTitle="调研活动中奖信息" [nzBodyStyle]="{'padding': '0 0 32px'}">
+            <ng-template #body>
+                <nz-tabset [(nzSelectedIndex)]="_activeTab" (nzSelectChange)="_tabChange($event)">
+                    <nz-tab *ngFor="let tab of winning.chartdata; let i = index;">
+                        <ng-template #nzTabHeading>
+                            <div nz-row [nzGutter]="8" style="width: 138px; margin: 8px 0">
+                                <div nz-col [nzSpan]="12">
+                                    <number-info [title]="tab.name" subTitle="中奖率" gap="2" [total]="(tab.cvr * 100) + '%'" [theme]="i !== _activeTab && 'light'"></number-info>
+                                </div>
+                                <div nz-col [nzSpan]="12" style="padding-top: 36px">
+                                    <pie [animate]="false" [color]="i !== _activeTab && '#BDE4FF'" [inner]="0.55" [tooltip]="false" [margin]="[0, 0, 0, 0]" [percent]="tab.cvr * 100"
+                                        [height]="64">
+                                    </pie>
+                                </div>
+                            </div>
+                        </ng-template>
+                        <div class="px-lg">
+                            <nz-table #keyTable [nzIsPagination]="false" [nzDataSource]="tab.listdata"  nzSize="small">
+                                <thead nz-thead>
+                                    <tr>
+                                        <th nz-th><span>姓名</span></th>
+                                        <th nz-th><span>工号</span></th>
+                                        <th nz-th><span>兑换码</span></th>
+                                        <th nz-th><span>奖品</span></th>
+                                        <th nz-th><span>状态</span></th>
+                                        <th nz-th><span>中奖日期</span></th>
+                                    </tr>
+                                </thead>
+                                <tbody nz-tbody>
+                                    <tr nz-tbody-tr *ngFor="let item of keyTable.data">
+                                        <td nz-td>{{item.empname}}</td>
+                                        <td nz-td>{{item.empcode}}</td>
+                                        <td nz-td>{{item.redeemcode}}</td>
+                                        <td nz-td>{{item.prize}}</td>
+                                        <td nz-td>{{item.status}}</td>
+                                        <td nz-td>{{item.createdate}}</td>
+                                    </tr>
+                                </tbody>
+                            </nz-table>
+                        </div>
+                    </nz-tab>
+                </nz-tabset>
+            </ng-template>
+        </nz-card>
+    </div>
+</div>
