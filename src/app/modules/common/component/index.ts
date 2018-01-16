@@ -1,4 +1,3 @@
-import { NoticeIconComponent, NoticeListComponent } from './notice-icon';
 import { StandardFormRowComponent } from './standard-form-row';
 import { TagSelectComponent } from './tag-select';
 import { ProHeaderComponent } from './pro-header';
@@ -20,11 +19,8 @@ export const shared_entry_components = [
 ];
 
 export const shared_components = [
-    NoticeIconComponent,
-    NoticeListComponent,
     StandardFormRowComponent,
     TagSelectComponent,
-    ProHeaderComponent,
     DescListComponent,
     DescListItemComponent,
     EllipsisComponent,

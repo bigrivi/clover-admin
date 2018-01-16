@@ -36,7 +36,7 @@ import { ThemeModule } from '../../@theme/theme.module';
 import {AppService} from "./services/app.service"
 import {AuthGuardService} from "./services/auth-guard.service"
 
-// import { shared_entry_components, shared_components } from './component/index';
+import { shared_entry_components, shared_components } from './component/index';
 
 import { ImageDirective } from './directive/image.directive';
 import { FixedBtnsDirective } from './directive/fixed-btns.directive';
@@ -86,7 +86,7 @@ const HELPERS = [ ModalHelper ];
     AlertComponent,
     TableViewDailogComponent,
     toUploadFileThumbPipe,
-    ...DIRECTIVES, ...PIPES
+    ...DIRECTIVES, ...PIPES,...shared_components
   ],
   entryComponents: [
     InputFieldComponent,
@@ -102,7 +102,8 @@ const HELPERS = [ ModalHelper ];
     TableViewComponent,
     ConfirmComponent,
     AlertComponent,
-    TableViewDailogComponent
+    TableViewDailogComponent,
+    ...shared_entry_components
 
   ],
   providers: [
@@ -120,6 +121,7 @@ const HELPERS = [ ModalHelper ];
     CountdownModule,
     // 多语言
     // 业务级
+    ...shared_components,
     ...DIRECTIVES,
     ...PIPES
   ],

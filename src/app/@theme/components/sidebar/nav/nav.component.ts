@@ -42,6 +42,7 @@ export class SidebarNavComponent implements OnInit {
                     text: this.translateService.instant(item1.app+"."+item1.alias),
                     icon: item1.icon,
                     hide:false,
+                    link:"",
                     _type:3,
                     children:[]
                 }
@@ -54,12 +55,21 @@ export class SidebarNavComponent implements OnInit {
                        link: '/apps/'+item2.link,
                     })
                 })
+                if(childres.length==0 && item1.link){
+                    menuItem.link = '/apps/'+item1.link
+                    menuItem._type = 1
+                }
                 menuItem.children = childres
                 menus.push(menuItem)
 
             })
              this.menus = menus;
              console.log(menus)
+             if(menus.length>0){
+                 if(menus[0].link && menus[0].link.indexOf("home")>=0){
+                     this.router.navigate([menus[0].link]);
+                 }
+             }
           }
 
       })

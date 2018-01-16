@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { Routes, RouterModule } from '@angular/router';
+import { CountdownModule } from 'ngx-countdown';
 
 
 import { HeaderComponent } from './components/header/header.component';
@@ -16,6 +17,8 @@ import { HeaderIconComponent } from './components/header/components/icon.compone
 import { HeaderLangsComponent } from './components/header/components/langs.component';
 import { HeaderUserComponent } from './components/header/components/user.component';
 import { ProHeaderComponent } from './components/pro-header/pro-header.component';
+
+import { NoticeIconComponent, NoticeListComponent } from './components/notice-icon';
 
 
 
@@ -70,6 +73,9 @@ import {
     NzNotificationService,
     NzMessageService
 } from 'ng-zorro-antd';
+
+import { NgZorroAntdExtraModule } from 'ng-zorro-antd-extra';
+
 
 
 const ZORROMODULES = [
@@ -153,7 +159,9 @@ const COMPONENTS = [
   SidebarComponent,
   SidebarNavComponent,
   ...HEADERCOMPONENTS,
-  ...PRO
+  ...PRO,
+  NoticeIconComponent,
+  NoticeListComponent
 ];
 
 const PIPES = [
@@ -164,19 +172,9 @@ const PIPES = [
   TranslatePipe
 ];
 
-// const NB_THEME_PROVIDERS = [
-//   ...NbThemeModule.forRoot(
-//     {
-//       name: 'default',
-//     },
-//     [ DEFAULT_THEME, COSMIC_THEME ],
-//   ).providers,
-//   ...NbSidebarModule.forRoot().providers,
-//   ...NbMenuModule.forRoot().providers,
-// ];
 
 @NgModule({
-  imports: [...BASE_MODULES, ...ZORROMODULES],
+  imports: [...BASE_MODULES, ...ZORROMODULES, NgZorroAntdExtraModule.forRoot(),CountdownModule],
   exports: [...BASE_MODULES,...ZORROMODULES, ...COMPONENTS, ...PIPES],
   declarations: [...COMPONENTS, ...PIPES],
 })

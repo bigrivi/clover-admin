@@ -42,6 +42,9 @@
         "../node_modules/tinymce/plugins/table/plugin.min.js",
         "./assets/vendors/echarts.min.js",
         "./assets/vendors/echarts.world.min.js",
+        "../node_modules/g2/index.js",
+        "../libs/g2-plugin-slider.js",
+        "../libs/g2-cloud.js",
         "../node_modules/chart.js/dist/Chart.min.js"
       ],
       "environmentSource": "environments/environment.ts",

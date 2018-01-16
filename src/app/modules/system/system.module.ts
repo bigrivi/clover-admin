@@ -22,6 +22,8 @@ import {ProductConfig,CategoryConfig,TagConfig} from './apps/product/config'
 import {UserInfoConfig,DepartmentConfig,UserRoleConfig,AuthNodeConfig,AuthorizeConfig} from './apps/account/config'
 import {AttachmentConfig} from './apps/uploader/config'
 import {NavConfig} from './apps/home/config'
+import {ResearchConfig} from './apps/research/config'
+
 
 let appConfig = {
   product :{
@@ -41,6 +43,9 @@ let appConfig = {
   },
   uploader:{
     attachment:AttachmentConfig
+  },
+  research:{
+    research:ResearchConfig
   }
 }
 
@@ -70,6 +75,7 @@ const routes: Routes = [
   path:"",component:SystemComponent,
   children:[
     { path: 'account', loadChildren: 'app/modules/system/apps/account/account.module#AccountModule' },
+    { path: 'research', loadChildren: 'app/modules/system/apps/research/research.module#ResearchModule' },
     {
       path: ':app',
       canActivate: [ AuthGuardService ],

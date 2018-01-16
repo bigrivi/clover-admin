@@ -8,7 +8,7 @@ import 'rxjs/add/operator/mergeMap';
 import 'rxjs/add/operator/delay';
 // import { groupBy, concatMap, mergeMap } from 'rxjs/operators';
 import * as moment from 'moment';
-import { NoticeItem } from '../../../../modules/common/component/notice-icon/notice-item';
+import { NoticeItem } from '../../notice-icon/notice-item';
 
 /**
  * 菜单通知
@@ -16,6 +16,13 @@ import { NoticeItem } from '../../../../modules/common/component/notice-icon/not
 @Component({
     selector: 'header-notify',
     template: `
+     <notice-icon
+        [data]="data"
+        [count]="count"
+        [loading]="loading"
+        (select)="select($event)"
+        (clear)="clear($event)"
+        (popupVisibleChange)="loadData($event)"></notice-icon>
     `
 })
 export class HeaderNotifyComponent implements OnInit {
