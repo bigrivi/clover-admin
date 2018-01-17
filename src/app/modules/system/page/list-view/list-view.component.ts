@@ -28,7 +28,7 @@ export class ListViewComponent implements OnInit {
   exportable = true;
 
   @ViewChild(TableViewComponent) tableView:TableViewComponent;
-  constructor( public userService:UserService,public messageService:NzMessageService,,public dialogService:DialogService , public router: Router, public route: ActivatedRoute,public appService:AppService,public injector: Injector, ) {
+  constructor( public userService:UserService,public messageService:NzMessageService,public dialogService:DialogService , public router: Router, public route: ActivatedRoute,public appService:AppService,public injector: Injector, ) {
     // console.log(this.router.url)
     this.routeChangeSub = this.router.events.subscribe((event)=>{
       if (event instanceof NavigationEnd) {
