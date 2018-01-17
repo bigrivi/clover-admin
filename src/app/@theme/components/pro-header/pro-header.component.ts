@@ -1,6 +1,9 @@
 import { Component, Input, ViewEncapsulation, ElementRef, TemplateRef, ContentChild, OnInit, AfterViewInit, OnDestroy } from '@angular/core';
 import { ActivatedRoute, Router, NavigationEnd } from '@angular/router';
 import { Subscription } from 'rxjs';
+import {TranslateService} from '../../../@core/utils/translate.service'
+import {pascalCaseSpace} from '../../../modules/common/utils/common.utils'
+import {parseNodesByUrl} from  '../../../modules/common/utils/route.utils'
 
 @Component({
     selector: 'pro-header',
@@ -52,6 +55,7 @@ export class ProHeaderComponent implements OnInit {
     routeChangeSub: any;
 
     constructor(
+        private translateService:TranslateService,
         private route: Router
     ) {
         this.routeChangeSub = this.route.events.subscribe((event) => {
@@ -63,32 +67,18 @@ export class ProHeaderComponent implements OnInit {
 
     private genBreadcrumb() {
         if (this.breadcrumb || !this.autoBreadcrumb) return;
-        // const menus = this.menuSrv.getPathByUrl(this.route.url);
-        // if (menus.length <= 0) return;
+        let url = this.route.url;
+        let routerArr = parseNodesByUrl(url)
         const paths: any[] = [];
-
-        // //加载模块名称
-        // let model = this.settingsService.layout.model;
-        // switch (model) {
-        //     case "dyan":
-        //         paths.push({ title: "调研管理", link: null });
-        //         break;
-        //     case "wjuan":
-        //         paths.push({ title: "问卷管理", link: null });
-        //         break;
-        //     case "tzhi":
-        //         paths.push({ title: "通知管理", link: null });
-        //         break;
-        //     case "yhu":
-        //         paths.push({ title: "用户管理", link: null });
-        //         break;
-        // }
-        //加载菜单导航
-        // menus.forEach(item => {
-        //     let title;
-        //     // if (item.translate) title = this.translatorSrv.fanyi(item.translate);
-        //     paths.push({ title: title || item.text, link: item.link && [item.link] });
-        // });
+        routerArr.forEach((item,index)=>{
+            if(index==0){
+                //app name
+                paths.push({ title: this.translateService.instant(item+".NAV_NAME"), link: null });
+            }
+            else{
+                paths.push({ title: this.translateService.instant(routerArr[0]+".Modules."+pascalCaseSpace(item)), link: null });
+            }
+        })
         this.paths = paths;
     }
 

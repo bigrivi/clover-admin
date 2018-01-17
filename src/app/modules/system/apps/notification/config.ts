@@ -172,7 +172,7 @@ export const WinningConfig = {
 			get_display:function(item){
 				if(item["diaoyan_status"]==1)
 					return "调研发布成功"
-				else if(item["status"]==2)
+				else if(item["diaoyan_status"]==2)
 					return "调研发布失败"
 				return ""
 			}

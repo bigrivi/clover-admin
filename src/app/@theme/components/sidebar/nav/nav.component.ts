@@ -64,11 +64,11 @@ export class SidebarNavComponent implements OnInit {
 
             })
              this.menus = menus;
-             console.log(menus)
+
              if(menus.length>0){
-                 if(menus[0].link && menus[0].link.indexOf("home")>=0){
-                     this.router.navigate([menus[0].link]);
-                 }
+                 // if(menus[0].link && menus[0].link.indexOf("home")>=0){
+                 //     this.router.navigate([menus[0].link]);
+                 // }
              }
           }
 

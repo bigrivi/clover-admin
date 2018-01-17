@@ -63,6 +63,7 @@ export class LoginComponent {
      this.redirectDelay = this.getConfigValue('forms.login.redirectDelay');
      this.showMessages = this.getConfigValue('forms.login.showMessages');
      this.provider = this.getConfigValue('forms.login.provider');
+     console.log(this.provider)
   }
 
   ngOnInit() {

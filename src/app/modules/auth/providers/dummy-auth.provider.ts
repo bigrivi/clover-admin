@@ -36,6 +36,7 @@ export class NbDummyAuthProvider extends NbAbstractAuthProvider {
       .delay(this.getConfigValue('delay'));
   }
 
+
   logout(data?: any): Observable<NbAuthResult> {
     return Observable.of(this.createLogoutResult(data))
       .delay(this.getConfigValue('delay'));

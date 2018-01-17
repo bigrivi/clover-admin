@@ -75,11 +75,15 @@ export class AuthorizeComponent {
            apps_temp[authNodeItem.app].checkedAll = false;
            apps_temp[authNodeItem.app].app = authNodeItem.app
            var node_info = authNodeItem.node.split('.');
-           var method_label = this.translateService.instant(authNodeItem.app+".METHODS."+node_info[2])
+           var method_label = this.translateService.instant(authNodeItem.app+".METHODS."+node_info[node_info.length-1])
+           var node_label = ""
+           for(var i=1;i<node_info.length-1;i++){
+             node_label+=this.translateService.instant(authNodeItem.app+"."+pascalCaseSpace(node_info[i]))
+           }
            apps_temp[authNodeItem.app].items.push({
              node:authNodeItem.node,
              app:authNodeItem.app,
-             label:method_label+" "+this.translateService.instant(authNodeItem.app+"."+pascalCaseSpace(node_info[1]))
+             label:method_label+" "+node_label
            })
          })
          this.node_apps = []

@@ -18,6 +18,7 @@ import { ColorsService } from './services/colors.service';
 import { MenuService } from './services/menu.service';
 import { _HttpClient } from './services/http.client';
 import { ACLService } from './acl/acl.service';
+import {AuthGuardService} from "./services/auth-guard.service"
 
 
 
@@ -49,7 +50,8 @@ const CORE_PROVIDERS = [
   ColorsService,
   MenuService,
   ACLService,
-  _HttpClient
+  _HttpClient,
+  AuthGuardService
 ];
 
 @NgModule({

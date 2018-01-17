@@ -199,6 +199,7 @@ export class AuthService {
     return this.getProvider(provider).requestPassword(data);
   }
 
+
   /**
    * Tries to reset password with the selected provider
    *

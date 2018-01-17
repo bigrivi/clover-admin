@@ -16,7 +16,7 @@ export interface CloverAuthProviderConfig {
 
 @Injectable()
 export class CloverAuthProvider extends NbAbstractAuthProvider {
-  
+
   constructor(public http:Http,public userSerive:UserService) {
     super()
   }
@@ -40,6 +40,7 @@ export class CloverAuthProvider extends NbAbstractAuthProvider {
           else{
             this.userSerive.setUserInfo(response["userInfo"]).subscribe(()=>{})
              let token = new NbAuthSimpleToken()
+             this.userSerive.setAuthNodes(response["authorizeNodes"])
              token.setValue(response["token"])
              let authResult = new NbAuthResult(true, this.createSuccessResponse(response), this.getConfigValue("redirect"), ['Successfully logged in.'],null,token)
              observer.next(authResult)
@@ -90,6 +91,7 @@ export class CloverAuthProvider extends NbAbstractAuthProvider {
         return encodedString
        // return encodedString.replace(/%20/g, '+');
     }
+
 
 
   protected createDummyResult(data?: any): NbAuthResult {

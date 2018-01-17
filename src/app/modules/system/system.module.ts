@@ -15,7 +15,7 @@ import {PubSubService} from "../../@core/utils/pubsub.service"
 import {AuthService} from '../../modules/auth/services/auth.service'
 import {NbAuthSimpleToken,NbTokenService} from '../../modules/auth/services/token.service'
 
-import {AuthGuardService} from "../common/services/auth-guard.service"
+import {AuthGuardService} from "../../@core/services/auth-guard.service"
 import {CommonModule} from "../common/common.module"
 
 import {ProductConfig,CategoryConfig,TagConfig} from './apps/product/config'
@@ -81,25 +81,30 @@ _.each(appConfig,(modules,appName)=>{
 const routes: Routes = [
 {
   path:"",component:SystemComponent,
+  canActivate: [ AuthGuardService ],
   children:[
-    { path: 'account', loadChildren: 'app/modules/system/apps/account/account.module#AccountModule' },
-    { path: 'research', loadChildren: 'app/modules/system/apps/research/research.module#ResearchModule' },
-    { path: 'notification', loadChildren: 'app/modules/system/apps/notification/notification.module#NotificationModule' },
+    { path: 'account', canActivate: [ AuthGuardService ],loadChildren: 'app/modules/system/apps/account/account.module#AccountModule' },
+    { path: 'research', canActivate: [ AuthGuardService ],loadChildren: 'app/modules/system/apps/research/research.module#ResearchModule' },
+    { path: 'notification',canActivate: [ AuthGuardService ], loadChildren: 'app/modules/system/apps/notification/notification.module#NotificationModule' },
     {
       path: ':app',
       canActivate: [ AuthGuardService ],
       children: [
       {
         path: ':module/add',
+        canActivate: [ AuthGuardService ],
         component: EditViewComponent,
       }, {
         path: ':module/export',
+        canActivate: [ AuthGuardService ],
         component: ExportViewComponent,
       }, {
         path: ':module/:id/edit',
+        canActivate: [ AuthGuardService ],
         component: EditViewComponent,
       },{
         path: ':module',
+        canActivate: [ AuthGuardService ],
         component: ListViewComponent,
       }],
     }

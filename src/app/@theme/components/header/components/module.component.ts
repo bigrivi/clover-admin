@@ -29,13 +29,26 @@ export class HeaderModuleComponent {
         resource.get().map(res=>res.json()).subscribe((res)=>{
              this.menuService.setData(res)
              this.navs = res;
-             this.selectedNav(0)
+            //  let lastNavIndex = localStorage.getItem("lastNavIndex");
+            // if(lastNavIndex){
+            //   this.selectedNav(parseInt(lastNavIndex));
+            // }
         })
       },100)
 
 
       this.menuService.onNavChangeState().subscribe((index)=>{
-         this.activeNavIndex = index;
+        // console.log("navChange:"+index)
+        this.activeNavIndex = index;
+        if(this.navs[index]){
+            let subMenus = this.navs[index]["children"]
+            if(subMenus && subMenus.length>0){
+               if(subMenus[0].link && subMenus[0].link.indexOf("home")>=0){
+                    this.router.navigate(['/apps/'+subMenus[0].link]);
+                }
+            }
+        }
+
       })
 
    }

@@ -296,6 +296,11 @@ export class NbEmailPassAuthProvider extends NbAbstractAuthProvider {
       });
   }
 
+
+  checkNodeIsAuth(node:string): Boolean {
+    return true;
+  }
+
   resetPassword(data: any = {}): Observable<NbAuthResult> {
     const tokenKey = this.getConfigValue('resetPass.resetPasswordTokenKey');
     data[tokenKey] = this.route.snapshot.queryParams[tokenKey];

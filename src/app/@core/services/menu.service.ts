@@ -59,14 +59,14 @@ export interface Menu {
 export class MenuService {
 
     private data: Menu[] = [];
-    protected activeIndexState$ = new BehaviorSubject(0);
+    protected activeIndexState$ = new BehaviorSubject(-1);
 
     constructor(
         private aclService: ACLService,
         private httpClient: HttpClient,
         private settings: SettingsService,
     ) {
-        this.refreshMenuData(null);
+
     }
 
     visit(callback: (item: Menu, parentMenum: Menu, depth?: number) => void) {
@@ -237,9 +237,9 @@ export class MenuService {
 
 
       setCurrNav(index: number) {
+         localStorage.setItem("lastNavIndex",index.toString())
          this.activeIndexState$.next(index);
       }
-
 
        onNavChangeState(): Observable<any> {
         return this.activeIndexState$.asObservable();

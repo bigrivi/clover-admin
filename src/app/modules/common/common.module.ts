@@ -34,7 +34,6 @@ import {DialogService} from './component/dialog/dialog.service';
 import { TableViewComponent } from './component/table-view/table-view.component';
 import { ThemeModule } from '../../@theme/theme.module';
 import {AppService} from "./services/app.service"
-import {AuthGuardService} from "./services/auth-guard.service"
 
 import { shared_entry_components, shared_components } from './component/index';
 
@@ -109,7 +108,6 @@ const HELPERS = [ ModalHelper ];
   providers: [
     AppService,
     DialogService,
-    AuthGuardService
   ],
   exports: [
     FormViewComponent,

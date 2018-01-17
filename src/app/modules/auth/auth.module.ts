@@ -34,7 +34,7 @@ import { deepExtend } from './helpers';
 
 export function nbAuthServiceFactory(config: any, tokenService: NbTokenService, injector: Injector) {
   const providers = config.providers || {};
-
+  console.log("createAuthService")
   for (const key in providers) {
     if (providers.hasOwnProperty(key)) {
       const provider = providers[key];

@@ -14,8 +14,6 @@ export class HttpService{
     token:NbAuthSimpleToken;
 	constructor(public http:Http,public pubsub:PubSubService,public authService:AuthService,public tokenService:NbTokenService) {
 		tokenService.tokenChange().subscribe((token)=>{
-            console.log("token change")
-            console.log(token)
             this.token = token
         })
 	}

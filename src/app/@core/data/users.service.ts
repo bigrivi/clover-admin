@@ -9,6 +9,7 @@ import 'rxjs/add/observable/of';
 @Injectable()
 export class UserService {
   private userArray: any[];
+  private authorizeNodes:any[];
   protected userInfo$: BehaviorSubject<any> = new BehaviorSubject(null);
 
   constructor() {
@@ -16,13 +17,25 @@ export class UserService {
     this.getUserInfo().subscribe(userInfo => this.publishUserInfo(userInfo));
 
   }
- 
+
   setUserInfo(userInfo):Observable<any>{
    localStorage.setItem("userInfo",JSON.stringify(userInfo))
    return Observable.of(null).switchMap(_=>this.getUserInfo())
    .do((userInfo$)=>{
      this.publishUserInfo(userInfo$)
    })
+  }
+
+  setAuthNodes(authorizeNodes){
+   localStorage.setItem("authorizeNodes",JSON.stringify(authorizeNodes))
+   this.authorizeNodes = authorizeNodes;
+  }
+
+  checkNodeIsAuth(node:string){
+    if(!this.authorizeNodes){
+      this.authorizeNodes = JSON.parse(localStorage.getItem("authorizeNodes"))
+    }
+    return this.authorizeNodes.indexOf(node)>=0;
   }
 
   getUserInfo(){

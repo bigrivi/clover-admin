@@ -1,12 +1,12 @@
 <nz-card [nzBordered]="false">
     <ng-template #title>
-            {{config?.name}}
-     &nbsp;&nbsp;
      <button nz-button *ngIf="addable" [nzType]="'primary'" (click)="add()" ><i class="fa fa-plus"></i>&nbsp;{{ 'Add New' | translate}}</button>
      &nbsp;&nbsp;
-     <button  nz-button (click)="export()"><i class="fa fa-share"></i>&nbsp;{{ 'Export' | translate}}</button>
+     <button nz-button  *ngIf="deleteable" [nzType]="'danger'" (click)="delete()" ><i class="fa fa-remove"></i>&nbsp;{{ 'Delete' | translate}}</button>
+     &nbsp;&nbsp;
+     <button *ngIf="exportable"  nz-button (click)="export()"><i class="fa fa-share"></i>&nbsp;{{ 'Export' | translate}}</button>
       </ng-template>
       <ng-template #body>
-            <table-view (dataLoadComplete)="onDataLoadComplete($event)" [config]="config"></table-view>
+            <table-view (onSelectedChange)="onSelectedChange($event)" (dataLoadComplete)="onDataLoadComplete($event)" [config]="config"></table-view>
       </ng-template>
 </nz-card>

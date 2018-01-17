@@ -9,6 +9,8 @@ import {Subscription} from 'rxjs'
 import {AppService} from '../../services/app.service'
 import {formatDate} from '../../utils/date.utils'
 import {parseRouteMap} from '../../utils/route.utils'
+import {UserService} from '../../../../@core/data/users.service'
+
 
 const PAGE_SIZE = 10;
 @Component({
@@ -25,6 +27,7 @@ export class TableViewComponent implements OnInit {
    public injector: Injector,
    public renderer: Renderer2,
    public el: ElementRef,
+   public userService:UserService,
    public location: Location,
    public http: Http,
    public messageService: NzMessageService,
@@ -44,7 +47,7 @@ export class TableViewComponent implements OnInit {
   @Input() initSelectedIds = [];
   @Input() modalMode = false; //是否为弹窗模式
   @Input()
-  set config(val) {
+  set config(val:any) {
     this._config = _.cloneDeep(val);
     let apiName = `${this._config.app}.${this._config.module}DataApi`;
     this.resource = this.injector.get(apiName).resource
@@ -62,6 +65,26 @@ export class TableViewComponent implements OnInit {
     this.dataReady = false;
     this.selectedAll = false;
     this.sorting = {key:"",value:""}
+
+    //check action auth node
+    let postNode = `${this._config.app}.${this._config.module}.post`;
+    let putNode = `${this._config.app}.${this._config.module}.put`;
+    let deleteNode = `${this._config.app}.${this._config.module}.delete`;
+    let authorizeNode = "account.userRole.authorize.put";
+    if(!this.userService.checkNodeIsAuth(putNode)){
+      _.pull(this._config.actions, "edit");
+    }
+    if(!this.userService.checkNodeIsAuth(deleteNode)){
+      _.pull(this._config.actions, "delete");
+    }
+    if(!this.userService.checkNodeIsAuth(postNode)){
+      _.pull(this._config.actions, "addChild");
+    }
+    if(!this.userService.checkNodeIsAuth(authorizeNode)){
+      _.pull(this._config.actions, "authorize");
+    }
+
+
     let fields = Object.keys(this._config["fields"]);
     if(this.modalMode){
       this._config.actionable = false;
@@ -431,29 +454,7 @@ export class TableViewComponent implements OnInit {
     }
   }
 
-  deleteAll() {
-    let ids = this.getSelectedIds()
-    if (ids.length == 0) {
-      this.dialogService.alert("没有选择任何选项")
-    }
-    else {
-      this.dialogService.confirm("确认删除吗?").then((res) => {
-        let deleteCount = ids.length;
-        _.each(ids, (id) => {
-          this.resource.delete(id).subscribe((res) => {
-            deleteCount--;
-            if (deleteCount <= 0) {
-              this.refresh()
-            }
-          })
-        })
-        this.messageService.success('删除成功');
-      }, (reason) => {
-        console.log(reason)
-      })
-    }
 
-  }
 
   delete(id) {
     this.dialogService.confirm("确认删除吗?").then((res) => {

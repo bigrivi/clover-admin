@@ -1,8 +1,13 @@
-import { Component, OnInit,Inject,Injector } from '@angular/core';
+import { Component, OnInit,Inject,Injector,ViewChild } from '@angular/core';
 import { Routes, Router,RouterModule,ActivatedRoute,NavigationEnd } from '@angular/router';
 import {AppService} from '../../../common/services/app.service'
 import {parseRouteMap} from '../../../common/utils/route.utils'
+import {UserService} from '../../../../@core/data/users.service'
+import { DialogService } from "../../../common/component/dialog/dialog.service"
+import { TableViewComponent } from "../../../common/component/table-view/table-view.component"
+import {NzNotificationService,NzMessageService} from 'ng-zorro-antd';
 import {Subscription} from 'rxjs'
+import * as _ from 'lodash';
 
 @Component({
   selector: 'app-list-view',
@@ -17,8 +22,13 @@ export class ListViewComponent implements OnInit {
   app="";
   config;
   routeChangeSub:Subscription
+  selectedObjs = [];
   addable = true;
-  constructor(   public router: Router, public route: ActivatedRoute,public appService:AppService,public injector: Injector, ) {
+  deleteable = true;
+  exportable = true;
+
+  @ViewChild(TableViewComponent) tableView:TableViewComponent;
+  constructor( public userService:UserService,public messageService:NzMessageService,,public dialogService:DialogService , public router: Router, public route: ActivatedRoute,public appService:AppService,public injector: Injector, ) {
     // console.log(this.router.url)
     this.routeChangeSub = this.router.events.subscribe((event)=>{
       if (event instanceof NavigationEnd) {
@@ -27,9 +37,6 @@ export class ListViewComponent implements OnInit {
           this.app = routeMap["app"];
           let apiName = `${this.app}.${this.module}DataApi`;
           this.config = this.injector.get(apiName).config
-          console.log(apiName)
-
-
       }
 
     })
@@ -43,20 +50,63 @@ export class ListViewComponent implements OnInit {
     this.router.navigate(["apps/"+routeMap.app+"/"+routeMap.module,"add"]);
   }
 
+  delete() {
+    if (this.selectedObjs.length == 0) {
+      this.messageService.error("没有选择任何选项")
+    }
+    else {
+      this.dialogService.confirm("确认删除吗?").then((res) => {
+        let deleteCount = this.selectedObjs.length;
+        let resource = this.injector.get(`${this.app}.${this.module}DataApi`).resource
+        _.each(this.selectedObjs, (row) => {
+          resource.delete(row._id).subscribe((res) => {
+            deleteCount--;
+            if (deleteCount <= 0) {
+              this.tableView.refresh()
+            }
+          })
+        })
+        this.messageService.success('删除成功');
+      }, (reason) => {
+        console.log(reason)
+      })
+    }
+
+  }
+
+
+  onSelectedChange(event){
+    this.selectedObjs = event
+    console.log(this.selectedObjs)
+  }
+
   export(){
     let routeMap = parseRouteMap(this.router.url)
     this.router.navigate(["apps/"+routeMap.app+"/"+routeMap.module,"export"]);
   }
 
   onDataLoadComplete(totalDataNum){
+    let addable = this.config.addabel || true;
+    let deleteable = this.config.deleteable || true;
+    let exportable = this.config.exportable || true;
+
+
     if(this.config.treeable){
+      deleteable = false;
       if(totalDataNum>0)
-        this.addable = false;
-      else
-        this.addable = true;
+        addable = false;
     }
-    else
-      this.addable = true;
+    addable = addable && this.userService.checkNodeIsAuth(`${this.app}.${this.module}.post`)
+    this.addable = addable;
+
+    deleteable = deleteable && this.userService.checkNodeIsAuth(`${this.app}.${this.module}.delete`)
+    this.deleteable = deleteable;
+
+    exportable = exportable && this.userService.checkNodeIsAuth(`${this.app}.${this.module}.export`)
+    this.exportable = exportable;
+
+
+
   }
 
   ngOnDestroy(){
