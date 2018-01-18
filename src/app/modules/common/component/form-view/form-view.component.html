@@ -3,8 +3,8 @@
 <form nz-form [formGroup]="form" (submit)="handleSubmit($event)">
   <div nz-form-item nz-row *ngFor="let item of _fields">
         <div nz-form-label nz-col [nzSm]="4">
-              <label nz-form-item-required *ngIf="item.require">{{item.label}}</label>
-              <label  *ngIf="!item.require">{{item.label}}</label>
+              <label nz-form-item-required *ngIf="item.require">{{item.label | translate}}</label>
+              <label  *ngIf="!item.require">{{item.label | translate}}</label>
         </div>
         <div nz-form-control nz-col [nzSm]="20" [nzValidateStatus]="form.controls[item.field]">
             	<ng-container dynamicField [config]="item" [group]="form"></ng-container>

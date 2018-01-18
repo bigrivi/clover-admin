@@ -9,6 +9,8 @@ import { Router, NavigationEnd } from '@angular/router';
 import * as _ from 'lodash';
 import {formatDate} from '../../utils/date.utils'
 import {parseRouteMap} from '../../utils/route.utils'
+import {TranslateService} from '../../../../@core/utils/translate.service'
+
 import {NzNotificationService,NzMessageService} from 'ng-zorro-antd';
 
 
@@ -79,6 +81,7 @@ export class FormViewComponent {
     private http:Http,
     public route: ActivatedRoute,
     public router: Router,
+    public translateService:TranslateService,
     public messageService: NzMessageService,
     public injector: Injector,
     public activeRouter: ActivatedRoute) {
@@ -137,12 +140,13 @@ export class FormViewComponent {
 
   getDefaultErrMsg(fieldData){
     var msg = "";
+    let label = this.translateService.instant(fieldData.label)
     if(fieldData.widget=="text" || fieldData.widget=="password"|| fieldData.widget=="number"|| fieldData.widget=="textarea"){
-      msg = "请输入"+fieldData.label;
+      msg = "请输入"+label;
     }else if(fieldData.widget=="radio"){
-      msg = "请选择"+fieldData.label;
+      msg = "请选择"+label;
     }else if(fieldData.widget=="uploader"){
-      msg = "请选择"+fieldData.label+"文件";
+      msg = "请选择"+label+"文件";
     }else if(fieldData.widget=="date"){
       msg = "请选择日期";
     }else if(fieldData.widget=="datetime"){
@@ -150,12 +154,12 @@ export class FormViewComponent {
     }else if(fieldData.widget=="time"){
       msg = "请选择时间";
     }else if(fieldData.widget=="checkbox" || fieldData.widget=="itemselect"){
-      msg = "请至少选项一项"+fieldData.label;
+      msg = "请至少选项一项"+label;
     }else if(fieldData.widget=="select"){
       if(fieldData.multiple)
-        msg = "请至少选项一项"+fieldData.label;
+        msg = "请至少选项一项"+label;
       else
-        msg = "请选择"+fieldData.label;
+        msg = "请选择"+label;
     }
     return msg;
   }

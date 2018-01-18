@@ -18,7 +18,7 @@ import * as moment from 'moment';
  * 10 秒前
  * ```
  */
-@Pipe({ name: '_date' })
+@Pipe({ name: 'moment' })
 export class MomentDatePipe implements PipeTransform {
     transform(value: Date, formatString: string = 'YYYY-MM-DD HH:mm'): string {
         if (value) {

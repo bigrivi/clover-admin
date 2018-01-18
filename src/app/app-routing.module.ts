@@ -12,6 +12,7 @@ import {
 
 const routes: Routes = [
   { path: 'apps',loadChildren: 'app/modules/system/system.module#SystemModule' },
+  { path: 'lang',loadChildren: 'app/modules/lang/lang.module#LangModule' },
   {
     path: 'auth',
     component: AuthComponent,

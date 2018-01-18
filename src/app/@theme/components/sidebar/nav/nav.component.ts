@@ -38,7 +38,7 @@ export class SidebarNavComponent implements OnInit {
           if(navData){
              navData["children"].forEach((item1)=>{
                 var menuItem = {
-                    text: this.translateService.instant(item1.app+"."+item1.alias),
+                    text: item1.app+"."+item1.alias,
                     icon: item1.icon,
                     hide:false,
                     link:"",
@@ -50,7 +50,7 @@ export class SidebarNavComponent implements OnInit {
                     childres.push({
                         hide:false,
                         _type:1,
-                       text: this.translateService.instant(item2.app+"."+item2.alias),
+                       text: item2.app+"."+item2.alias,
                        link: '/apps/'+item2.link,
                     })
                 })
@@ -140,6 +140,11 @@ export class SidebarNavComponent implements OnInit {
     }
 
     toggleOpen(item: Menu) {
+        this.menuSrv.visit((i, p) => {
+            if (i !== item) {
+                i._open = false;
+            }
+        });
         item._open = !item._open;
     }
     gotohome(){

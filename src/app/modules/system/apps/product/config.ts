@@ -17,7 +17,7 @@ export const ProductConfig = {
 	modalListShow:["name","price","serial_number"],
 	fields : {
 		name:{
-			label:"产品名",
+			label:"product.Product Name",
 			widget:"text",
 			sortabld:true,
 			searchable:true,
@@ -26,7 +26,7 @@ export const ProductConfig = {
 			require:true
 		},
 		price:{
-			label:"价格",
+			label:"product.Product Price",
 			widget:"number",
 			sortabld:true,
 			require:true,
@@ -94,7 +94,6 @@ export const ProductConfig = {
 			label:"创建时间",
 			widget:"datetime",
 			sortabld:true,
-			searchable:true,
 			require:true
 		},
 		pic:{

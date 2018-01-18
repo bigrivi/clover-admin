@@ -10,19 +10,41 @@ import {ResourceService} from "./resource.service"
 @Injectable()
 export class TranslateService{
 
-	langs = {}
+    langs = [
+	    {
+	    	text:"中文",
+	    	code:"zh-cn"
+	    },
+	    {
+	    	text:"英文",
+	    	code:"en-us"
+	    }
+    ]
+	langsData = {}
 	constructor(public http:Http) {
 
 	}
 
 	loadLangs():Observable<any>{
+		let lang = this.getCurrLang()
 		return Observable.create((observer)=>{
-			this.http.get(API_ROOT+"home/i18n").map(res=>res.json()).subscribe((res)=>{
-				this.langs = res;
+			this.http.get(API_ROOT+"home/i18n?lang="+lang).map(res=>res.json()).subscribe((res)=>{
+				this.langsData = res;
 				observer.next()
 			})
 		})
 
+	}
+
+
+	useLang(lang:string){
+		localStorage.setItem("appLang",lang)
+
+	}
+
+
+	getCurrLang(){
+		return localStorage.getItem("appLang") || "zh-cn"
 	}
 
 
@@ -32,7 +54,7 @@ export class TranslateService{
 			key_items.unshift("common")
 		}
 		var app = key_items.shift()
-        var lang = this.langs[app];
+        var lang = this.langsData[app];
         try{
         	for(var i=0;i<key_items.length;i++){
 	        	key = key_items[i];

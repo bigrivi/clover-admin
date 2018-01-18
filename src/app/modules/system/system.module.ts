@@ -24,6 +24,7 @@ import {AttachmentConfig} from './apps/uploader/config'
 import {NavConfig} from './apps/home/config'
 import {ResearchConfig} from './apps/research/config'
 import {TemplateConfig,EmailConfig,SmsConfig,WinningConfig} from './apps/notification/config'
+import {QuestionConfig} from './apps/question/config'
 
 
 
@@ -48,6 +49,9 @@ let appConfig = {
   },
   research:{
     research:ResearchConfig
+  },
+  question:{
+    question:QuestionConfig
   },
   notification:{
     template:TemplateConfig,
@@ -83,6 +87,7 @@ const routes: Routes = [
   path:"",component:SystemComponent,
   children:[
     { path: 'home',loadChildren: 'app/modules/system/apps/home/home.module#HomeModule' },
+    { path: 'question', canActivate: [ AuthGuardService ],loadChildren: 'app/modules/system/apps/question/question.module#QuestionModule' },
     { path: 'account', canActivate: [ AuthGuardService ],loadChildren: 'app/modules/system/apps/account/account.module#AccountModule' },
     { path: 'research', canActivate: [ AuthGuardService ],loadChildren: 'app/modules/system/apps/research/research.module#ResearchModule' },
     { path: 'notification',canActivate: [ AuthGuardService ], loadChildren: 'app/modules/system/apps/notification/notification.module#NotificationModule' },

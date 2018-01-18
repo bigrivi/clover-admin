@@ -12,7 +12,7 @@
                     </label>
                 </th>
                 <th nz-th *ngIf="column.field!='selectedId'">
-                    <span>{{column.label}}</span>
+                    <span>{{column.label | translate}}</span>
                     <nz-table-sort *ngIf="column.sortabld"  (nzValueChange)="doSorting(column.field,$event)"></nz-table-sort>
                     <nz-dropdown *ngIf="column.searchable" [nzTrigger]="'click'" [nzClickHide]="false">
                       <i class="anticon anticon-smile-o ant-table-filter-icon" nz-dropdown></i>

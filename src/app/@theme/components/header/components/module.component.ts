@@ -25,28 +25,20 @@ export class HeaderModuleComponent {
 
     ngOnInit() {
      let resource = this.injector.get("home.navDataApi").resource
-     setTimeout(()=>{
-        resource.get().map(res=>res.json()).subscribe((res)=>{
-             this.menuService.setData(res)
-             this.navs = res;
-            //  let lastNavIndex = localStorage.getItem("lastNavIndex");
-            // if(lastNavIndex){
-            //   this.selectedNav(parseInt(lastNavIndex));
-            // }
-        })
-      },100)
+      resource.get().map(res=>res.json()).subscribe((res)=>{
+           this.menuService.setData(res)
+           this.navs = res;
+      })
 
 
       this.menuService.onNavChangeState().subscribe((index)=>{
-         console.log("navChange:"+index)
-        this.activeNavIndex = index;
-
-
+           this.activeNavIndex = index;
       })
 
    }
 
     selectedNav(activeIndex){
+        //点击后才触发home行为
         this.menuService.setCurrNav(activeIndex)
         if(this.navs[activeIndex]){
             let subMenus = this.navs[activeIndex]["children"]
