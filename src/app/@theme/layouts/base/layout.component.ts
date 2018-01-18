@@ -7,11 +7,12 @@ import { ScrollService } from '../../../@core/services/scroll.service';
 import { NzMessageService } from 'ng-zorro-antd';
 
 @Component({
-    selector: 'app-layout-main',
-    templateUrl: './layout-main.component.html'
+    selector: 'app-layout',
+    templateUrl: './layout.component.html'
 })
-export class LayoutMainComponent {
+export class LayoutComponent {
     isFetching = false;
+    isHome = false;
 
     constructor(
         router: Router,
@@ -32,10 +33,16 @@ export class LayoutMainComponent {
             if (!(evt instanceof NavigationEnd)) {
                 return;
             }
-            setTimeout(() => {
-                scroll.scrollToTop();
-                this.isFetching = false;
-            }, 100);
+            if(router.url == "/apps/home"){
+                this.isHome = true;
+            }
+            else{
+                this.isHome = false;
+            }
+            // setTimeout(() => {
+            //     scroll.scrollToTop();
+            //     this.isFetching = false;
+            // }, 100);
         });
     }
 }

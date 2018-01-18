@@ -81,8 +81,8 @@ _.each(appConfig,(modules,appName)=>{
 const routes: Routes = [
 {
   path:"",component:SystemComponent,
-  canActivate: [ AuthGuardService ],
   children:[
+    { path: 'home',loadChildren: 'app/modules/system/apps/home/home.module#HomeModule' },
     { path: 'account', canActivate: [ AuthGuardService ],loadChildren: 'app/modules/system/apps/account/account.module#AccountModule' },
     { path: 'research', canActivate: [ AuthGuardService ],loadChildren: 'app/modules/system/apps/research/research.module#ResearchModule' },
     { path: 'notification',canActivate: [ AuthGuardService ], loadChildren: 'app/modules/system/apps/notification/notification.module#NotificationModule' },
@@ -109,7 +109,7 @@ const routes: Routes = [
       }],
     }
   ]
-}
+},
 ];
 
 

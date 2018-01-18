@@ -38,16 +38,9 @@ export class HeaderModuleComponent {
 
 
       this.menuService.onNavChangeState().subscribe((index)=>{
-        // console.log("navChange:"+index)
+         console.log("navChange:"+index)
         this.activeNavIndex = index;
-        if(this.navs[index]){
-            let subMenus = this.navs[index]["children"]
-            if(subMenus && subMenus.length>0){
-               if(subMenus[0].link && subMenus[0].link.indexOf("home")>=0){
-                    this.router.navigate(['/apps/'+subMenus[0].link]);
-                }
-            }
-        }
+
 
       })
 
@@ -55,6 +48,14 @@ export class HeaderModuleComponent {
 
     selectedNav(activeIndex){
         this.menuService.setCurrNav(activeIndex)
+        if(this.navs[activeIndex]){
+            let subMenus = this.navs[activeIndex]["children"]
+            if(subMenus && subMenus.length>0){
+               if(subMenus[0].link && subMenus[0].link.indexOf("home")>=0){
+                    this.router.navigate(['/apps/'+subMenus[0].link]);
+                }
+            }
+        }
 
     }
 
@@ -62,5 +63,9 @@ export class HeaderModuleComponent {
     gotomodel(model: string) {
         this.settingsService.setLayout("model",model);
         this.router.navigate([model]);
+    }
+
+    ngOnDestroy(){
+        console.log("module destroy")
     }
 }

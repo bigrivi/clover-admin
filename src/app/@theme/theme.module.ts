@@ -7,7 +7,6 @@ import { CountdownModule } from 'ngx-countdown';
 
 
 import { HeaderComponent } from './components/header/header.component';
-import { HeaderMainComponent } from './components/header/header-main.component';
 import { SidebarComponent } from './components/sidebar/sidebar.component';
 import { SidebarNavComponent } from './components/sidebar/nav/nav.component';
 import { HeaderModuleComponent } from './components/header/components/module.component';
@@ -130,7 +129,7 @@ const ZORROMODULES = [
 
 import { CapitalizePipe, PluralPipe, RoundPipe, TimingPipe,TranslatePipe } from './pipes';
 import {
-  LayoutComponent,LayoutMainComponent
+  LayoutComponent
 } from './layouts';
 
 const BASE_MODULES = [CommonModule, FormsModule, ReactiveFormsModule,RouterModule];
@@ -153,9 +152,7 @@ const PRO = [
 const COMPONENTS = [
   ProHeaderComponent,
   LayoutComponent,
-  LayoutMainComponent,
   HeaderComponent,
-  HeaderMainComponent,
   SidebarComponent,
   SidebarNavComponent,
   ...HEADERCOMPONENTS,

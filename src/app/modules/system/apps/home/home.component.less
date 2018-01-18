@@ -1,0 +1,39 @@
+:host ::ng-deep {
+  .system-notice{
+      padding-left: 20px;
+      margin-top: 10px; 
+      border-radius: 6px;
+      //background: -webkit-linear-gradient(#f7c847, #eeb201) !important; /* Safari 5.1 - 6.0 */
+      //background: -o-linear-gradient(#f7c847, #eeb201) !important; /* Opera 11.1 - 12.0 */
+      //background: -moz-linear-gradient(#f7c847, #eeb201) !important; /* Firefox 3.6 - 15 */
+      //background: linear-gradient(#f7c847, #eeb201) !important; /* 标准的语法 */
+  }
+  .div-a{
+    display: none; 
+  }
+  .ant-table-row{
+    td:first-child{
+      position: relative;
+    }
+  }
+  .ant-table-row:hover{
+    
+    background-color: #cccccc !important;
+    .div-a{
+      display: block; 
+      position: absolute;
+      white-space:nowrap;
+      height: 100%;
+      display: flex; 
+      align-items: center;
+      top:0px; 
+      color: #fff; 
+      font-size: 22px;
+      background-color: #ecf6fd;
+      a{
+        color: red;
+        margin: 0 5px;
+      }
+    }
+  }
+}

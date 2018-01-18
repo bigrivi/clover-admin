@@ -1,0 +1,138 @@
+<div nz-col [nzXs]="24" [nzMd]="24" class="mb-md">
+    <div nz-row [nzAlign]="'middle'" class="bg-white py-md system-notice">
+        <i class="anticon anticon-notification"></i>通知：本系统在 2017-12-20 21:00 ~ 2017-12-22 06:00 进行升级，期间不可访问，请知晓！
+    </div>
+</div>
+
+<div nz-row [nzGutter]="24" class="pt-lg">
+    <div nz-col nzXs="24" nzSm="12" nzMd="12" nzLg="6">
+        <chart-card [title]="'答题'" [total]="cardData.answer.total" contentHeight="46px" [footer]="footeranswer">
+            <mini-area color="#0099e5" height="46" [data]="cardData.answer.list"></mini-area>
+            <ng-template #footeranswer>
+                <p class="text-truncate">
+                    日答题量
+                    <span class="ml-sm">{{cardData.answer.day}}</span>
+                </p>
+            </ng-template>
+        </chart-card>
+    </div>
+    <div nz-col nzXs="24" nzSm="12" nzMd="12" nzLg="6">
+        <chart-card [title]="'中奖'" [total]="cardData.winning.total" contentHeight="46px" [footer]="footerwinning">
+            <mini-area color="#aa6ed4" height="46" [data]="cardData.winning.list"></mini-area>
+            <ng-template #footerwinning>
+                <p class="text-truncate">日中奖量
+                    <span class="ml-sm">{{cardData.winning.day}}</span>
+                </p>
+            </ng-template>
+        </chart-card>
+    </div>
+    <div nz-col nzXs="24" nzSm="12" nzMd="12" nzLg="6">
+        <chart-card [title]="'邮件'" [total]="cardData.email.total" contentHeight="46px" [footer]="footeremail">
+            <mini-area color="#00a2ae" height="46" [data]="cardData.email.list"></mini-area>
+            <ng-template #footeremail>
+                <p class="text-truncate">日发送邮件量
+                    <span class="ml-sm">{{cardData.email.day}}</span>
+                </p>
+            </ng-template>
+        </chart-card>
+    </div>
+    <div nz-col nzXs="24" nzSm="12" nzMd="12" nzLg="6">
+        <chart-card [title]="'短信'" [total]="cardData.sms.total" contentHeight="46px" [footer]="footersms">
+            <mini-area color="#2faf42" height="46" [data]="cardData.sms.list"></mini-area>
+            <ng-template #footersms>
+                <p class="text-truncate">日发送短信量
+                    <span class="ml-sm">{{cardData.sms.day}}</span>
+                </p>
+            </ng-template>
+        </chart-card>
+    </div>
+</div>
+<div nz-row [nzGutter]="24">
+    <div nz-col nzXs="24" nzSm="24" nzMd="12">
+        <nz-card nzTitle="进行中的调研活动" [nzBordered]="false" [nzLoading]="surveyLoading" class="mb-lg">
+            <nz-table #surveyTable [nzAjaxData]="surveyData" [nzPageSize]="surveyPage.pagesize" [nzTotal]="surveyPage.pagetotal" [nzLoading]="surveyLoading"
+                (nzPageIndexChange)="surveyPageChange($event)" nzSize="small">
+                <thead nz-thead>
+                    <tr>
+                        <th nz-th>
+                            <span>调研名称</span>
+                        </th>
+                        <th nz-th>
+                            <span>发布时间</span>
+                        </th>
+                        <th nz-th>
+                            <span>回收量</span>
+                        </th>
+                    </tr>
+                </thead>
+                <tbody nz-tbody>
+                    <tr nz-tbody-tr *ngFor="let item of surveyTable.data">
+                        <td nz-td>{{item.name}}</td>
+                        <td nz-td>{{item.releasedat}}</td>
+                        <td nz-td>{{item.recovery}}</td>
+                    </tr>
+                </tbody>
+            </nz-table>
+        </nz-card>
+    </div>
+    <div nz-col nzXs="24" nzSm="24" nzMd="12">
+        <nz-card nzTitle="导出报表" [nzBordered]="false" [nzLoading]="reportLoading" class="mb-lg">
+            <nz-table #reportTable [nzAjaxData]="reportData" [nzPageSize]="reportPage.pagesize" [nzTotal]="reportPage.pagetotal" [nzLoading]="reportLoading"
+                (nzPageIndexChange)="reportPageChange($event)" nzSize="small">
+                <thead nz-thead>
+                    <tr>
+                        <th nz-th>
+                            <span>报表名称</span>
+                        </th>
+                        <th nz-th>
+                            <span>生成日期</span>
+                        </th>
+                        <th nz-th>
+                            <span>完成日期</span>
+                        </th>
+                        <th nz-th>
+                            <span>操作</span>
+                        </th>
+                    </tr>
+                </thead>
+                <tbody nz-tbody>
+                    <tr nz-tbody-tr *ngFor="let item of reportTable.data">
+                        
+                        <td nz-td>{{item.name}}
+                                <div class="div-a">
+                                    
+                                <a><i class="anticon anticon-check-square"></i></a>
+                                <a><i class="anticon anticon-appstore"></i></a>
+                                <a><i class="anticon anticon-switcher"></i></a>
+                                <a><i class="anticon anticon-check-square"></i></a>
+                                <a><i class="anticon anticon-appstore"></i></a>
+                                <a><i class="anticon anticon-switcher"></i></a>
+                                <a><i class="anticon anticon-check-square"></i></a>
+                                <a><i class="anticon anticon-appstore"></i></a>
+                                <a><i class="anticon anticon-switcher"></i></a>
+                                <a><i class="anticon anticon-check-square"></i></a>
+                                <a><i class="anticon anticon-appstore"></i></a>
+                                <a><i class="anticon anticon-switcher"></i></a>
+                                </div></td>
+                        <td nz-td>{{item.createdat}}</td>
+                        <td nz-td>{{item.completiondat}}</td>
+                        <td nz-td>
+                            <a>下载</a>
+                        </td>
+                    </tr>
+                </tbody>
+            </nz-table>
+        </nz-card>
+    </div>
+</div>
+
+
+<div nz-row [nzGutter]="24">
+    <div nz-col nzXs="24" nzSm="24" nzMd="24" nzLg="24">
+        <nz-card [nzLoading]="answerLoading" [nzBordered]="false" nzTitle="答题趋势图">
+            <ng-template #body>
+                <bar height="300" [data]="answerData"></bar>
+            </ng-template>
+        </nz-card>
+    </div>
+</div>

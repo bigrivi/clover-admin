@@ -31,7 +31,6 @@ export class SidebarNavComponent implements OnInit {
     }
 
     ngOnInit() {
-        this.menuSrv.setDefault(this.router.url);
         this.genFloatingContainer();
         this.menuSrv.onNavChangeState().subscribe((index)=>{
           var navData = this.menuSrv.getData()[index]
@@ -64,12 +63,6 @@ export class SidebarNavComponent implements OnInit {
 
             })
              this.menus = menus;
-
-             if(menus.length>0){
-                 // if(menus[0].link && menus[0].link.indexOf("home")>=0){
-                 //     this.router.navigate([menus[0].link]);
-                 // }
-             }
           }
 
       })
@@ -147,11 +140,6 @@ export class SidebarNavComponent implements OnInit {
     }
 
     toggleOpen(item: Menu) {
-        this.menuSrv.visit((i, p) => {
-            if (i !== item) {
-                i._open = false;
-            }
-        });
         item._open = !item._open;
     }
     gotohome(){

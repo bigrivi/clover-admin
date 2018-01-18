@@ -1,9 +1,9 @@
 <div class="wrapper">
     <div class="router-progress-bar" *ngIf="isFetching"></div>
     <app-header class="header"></app-header>
-    <app-sidebar class="aside"></app-sidebar>
-    <section class="content">
-        <pro-header></pro-header>
+    <app-sidebar *ngIf="!isHome" class="aside"></app-sidebar>
+    <section [ngClass]="{'content':!isHome,'content-full':isHome}">
+        <pro-header *ngIf="!isHome"></pro-header>
         <router-outlet></router-outlet>
     </section>
 </div>

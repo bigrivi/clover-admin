@@ -65,6 +65,8 @@ export class ProHeaderComponent implements OnInit {
         });
     }
 
+
+
     private genBreadcrumb() {
         if (this.breadcrumb || !this.autoBreadcrumb) return;
         let url = this.route.url;
@@ -83,6 +85,7 @@ export class ProHeaderComponent implements OnInit {
     }
 
     ngOnInit() {
+        this.genBreadcrumb();
     }
 
     ngOnDestroy() {
