@@ -22,6 +22,9 @@ export class AuthGuardService implements CanActivate {
           if(!res){
             this.messageService.error('请先登录');
             this.router.navigate(['/auth/login']);
+            observer.next(false);
+            observer.complete()
+            return;
           }
           let authNode = parseAuthNodeByUrl(url)
           if(!this.userService.checkNodeIsAuth(authNode)){

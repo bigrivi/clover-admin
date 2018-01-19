@@ -1,1 +1,1 @@
-export const API_ROOT =  'http://localhost:3000/'
+export const API_ROOT =  'http://10.55.6.17:3000/'

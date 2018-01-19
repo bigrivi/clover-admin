@@ -11,6 +11,11 @@ import { NbAuthResult, AuthService } from '../../services/auth.service';
   template: `
     <nb-auth-block>
      <form nz-form [formGroup]="validateForm" class="login-form" (ngSubmit)="_submitForm()">
+     <div nz-form-item>
+      <div nz-form-control>
+      <p style="color:red" *ngFor="let error of errors">{{error}}</p>
+      </div>
+    </div>
     <div nz-form-item>
       <div nz-form-control [nzValidateStatus]="validateForm.controls.username">
         <nz-input formControlName="username" [nzPlaceHolder]="'账号'" [nzSize]="'large'">
@@ -88,7 +93,6 @@ export class LoginComponent {
       }
 
       const redirect = result.getRedirect();
-      console.log(redirect)
       if (redirect) {
         setTimeout(() => {
           return this.router.navigateByUrl(redirect);
