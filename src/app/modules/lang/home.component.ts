@@ -30,7 +30,7 @@ export class HomeComponent implements OnInit {
           if (this.redirect) {
             setTimeout(() => {
               return this.router.navigateByUrl(this.redirect);
-            }, 100);
+            }, 1000);
           }
           else{
               this.router.navigateByUrl("/apps/home");

@@ -14,10 +14,8 @@
                   <label class='control-label' data-original-title='Click to reverse selection' (click)='fanxuan()' rel='tooltip'>字段列表</label>
                    <div class='controls'>
                      <label nz-checkbox *ngFor="let fieldItem of fields" [(ngModel)]="fieldItem.checked">
-                      <span>{{fieldItem.label}}</span>
+                      <span>{{fieldItem.label | translate}}</span>
                     </label>
-
-
                     </div>
                 </div>
               </div>
@@ -31,62 +29,67 @@
         <div class='control-group' *ngIf="optionExpand">
         <label class='control-label' for='csv_options_encoding_to'>编码</label>
         <div class='controls'>
-        <select id="csv_options_encoding_to" [(ngModel)]="encodingTo" name="csv_options[encoding_to]">
-            <option value=""></option>
-            <option value="UTF-8">UTF-8</option>
-            <option value="UTF-16LE">UTF-16LE</option>
-            <option value="UTF-16BE">UTF-16BE</option>
-            <option value="UTF-32LE">UTF-32LE</option>
-            <option value="UTF-32BE">UTF-32BE</option>
-            <option value="UTF-7">UTF-7</option>
-            <option value="ISO-8859-1">ISO-8859-1</option>
-            <option value="ISO-8859-15">ISO-8859-15</option>
-            <option value="IBM-850">IBM-850</option>
-            <option value="MacRoman">MacRoman</option>
-            <option value="Windows-1252">Windows-1252</option>
-            <option value="ISO-8859-3">ISO-8859-3</option>
-            <option value="IBM-852">IBM-852</option>
-            <option value="ISO-8859-2">ISO-8859-2</option>
-            <option value="MacCE">MacCE</option>
-            <option value="Windows-1250">Windows-1250</option>
-            <option value="IBM-855">IBM-855</option>
-            <option value="ISO-8859-5">ISO-8859-5</option>
-            <option value="ISO-IR-111">ISO-IR-111</option>
-            <option value="KOI8-R">KOI8-R</option>
-            <option value="MacCyrillic">MacCyrillic</option>
-            <option value="Windows-1251">Windows-1251</option>
-            <option value="CP-866">CP-866</option>
-            <option value="KOI-U">KOI-U</option>
-            <option value="MacUkranian">MacUkranian</option>
-            <option value="GB2312">GB2312</option>
-            <option value="GBK">GBK</option>
-            <option value="GB18030">GB18030</option>
-            <option value="HZ">HZ</option>
-            <option value="ISO-2022-CN">ISO-2022-CN</option>
-            <option value="Big5">Big5</option>
-            <option value="Big5-HKSCS">Big5-HKSCS</option>
-            <option value="EUC-TW">EUC-TW</option>
-            <option value="EUC-JP">EUC-JP</option>
-            <option value="ISO-2022-JP">ISO-2022-JP</option>
-            <option value="Shift_JIS">Shift_JIS</option>
-            <option value="EUC-KR">EUC-KR</option>
-            <option value="UHC">UHC</option>
-            <option value="JOHAB">JOHAB</option>
-            <option value="ISO-2022-KR">ISO-2022-KR</option></select>
+        <nz-select  style="width: 150px;" [(ngModel)]="encodingTo">
+            <nz-option nzLabel="" nzValue=""></nz-option>
+            <nz-option nzLabel="UTF-8" nzValue="UTF-8"></nz-option>
+            <nz-option nzLabel="UTF-16LE" nzValue="UTF-16LE"></nz-option>
+            <nz-option nzLabel="UTF-16BE" nzValue="UTF-16BE"></nz-option>
+            <nz-option nzLabel="UTF-32LE" nzValue="UTF-32LE"></nz-option>
+            <nz-option nzLabel="UTF-32BE" nzValue="UTF-32BE"></nz-option>
+            <nz-option nzLabel="UTF-7" nzValue="UTF-7"></nz-option>
+            <nz-option nzLabel="ISO-8859-1" nzValue="ISO-8859-1"></nz-option>
+            <nz-option nzLabel="ISO-8859-15" nzValue="ISO-8859-15"></nz-option>
+            <nz-option nzLabel="IBM-850" nzValue="IBM-850"></nz-option>
+            <nz-option nzLabel="MacRoman" nzValue="MacRoman"></nz-option>
+            <nz-option nzLabel="Windows-1252" nzValue="Windows-1252"></nz-option>
+            <nz-option nzLabel="ISO-8859-3" nzValue="ISO-8859-3"></nz-option>
+            <nz-option nzLabel="IBM-852" nzValue="IBM-852"></nz-option>
+            <nz-option nzLabel="ISO-8859-2" nzValue="ISO-8859-2"></nz-option>
+            <nz-option nzLabel="MacCE" nzValue="MacCE"></nz-option>
+            <nz-option nzLabel="Windows-1250" nzValue="Windows-1250"></nz-option>
+            <nz-option nzLabel="IBM-855" nzValue="IBM-855"></nz-option>
+            <nz-option nzLabel="ISO-8859-5" nzValue="ISO-8859-5"></nz-option>
+            <nz-option nzLabel="ISO-IR-111" nzValue="ISO-IR-111"></nz-option>
+            <nz-option nzLabel="KOI8-R" nzValue="KOI8-R"></nz-option>
+            <nz-option nzLabel="MacCyrillic" nzValue="MacCyrillic"></nz-option>
+            <nz-option nzLabel="Windows-1251" nzValue="Windows-1251"></nz-option>
+            <nz-option nzLabel="CP-866" nzValue="CP-866"></nz-option>
+            <nz-option nzLabel="KOI-U" nzValue="KOI-U"></nz-option>
+            <nz-option nzLabel="MacUkranian" nzValue="MacUkranian"></nz-option>
+            <nz-option nzLabel="GB2312" nzValue="GB2312"></nz-option>
+            <nz-option nzLabel="GBK" nzValue="GBK"></nz-option>
+            <nz-option nzLabel="GB18030" nzValue="GB18030"></nz-option>
+            <nz-option nzLabel="HZ" nzValue="HZ"></nz-option>
+            <nz-option nzLabel="ISO-2022-CN" nzValue="ISO-2022-CN"></nz-option>
+            <nz-option nzLabel="Big5" nzValue="Big5"></nz-option>
+            <nz-option nzLabel="Big5-HKSCS" nzValue="Big5-HKSCS"></nz-option>
+            <nz-option nzLabel="EUC-TW" nzValue="EUC-TW"></nz-option>
+            <nz-option nzLabel="EUC-JP" nzValue="EUC-JP"></nz-option>
+            <nz-option nzLabel="ISO-2022-JP" nzValue="ISO-2022-JP"></nz-option>
+            <nz-option nzLabel="Shift_JIS" nzValue="Shift_JIS"></nz-option>
+            <nz-option nzLabel="EUC-KR" nzValue="EUC-KR"></nz-option>
+            <nz-option nzLabel="UHC" nzValue="UHC"></nz-option>
+            <nz-option nzLabel="JOHAB" nzValue="JOHAB"></nz-option>
+            <nz-option nzLabel="ISO-2022-KR" nzValue="ISO-2022-KR"></nz-option>
+        </nz-select>
+
         <p class='help-block'>选择编码 默认为(UTF-8)</p>
         </div>
         <label class='control-label' for='csv_options_skip_header'>没有表格头</label>
         <div class='controls'>
-        <input id="csv_options_skip_header" name="csv_options[skip_header]" type="checkbox" [(ngModel)]="skipHeader" />
+          <label nz-checkbox [(ngModel)]="skipHeader">
+          <span></span>
+        </label>
         <p class='help-block'>不输出表格头(没有字段描述)</p>
         </div>
         <label class='control-label' for='csv_options_generator_col_sep'>列分隔符</label>
         <div class='controls'>
-          <select id="csv_options_generator_col_sep" [(ngModel)]="colSep" name="csv_options[generator][col_sep]">
-            <option value=","></option>
-            <option value=",">&lt;comma&gt; ','</option>
-            <option value=";">&lt;semicolon&gt; ';'</option>
-            <option value="'  '">&lt;tabs&gt;</option></select>
+            <nz-select [nzPlaceHolder]="''"  style="width: 150px;" [(ngModel)]="colSep">
+                <nz-option nzLabel="&lt;comma&gt; ','" nzValue=","></nz-option>
+                <nz-option nzLabel="&lt;semicolon&gt; " nzValue=";"></nz-option>
+                <nz-option nzLabel="&lt;tabs&gt;" nzValue="'  '"></nz-option>
+            </nz-select>
+
           <p class='help-block'>默认 (',')</p>
         </div>
         </div>
@@ -101,18 +104,22 @@
                 <label class='control-label' data-original-title='Click to reverse selection' rel='tooltip'>
                 排序字段</label>
                  <div class='controls'>
-                   <select id="csv_options_sort_field" [(ngModel)]="sortField" name="csv_options[generator][sortField]">
-                    <option *ngFor="let fieldItem of fields" value="{{fieldItem.field}}">{{fieldItem.label}}</option>
-                  </select>
+                  <nz-select style="width: 150px;" [(ngModel)]="sortField">
+                  <nz-option
+                    *ngFor="let fieldItem of fields"
+                    [nzLabel]="fieldItem.label"
+                    [nzValue]="fieldItem.field">
+                  </nz-option>
+                </nz-select>
                   <p class='help-block'>排序字段(默认为id)</p>
                   </div>
                    <label class='control-label'>排序</label>
                   <div class='controls'>
-                        <select id="csv_options_generator_sort" [(ngModel)]="sort" name="csv_options[generator][sort]">
-                          <option value="desc"></option>
-                          <option value="desc">降序</option>
-                          <option value="asc">升序</option>
-                        </select>
+                       <nz-select  style="width: 150px;" [(ngModel)]="sort">
+                            <nz-option nzLabel="降序" nzValue="desc"></nz-option>
+                            <nz-option nzLabel="升序" nzValue="asc"></nz-option>
+                        </nz-select>
+
                         <p class='help-block'>默认 (降序)</p>
                     </div>
               </div>
