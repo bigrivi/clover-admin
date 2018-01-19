@@ -32,6 +32,7 @@ export class SidebarNavComponent implements OnInit {
 
     ngOnInit() {
         this.genFloatingContainer();
+        console.log(this.router.url)
         this.menuSrv.onNavChangeState().subscribe((index)=>{
           var navData = this.menuSrv.getData()[index]
           var menus = []
@@ -42,6 +43,7 @@ export class SidebarNavComponent implements OnInit {
                     icon: item1.icon,
                     hide:false,
                     link:"",
+                    _open:false,
                     _type:3,
                     children:[]
                 }
@@ -53,6 +55,10 @@ export class SidebarNavComponent implements OnInit {
                        text: item2.app+"."+item2.alias,
                        link: '/apps/'+item2.link,
                     })
+
+                    if(this.router.url.indexOf(item2.link)>=0){
+                        menuItem._open = true;
+                    }
                 })
                 if(childres.length==0 && item1.link){
                     menuItem.link = '/apps/'+item1.link
