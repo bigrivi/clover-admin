@@ -12,6 +12,7 @@ import { SystemComponent } from './system.component'
 import { DataApiService } from '../../@core/utils/dataApi.service'
 
 import {PubSubService} from "../../@core/utils/pubsub.service"
+import {TranslateService} from "../../@core/utils/translate.service"
 import {AuthService} from '../../modules/auth/services/auth.service'
 import {NbAuthSimpleToken,NbTokenService} from '../../modules/auth/services/token.service'
 
@@ -71,6 +72,7 @@ _.each(appConfig,(modules,appName)=>{
     moduleConfig.app = appName;
     moduleConfig.module = moduleName;
     let providerName = appName+"."+moduleName+"DataApi"
+    console.log(providerName)
     appProviders.push( {
             provide: providerName,
             useFactory: (http: Http,pubsub:PubSubService,authService:AuthService,tokenService:NbTokenService)=>{

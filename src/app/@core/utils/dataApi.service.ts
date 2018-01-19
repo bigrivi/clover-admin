@@ -7,6 +7,7 @@ import {PubSubService} from "./pubsub.service"
 import {AuthService} from '../../modules/auth/services/auth.service'
 import {NbAuthSimpleToken,NbTokenService} from '../../modules/auth/services/token.service'
 import {ResourceService} from "./resource.service"
+import {TranslateService} from './translate.service'
 
 
 @Injectable()

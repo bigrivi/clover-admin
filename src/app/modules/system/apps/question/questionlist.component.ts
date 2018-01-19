@@ -14,6 +14,8 @@ export class QuestionListComponent implements OnInit {
     keyword: string;
     status: string;
 
+    searchStatus="0";
+
     saveName = "";
     modalVisible = false;
     modalTitle: string;
@@ -36,6 +38,9 @@ export class QuestionListComponent implements OnInit {
         let params = {
           sort:"-_id",
         }
+        if(this.searchStatus!="0"){
+            params["enabled_status"] = parseInt(this.searchStatus)
+        }
          this.resource = this.injector.get("question.questionDataApi").resource
          this.resource.get(params).map(res=>res.json()).subscribe((res)=>{
              res.result.unshift(null)
@@ -48,7 +53,7 @@ export class QuestionListComponent implements OnInit {
      * 输入查询
      */
     search(_status) {
-        console.log(_status);
+        this.loadData()
     }
 
     /**

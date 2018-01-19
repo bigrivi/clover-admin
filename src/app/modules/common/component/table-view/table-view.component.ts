@@ -49,6 +49,7 @@ export class TableViewComponent implements OnInit {
   @Input()
   set config(val:any) {
     this._config = _.cloneDeep(val);
+    console.log(this._config)
     let apiName = `${this._config.app}.${this._config.module}DataApi`;
     this.resource = this.injector.get(apiName).resource
     this._config.listHide = this._config.listHide || [];
@@ -122,39 +123,40 @@ export class TableViewComponent implements OnInit {
       })
     }
 
-    _.forEach(this._config.filters,(item)=>{
-       let dataSource = item.dataSource
-	   item.dataSourceOrigin = dataSource
-       this.filters[item.key] = "";
-       if(!_.isArray(dataSource)){
-         item.dataSource = []
-         let moduleArr = dataSource.split(".")
-         let apiName = `${moduleArr[0]}.${moduleArr[1]}DataApi`;
-    	 let dataApi = this.injector.get(apiName)
-         let resource = dataApi.resource
-         let moduleConfig = dataApi.config
-         resource.get({},item.tree?"/getTreeNode":"").map((res)=>res.json().result)
-         .subscribe((res)=>{
-             if(item.tree){
-               item.dataSource = res;
-             }else{
-               item.dataSource = _.map(res,(data)=>{
-                   let label = data[moduleConfig.labelField||"name"];
-                   let value = data[moduleConfig.valueField||"_id"];
-                   if(item.get_display){
-                     label = item.get_display(data)
-                   }
-                   return {
-                     label:label,
-                     value:value
-                   }
+    _.forEach(this.columns,(item)=>{
+       if(item.searchable && item.dataSource){
+         let dataSource = item.dataSource
+         item.dataSourceOrigin = dataSource
+           this.filters[item.key] = "";
+           if(!_.isArray(dataSource)){
+             item.dataSource = []
+             let moduleArr = dataSource.split(".")
+             let apiName = `${moduleArr[0]}.${moduleArr[1]}DataApi`;
+             let dataApi = this.injector.get(apiName)
+             let resource = dataApi.resource
+             let moduleConfig = dataApi.config
+             resource.get({},item.tree?"/getTreeNode":"").map((res)=>res.json().result)
+             .subscribe((res)=>{
+                 if(item.tree){
+                   item.dataSource = res;
+                 }else{
+                   item.dataSource = _.map(res,(data)=>{
+                       let label = data[moduleConfig.labelField||"name"];
+                       let value = data[moduleConfig.valueField||"_id"];
+                       return {
+                         label:label,
+                         value:value
+                       }
 
-               })
-             }
+                   })
+                 }
 
-         })
+             })
+         }
        }
     })
+
+    console.log(this.columns)
 
     this.fixedLeft = this.columns.filter((column) => {
       return column["fixedLeft"] == true;
@@ -279,26 +281,40 @@ export class TableViewComponent implements OnInit {
     this.refresh()
   }
 
-  treeNodeSelected(filterItem,e){
-     let moduleArr = filterItem.dataSourceOrigin.split(".")
+  doQueryIn(filterColumn){
+    let dataSource = filterColumn.dataSource
+    let selectValues = _.filter(dataSource,(item)=>{
+      return item.selected
+    })
+    selectValues = _.map(selectValues,(item)=>{
+      return item.value
+    })
+     let moduleArr = filterColumn.dataSourceOrigin.split(".")
      let apiName = `${moduleArr[0]}.${moduleArr[1]}DataApi`;
      let resource = this.injector.get(apiName).resource
-     resource.get({parentId:e.node.data.id}).map((res)=>res.json().result).subscribe((res)=>{
-       var idList = _.map(res,(item)=>{
-         return item._id;
-       })
-       this.queryIn[filterItem.key] = idList.join(",");
-       this.refresh()
-     })
+     this.queryIn[filterColumn.field] = selectValues.join(",");
+     this.refresh()
   }
+
+  resetQueryIn(filterColumn){
+    let dataSource = filterColumn.dataSource
+    _.each(dataSource,(item)=>{
+      item.selected = false
+    })
+    this.doQueryIn(filterColumn)
+  }
+
+
 
 
   doSorting(sortKey,sortValue){
     this.sorting["key"] = sortKey
     if(sortValue==null){
-      sortValue = "descend"
+      this.sorting["value"] = "";
+      this.sorting["key"] = ""
     }
-    this.sorting["value"] = sortValue;
+    else
+      this.sorting["value"] = sortValue;
     this.refresh()
   }
 

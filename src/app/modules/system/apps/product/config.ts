@@ -33,8 +33,9 @@ export const ProductConfig = {
 			width:100
 		},
 		category_id:{
-			label:"类别",
+		    label:"类别",
 			widget:"select",
+			searchable:true,
 			populateable:true,
 			dataSource:"product.category",
 			multiple:false,
@@ -75,6 +76,7 @@ export const ProductConfig = {
 		},
 		tags:{
 			label:"标签",
+			searchable:true,
 			widget:"select",
 			dataSource:"product.tag",
 			populateable:true,

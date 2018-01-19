@@ -6,6 +6,7 @@ import {API_ROOT} from "../../config"
 import {PubSubService} from "./pubsub.service"
 import {AuthService} from '../../modules/auth/services/auth.service'
 import {NbAuthSimpleToken,NbTokenService} from '../../modules/auth/services/token.service'
+import {TranslateService} from './translate.service'
 
 
 
@@ -96,10 +97,12 @@ export class HttpService{
             options = new RequestOptions();
         }
         if (options.headers == null) {
+            let lang = localStorage.getItem("appLang") || "zh-cn"
             options.headers = new Headers({
                 'Accept':'*/*',
                 'Content-Type': 'application/json;charset=UTF-8',
                 'X-Requested-With': 'XMLHttpRequest',
+                'language': lang,
                 'accesstoken': this.token.getValue()
             });
         }

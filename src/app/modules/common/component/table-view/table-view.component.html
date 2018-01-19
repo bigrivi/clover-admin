@@ -14,10 +14,24 @@
                 <th nz-th *ngIf="column.field!='selectedId'">
                     <span>{{column.label | translate}}</span>
                     <nz-table-sort *ngIf="column.sortabld"  (nzValueChange)="doSorting(column.field,$event)"></nz-table-sort>
-                    <nz-dropdown *ngIf="column.searchable" [nzTrigger]="'click'" [nzClickHide]="false">
+                    <nz-dropdown *ngIf="column.searchable && !column.dataSource" [nzTrigger]="'click'" [nzClickHide]="false">
                       <i class="anticon anticon-smile-o ant-table-filter-icon" nz-dropdown></i>
                       <div nz-dropdown-custom class="custom-filter-dropdown">
                         <nz-input input-debounce [nzPlaceHolder]="'搜索'" [(ngModel)]="column.searchKey" (valueChange)="onSearchChange($event,column)"></nz-input>
+                      </div>
+                    </nz-dropdown>
+                     <nz-dropdown *ngIf="column.searchable && column.dataSource" [nzTrigger]="'click'" [nzClickHide]="false">
+                      <i class="anticon anticon-smile-o ant-table-filter-icon" nz-dropdown></i>
+                      <ul nz-menu>
+                        <li nz-menu-item *ngFor="let filter of column.dataSource">
+                          <label nz-checkbox [(ngModel)]="filter.selected">
+                            <span>{{filter.label}}</span>
+                          </label>
+                        </li>
+                      </ul>
+                      <div nz-table-filter>
+                        <span nz-table-filter-confirm (click)="doQueryIn(column)">OK</span>
+                        <span nz-table-filter-clear (click)="resetQueryIn(column)">Reset</span>
                       </div>
                     </nz-dropdown>
                 </th>

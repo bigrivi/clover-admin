@@ -18,10 +18,11 @@
                             <label for="rate">状态</label>
                         </div>
                         <div nz-form-control nz-col>
-                            <nz-select name="rate" (nzSearchChange)="search($event)" [nzPlaceHolder]="'全部'"
-                            style="max-width: 200px; width: 100%;">
-                                <nz-option [nzLabel]="'启用'" [nzValue]="'good'"></nz-option>
-                                <nz-option [nzLabel]="'禁用'" [nzValue]="'normal'"></nz-option>
+                            <nz-select [(ngModel)]="searchStatus" name="rate" (ngModelChange)="search($event)"
+                            style="max-width: 200px; width: 200px;">
+                                <nz-option [nzLabel]="'全部'" [nzValue]="'0'"></nz-option>
+                                <nz-option [nzLabel]="'启用'" [nzValue]="'1'"></nz-option>
+                                <nz-option [nzLabel]="'禁用'" [nzValue]="'2'"></nz-option>
                             </nz-select>
                         </div>
                     </div>
@@ -58,7 +59,10 @@
                         <a (click)="setPageList(item)">{{item.name}}</a>
                     </ng-template>
                     <ng-template #nzDescription>
-                        <ellipsis>状态：禁用<br>日期：{{item.creation_on | moment: 'YYYY-MM-DD'}}</ellipsis>
+                        <ellipsis>状态：
+                            <ng-container *ngIf="item.enabled_status==1">启用</ng-container>
+                            <ng-container *ngIf="item.enabled_status==2">禁用</ng-container>
+                            <br>日期：{{item.creation_on | moment: 'YYYY-MM-DD'}}</ellipsis>
                     </ng-template>
                 </nz-card-meta>
             </nz-card>
