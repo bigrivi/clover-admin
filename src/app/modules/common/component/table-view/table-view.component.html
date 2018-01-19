@@ -1,5 +1,6 @@
 <nz-table #nzTable
     [nzAjaxData]="rows"
+    [nzPageIndex]="pagerData.currentPage"
     [nzPageSize]="pagerData.pageSize"
     [nzTotal]="pagerData.recordCount"
     [nzLoading]="loading"
