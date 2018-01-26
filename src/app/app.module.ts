@@ -9,7 +9,6 @@ import { CoreModule } from './@core/core.module';
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
 import { ThemeModule } from './@theme/theme.module';
-import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 import { StartupService } from './@core/services/startup.service';
 export function StartupServiceFactory(startupService: StartupService): Function {
@@ -23,7 +22,6 @@ export function StartupServiceFactory(startupService: StartupService): Function 
     BrowserAnimationsModule,
     HttpModule,
     AppRoutingModule,
-    NgbModule.forRoot(),
     CoreModule.forRoot(),
     ThemeModule.forRoot()
   ],

@@ -1,5 +1,4 @@
 import { Component,Input } from '@angular/core';
-import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
   selector: 'ngx-dialog-alert',
@@ -22,10 +21,10 @@ export class AlertComponent {
 
  @Input() config = {};
 
-  constructor(private activeModal: NgbActiveModal) { }
+  constructor() { }
 
   closeModal() {
-    this.activeModal.dismiss({ status : 'closed' });
+    //this.activeModal.dismiss({ status : 'closed' });
   }
 
 

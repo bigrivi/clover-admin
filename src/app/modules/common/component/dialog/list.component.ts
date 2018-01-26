@@ -1,5 +1,4 @@
 import { Component,Input,ViewChild,Injector } from '@angular/core';
-import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import {AppService} from '../../../common/services/app.service'
 import {TableViewComponent} from "../table-view/table-view.component"
 
@@ -29,19 +28,19 @@ export class TableViewDailogComponent {
 
   initSelectedIds = [];
   selectedObjs = [];
-  constructor(private activeModal: NgbActiveModal,public injector:Injector) {
-       
+  constructor(public injector:Injector) {
+
    }
 
    ngOnInit(){
        let module = this.config["module"].split(".");
        let apiName = `${module[0]}.${module[1]}DataApi`;
-       this.tableConfig = this.injector.get(apiName).config 
+       this.tableConfig = this.injector.get(apiName).config
        this.initSelectedIds = this.config["selectedIds"] || []
    }
 
   closeModal() {
-    this.activeModal.dismiss({ status : 'closed' });
+    //this.activeModal.dismiss({ status : 'closed' });
   }
 
   onSelectedChange(event){
@@ -49,6 +48,6 @@ export class TableViewDailogComponent {
   }
 
   approve(){
-     this.activeModal.close({ status : 'approved',selectedObjs:this.selectedObjs });
+     //this.activeModal.close({ status : 'approved',selectedObjs:this.selectedObjs });
   }
 }

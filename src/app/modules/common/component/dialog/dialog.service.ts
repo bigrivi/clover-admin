@@ -1,5 +1,4 @@
 import { Injectable } from '@angular/core';
-import {NgbModal, NgbModalOptions} from '@ng-bootstrap/ng-bootstrap';
 import {ConfirmComponent} from './confirm.component';
 import {AlertComponent} from './alert.component';
 import {TableViewDailogComponent} from './list.component';

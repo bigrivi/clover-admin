@@ -1,5 +1,4 @@
 import { Component,Input } from '@angular/core';
-import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
   selector: 'ngx-dialog-confirm',
@@ -23,13 +22,13 @@ export class ConfirmComponent {
 
  @Input() config = {};
 
-  constructor(private activeModal: NgbActiveModal) { }
+  constructor() { }
 
   closeModal() {
-    this.activeModal.dismiss({ status : 'closed' });
+    //this.activeModal.dismiss({ status : 'closed' });
   }
 
   approve(){
-    this.activeModal.close({ status : 'approved' });
+    //this.activeModal.close({ status : 'approved' });
   }
 }
