@@ -4,7 +4,6 @@ import { Http, Request,URLSearchParams, RequestOptionsArgs, Response, RequestOpt
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { SettingsService } from './settings.service';
 import { TranslateService } from '../utils/translate.service';
-import {API_ROOT} from "../../config"
 
 import 'rxjs/add/operator/do';
 import 'rxjs/add/operator/toPromise';

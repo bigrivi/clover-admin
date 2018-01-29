@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { SettingsService } from '../../../../@core/services/settings.service';
 import { UserService } from '../../../../@core/data/users.service';
-import { API_ROOT } from '../../../../config';
+import {environment} from "../../../../../environments/environment"
 
 @Component({
     selector: 'header-user',
@@ -27,7 +27,7 @@ export class HeaderUserComponent {
         this.userService.userInfoChange().subscribe((userInfo)=>{
             this.user = userInfo
             if(this.user && this.user.avatar){
-               this.user.picture = API_ROOT+"uploader/attachments/preview?id="+this.user.avatar;
+               this.user.picture = environment.API_ROOT+"uploader/attachments/preview?id="+this.user.avatar;
             }
           })
     }

@@ -1,5 +1,5 @@
 import { Pipe, PipeTransform } from '@angular/core';
-import {API_ROOT} from "../../../config"
+import {environment} from "../../../../environments/environment"
 
 @Pipe({ name: 'to_upload_file_thumb' })
 export class toUploadFileThumbPipe implements PipeTransform {
@@ -9,7 +9,7 @@ export class toUploadFileThumbPipe implements PipeTransform {
     if(mimes.indexOf(input.filetype)>=0){
     	var src = "";
     	if(input.id){
-    		src = API_ROOT+"uploader/attachments/preview?id="+input.id;
+    		src = environment.API_ROOT+"uploader/attachments/preview?id="+input.id;
     	}else if(input.base64){
     		src = "data:"+input.filetype+";base64,"+input.base64;
     	}
@@ -17,7 +17,7 @@ export class toUploadFileThumbPipe implements PipeTransform {
     }
     else{
     	if(input.id){
-    		var src = API_ROOT+"uploader/attachments/preview?id="+input.id;
+    		var src = environment.API_ROOT+"uploader/attachments/preview?id="+input.id;
     		return `<a  href="${src}">下载</a>`
     	}
     }

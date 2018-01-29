@@ -6,8 +6,7 @@ import { NbAuthResult } from '../modules/auth/services/auth.service';
 import { NbAbstractAuthProvider } from '../modules/auth/providers/abstract-auth.provider';
 import { NbAuthSimpleToken, NbTokenService } from '../modules/auth/services/token.service';
 import {UserService} from "./data/users.service"
-
-import {API_ROOT} from "../config"
+import {environment} from "../../environments/environment"
 
 export interface CloverAuthProviderConfig {
   delay?: number;
@@ -29,7 +28,7 @@ export class CloverAuthProvider extends NbAbstractAuthProvider {
     console.log(data)
 
     return Observable.create((observer)=>{
-       this.http.get(API_ROOT+"account/users/authenticate?"+this.formEncode(data)).subscribe((response)=>{
+       this.http.get(environment.API_ROOT+"account/users/authenticate?"+this.formEncode(data)).subscribe((response)=>{
           response = response.json();
           if(response["err"]){
             observer.next(new NbAuthResult(false,

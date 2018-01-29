@@ -8,7 +8,7 @@ import {parseRouteMap} from '../../../common/utils/route.utils'
 import {FormViewComponent} from '../../../common/component/form-view/form-view.component'
 import {Subscription} from 'rxjs'
 import * as _ from 'lodash';
-import {API_ROOT} from "../../../../config"
+import {environment} from "../../../../../environments/environment"
 
 @Component({
   selector: 'app-export-view',
@@ -116,7 +116,7 @@ export class ExportViewComponent implements OnInit {
 
     let apiName = `${this.config.app}.${this.config.module}DataApi`;
     let resource = this.injector.get(apiName).resource
-    var url = API_ROOT+resource.resourceApi+"/export?"+resource.formEncode(formData);
+    var url = environment.API_ROOT+resource.resourceApi+"/export?"+resource.formEncode(formData);
 
     var anchorElement = document.createElement('a');
     anchorElement.href = url;

@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { Http, Request,URLSearchParams, RequestOptionsArgs, Response, RequestOptions, ConnectionBackend, Headers } from '@angular/http';
 import 'rxjs/Rx';
 import { Observable } from 'rxjs/Observable';
-import {API_ROOT} from "../../config"
+import {environment} from "../../../environments/environment"
 import {PubSubService} from "./pubsub.service"
 import {AuthService} from '../../modules/auth/services/auth.service'
 import {NbAuthSimpleToken,NbTokenService} from '../../modules/auth/services/token.service'
@@ -31,7 +31,7 @@ export class HttpService{
      */
     get(resource: string, body?, options ? : RequestOptionsArgs): Observable < Response > {
         //'userId':130
-        let url = API_ROOT+resource
+        let url = environment.API_ROOT+resource
         if(body){
             url = url+"?"+this.formEncode(body)
         }
@@ -50,7 +50,7 @@ export class HttpService{
      * @memberof KnxHttp
      */
     post(resource: string, body, options ? : RequestOptionsArgs): Observable < Response > {
-        let url = API_ROOT+resource
+        let url = environment.API_ROOT+resource
         return this.intercept(url,this.http.post(url, body, this.getRequestOptionArgs(options,body)));
     }
 
@@ -65,7 +65,7 @@ export class HttpService{
      * @memberof KnxHttp
      */
     put(resource: string, body, options ? : RequestOptionsArgs): Observable < Response > {
-        let url = API_ROOT+resource
+        let url = environment.API_ROOT+resource
         return this.intercept(url,this.http.put(url, body, this.getRequestOptionArgs(options,body)));
     }
 
@@ -78,7 +78,7 @@ export class HttpService{
      * @memberof KnxHttp
      */
     delete(resource: string, options ? : RequestOptionsArgs): Observable < Response > {
-        let url = API_ROOT+resource
+        let url = environment.API_ROOT+resource
         return this.intercept(url,this.http.delete(url, this.getRequestOptionArgs(options)));
     }
 

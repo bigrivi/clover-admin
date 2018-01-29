@@ -2,9 +2,9 @@ import { Injectable } from '@angular/core';
 import { Http, Request,URLSearchParams, RequestOptionsArgs, Response, RequestOptions, ConnectionBackend, Headers } from '@angular/http';
 import 'rxjs/Rx';
 import { Observable } from 'rxjs/Observable';
-import {API_ROOT} from "../../config"
 import {PubSubService} from "./pubsub.service"
 import {ResourceService} from "./resource.service"
+import {environment} from "../../../environments/environment"
 
 
 @Injectable()
@@ -28,7 +28,7 @@ export class TranslateService{
 	loadLangs():Observable<any>{
 		let lang = this.getCurrLang()
 		return Observable.create((observer)=>{
-			this.http.get(API_ROOT+"home/i18n?lang="+lang).map(res=>res.json()).subscribe((res)=>{
+			this.http.get(environment.API_ROOT+"home/i18n?lang="+lang).map(res=>res.json()).subscribe((res)=>{
 				this.langsData = res;
 				observer.next()
 			})
