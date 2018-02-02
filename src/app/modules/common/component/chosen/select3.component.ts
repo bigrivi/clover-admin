@@ -17,7 +17,7 @@ export const ChosenSelect3Component_CONTROL_VALUE_ACCESSOR: any = {
 };
 
 @Component({
-  selector: 'select3',
+  selector: 'select3111',
   template: `
     <div class="chosen-container chosen-container-single"
         [class.chosen-container-active]="chosenContainerActive"
@@ -83,7 +83,7 @@ export class Select3Component extends AbstractChosenComponent<string>  {
 
 
   constructor( public router: Router,
-    protected el: ElementRef, 
+    protected el: ElementRef,
     protected renderer: Renderer,
     public injector: Injector,
     public dialogService:DialogService,
@@ -120,7 +120,7 @@ export class Select3Component extends AbstractChosenComponent<string>  {
             .debounceTime(500)
             .distinctUntilChanged();
 
-     
+
   }
 
   writeValue(value): void {
@@ -242,7 +242,7 @@ export class Select3Component extends AbstractChosenComponent<string>  {
     let moduleArr = this.config["dataSource"].split(".")
     let apiName = `${moduleArr[0]}.${moduleArr[1]}DataApi`;
     let dataApi = this.injector.get(apiName)
-    let resource = dataApi.resource 
+    let resource = dataApi.resource
     let moduleConfig = dataApi.config
     resource.get(params).subscribe((data) => {
       let res = data.json()
@@ -252,7 +252,7 @@ export class Select3Component extends AbstractChosenComponent<string>  {
       this.chosenDropComponent.filterMode = true
       this.buildDropOptions(results)
     },(error)=>{
-      
+
     })
   }
 
@@ -293,9 +293,9 @@ export class Select3Component extends AbstractChosenComponent<string>  {
             this.selectOption(option)
 
           }
-         
+
       }, (reason) => {
-       
+
     })
   }
 

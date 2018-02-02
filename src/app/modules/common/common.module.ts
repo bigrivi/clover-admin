@@ -19,6 +19,10 @@ import { CheckboxFieldComponent } from './component/form-view/form-fields/checkb
 import {UploaderFieldComponent} from './component/form-view/form-fields/uploader/uploader.comonent';
 import {FileUploaderComponent} from './component/form-view/form-fields/uploader/cv-uploader.comonent';
 import {CheckboxComponent} from './component/form-view/form-fields/checkbox/cv-checkbox.comonent';
+import {SelectComponent} from './component/form-view/form-fields/select/cv-select.comonent';
+import {ItemSelectComponent} from './component/form-view/form-fields/select/cv-itemselect.comonent';
+import {Select3Component} from './component/form-view/form-fields/select/cv-select3.comonent';
+
 
 import { DynamicFieldDirective } from './directive/dynamic-field.directive';
 import { InputDebounceDirective } from './directive/input-deboune';
@@ -74,6 +78,7 @@ const HELPERS = [ ModalHelper ];
     SelectFieldComponent,
     ItemSelectFieldComponent,
     Select3FieldComponent,
+    Select3Component,
     DynamicFieldDirective,
     InputDebounceDirective,
     RadioButtonFieldComponent,
@@ -81,6 +86,8 @@ const HELPERS = [ ModalHelper ];
     UploaderFieldComponent,
     FileUploaderComponent,
     CheckboxComponent,
+    SelectComponent,
+    ItemSelectComponent,
     ConfirmComponent,
     AlertComponent,
     TableViewDailogComponent,
@@ -92,12 +99,15 @@ const HELPERS = [ ModalHelper ];
     SelectFieldComponent,
     ItemSelectFieldComponent,
     Select3FieldComponent,
+    Select3Component,
     DateFieldComponent,
     RadioButtonFieldComponent,
     CheckboxFieldComponent,
     UploaderFieldComponent,
     FileUploaderComponent,
     CheckboxComponent,
+    SelectComponent,
+    ItemSelectComponent,
     TableViewComponent,
     ConfirmComponent,
     AlertComponent,

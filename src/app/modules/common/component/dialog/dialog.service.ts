@@ -3,11 +3,12 @@ import {ConfirmComponent} from './confirm.component';
 import {AlertComponent} from './alert.component';
 import {TableViewDailogComponent} from './list.component';
 import { NzModalService } from 'ng-zorro-antd';
+import * as _ from 'lodash';
 
 @Injectable()
 export class DialogService {
 
-    constructor(private confirmServ: NzModalService) {}
+    constructor(private modalService: NzModalService) {}
 
     //确认框
     confirm(messsage:string,title = "对话框"): Promise<any> {
@@ -15,7 +16,7 @@ export class DialogService {
         // modalRef.componentInstance.config = { title:title,message:messsage};
         // return modalRef.result;
         return new Promise((resolve,reject) => {
-            this.confirmServ.confirm({
+            this.modalService.confirm({
               title: title,
               content: messsage,
               onOk() {
@@ -41,10 +42,31 @@ export class DialogService {
 
       //提示框
     modalTable(module:String,selectedIds = [],title = "选择"): Promise<any> {
-        // const modalRef = this.modalService.open(TableViewDailogComponent,{ size: "lg" });
-        // modalRef.componentInstance.config = { title:title,module:module,selectedIds:selectedIds};
-        // return modalRef.result;
         return new Promise((resolve,reject) => {
+             const currentModal = this.modalService.open({
+                title          : title,
+                width          :"70%",
+                content        : TableViewDailogComponent,
+                onOk() {
+
+                },
+                onCancel() {
+                    // if(reject)
+                    //   reject("cancel")
+                },
+                footer         : false,
+                componentParams: {
+                  config:{ title:title,module:module,selectedIds:selectedIds}
+                }
+              });
+              currentModal.subscribe(result => {
+                // console.log(result);
+                if(_.isArray(result)){
+                  currentModal.destroy('onOk');
+                  resolve(result)
+                }
+
+              })
 
         })
     }

@@ -221,18 +221,6 @@ export class TableViewComponent implements OnInit {
     pageSize: PAGE_SIZE,
     pageCount: 0
   }
-
-
-  datePickerConfig1 = {
-    locale: 'zh-CN',
-    format:'YYYY-MM-DD'
-  }
-
-  datePickerConfig2 = {
-    locale: 'zh-CN',
-    appendTo:"body",
-    format:'YYYY-MM-DD HH:mm'
-  }
   ngOnInit() {
     this.queryParamsSub = this.activeRouter.queryParams.subscribe(params=> {
       this.queryParams = params

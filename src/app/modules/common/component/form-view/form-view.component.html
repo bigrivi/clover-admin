@@ -1,14 +1,20 @@
 
 
 <form nz-form [formGroup]="form" (submit)="handleSubmit($event)">
-  <div nz-form-item nz-row *ngFor="let item of _fields">
-        <div nz-form-label nz-col [nzSm]="4">
-              <label nz-form-item-required *ngIf="item.require">{{item.label | translate}}</label>
-              <label  *ngIf="!item.require">{{item.label | translate}}</label>
-        </div>
-        <div nz-form-control nz-col [nzSm]="20" [nzValidateStatus]="form.controls[item.field]">
-            	<ng-container dynamicField [config]="item" [group]="form"></ng-container>
-              <div nz-form-explain *ngIf="item.require &&form.controls[item.field].dirty  && form.controls[item.field].errors?.required">{{item.errMsg}}</div>
-        </div>
-    </div>
+  <ng-container *ngFor="let item of _fields">
+    <div nz-form-item nz-row *ngIf="item.visible">
+          <div nz-form-label nz-col [nzSm]="4">
+                <nz-tooltip *ngIf="item.tips" [nzTitle]="item.tips">
+                    <i nz-tooltip class="anticon anticon-question-circle-o"></i>
+                </nz-tooltip>
+                <label nz-form-item-required *ngIf="item.require">{{item.label | translate}}</label>
+                <label  *ngIf="!item.require">{{item.label | translate}}</label>
+
+          </div>
+          <div nz-form-control nz-col [nzSm]="20" [nzValidateStatus]="form.controls[item.field]">
+              	<ng-container dynamicField [config]="item" [group]="form"></ng-container>
+                <div nz-form-explain *ngIf="item.require &&form.controls[item.field].dirty  && form.controls[item.field].errors?.required">{{item.errMsg}}</div>
+          </div>
+      </div>
+  </ng-container>
 </form>

@@ -3,6 +3,7 @@ import { Router } from '@angular/router';
 import { SettingsService } from '../../../../@core/services/settings.service';
 import { NavService } from '../../../../@core/data/nav.service';
 import { MenuService } from '../../../../@core/services/menu.service';
+import { HttpService } from '../../../../@core/utils/resource.service';
 
 @Component({
     selector: 'header-module',
@@ -18,14 +19,14 @@ export class HeaderModuleComponent {
     constructor(
         public router: Router,
         public injector:Injector,
+        public httpService:HttpService,
         private menuService:MenuService,
         public settingsService: SettingsService
     ) {
     }
 
     ngOnInit() {
-     let resource = this.injector.get("home.navDataApi").resource
-      resource.get().map(res=>res.json()).subscribe((res)=>{
+      this.httpService.get("home/navs").map(res=>res.json()).subscribe((res)=>{
            this.menuService.setData(res)
            this.navs = res;
       })

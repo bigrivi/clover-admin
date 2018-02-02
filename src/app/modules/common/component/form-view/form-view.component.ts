@@ -6,6 +6,7 @@ import {Observable} from 'rxjs'
 import {AppService} from '../../services/app.service'
 import {ChosenOption, ChosenOptionGroup} from "../chosen/chosen-commons";
 import { Router, NavigationEnd } from '@angular/router';
+import { Subscription } from 'rxjs';
 import * as _ from 'lodash';
 import {formatDate} from '../../utils/date.utils'
 import {parseRouteMap} from '../../utils/route.utils'
@@ -28,6 +29,8 @@ export class FormViewComponent {
  _config;
  _params = {}
  _fields = []
+ _fieldsByKey = {}
+ _subscriptions:Subscription[] = [];
   @Input()
   set params(val) {
     this._params = val;
@@ -47,11 +50,31 @@ export class FormViewComponent {
       })
     }
 
+    _.each(this._config["fields"],(value,key)=>{
+      if(value.chain){
+          _.each(value.chain,(chainFileds,chainValue)=>{
+              // console.log(chainFileds,chainValue)
+              let fieldsArr = chainFileds.split(",")
+              if(fieldsArr.length>0){
+                  _.each(fieldsArr,(field)=>{
+                      this._config["fields"][field].visible = false
+                  })
+              }
+          })
+      }
+    })
+
     this._fields = Object.keys(this._config["fields"]);
      this._fields = this._fields.map((field)=>{
       let src = this._config["fields"][field]
       let clone = Object.assign({},src)
       clone.field = field
+      if(src.visible == false)
+        clone.visible = false
+      else
+        clone.visible = true
+      if(src.chain)
+        clone.chain = src.chain
       clone.value = src.value || ""
       clone.errMsg = clone.errMsg || this.getDefaultErrMsg(clone)
       return clone;
@@ -67,13 +90,48 @@ export class FormViewComponent {
       return true;
     })
 
-
-    this._fields.forEach(control => {
-          this.form.addControl(control.field, this.createControl(control))
+    this._fieldsByKey = {}
+    this._fields.forEach(config => {
+          this._fieldsByKey[config.field] = config
+          this.form.addControl(config.field, this.createControl(config))
     });
     if(isEditMode){
        this.loadData()
     }
+
+
+    //初始化联动效果
+    this._subscriptions = []
+    this._fields.forEach(control => {
+          if(control.chain){
+            let subscription = this.form.controls[control.field].valueChanges.subscribe((newVal)=>{
+                   console.log("change"+newVal)
+                   _.each(control.chain,(chainFileds,chainValue)=>{
+                        let fieldsArr = chainFileds.split(",")
+                        if(chainValue == newVal){
+                            if(fieldsArr.length>0){
+                                _.each(fieldsArr,(field)=>{
+                                     this._fieldsByKey[field].visible = true
+                                     let validation = this._fieldsByKey[field].require?[Validators.required]:null;
+                                     this.form.controls[field].setValidators(validation)
+                                })
+                             }
+                        }
+                        else{
+                            if(fieldsArr.length>0){
+                                _.each(fieldsArr,(field)=>{
+                                     this._fieldsByKey[field].visible = false
+                                     this.form.controls[field].setValidators(null)
+                                })
+                             }
+                        }
+
+                    })
+              })
+
+              this._subscriptions.push(subscription)
+          }
+    });
 
   }
 
@@ -96,7 +154,6 @@ export class FormViewComponent {
     populates = _.map(populates,(item)=>{
       return item.field
     })
-    populates = []
     let requestUrl = this._config.resource+"/"+this._params["id"]
     if(populates.length>0)
       requestUrl+= "?populate="+populates.join(" ")
@@ -122,8 +179,11 @@ export class FormViewComponent {
   validata(){
     let controls = Object.keys(this.form.controls)
     controls.forEach((controlKey)=>{
-      let control:AbstractControl = this.form.controls[controlKey]
-      control.markAsDirty()
+      if(this._fieldsByKey[controlKey].visible){
+        let control:AbstractControl = this.form.controls[controlKey]
+        control.markAsDirty()
+      }
+
     })
     if(!this.form.valid){
       this.messageService.error('请正确填写数据');
@@ -153,15 +213,21 @@ export class FormViewComponent {
       msg = "请选择日期时间";
     }else if(fieldData.widget=="time"){
       msg = "请选择时间";
-    }else if(fieldData.widget=="checkbox" || fieldData.widget=="itemselect"){
+    }else if(fieldData.widget=="checkbox"){
       msg = "请至少选项一项"+label;
-    }else if(fieldData.widget=="select"){
+    }else if(fieldData.widget=="select" || fieldData.widget=="itemselect" || fieldData.widget=="select3"){
       if(fieldData.multiple)
         msg = "请至少选项一项"+label;
       else
         msg = "请选择"+label;
     }
     return msg;
+  }
+
+  ngOnDestroy(){
+    this._subscriptions.forEach((item)=>{
+      item.unsubscribe()
+    })
   }
 
 

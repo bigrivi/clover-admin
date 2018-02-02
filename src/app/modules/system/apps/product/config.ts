@@ -2,9 +2,7 @@ import * as _ from 'lodash';
 
 var category_source = [
 	{label: "测试1", value: "1"},
-	{label: "测试2", value: "2"},
-	{label: "测试3", value: "3"},
-	{label: "测试4", value: "4"},
+	{label: "测试2", value: "2"}
 ]
 export const ProductConfig = {
 	resource:"products",
@@ -13,7 +11,7 @@ export const ProductConfig = {
 	labelField:"name",
 	addable:false,
 	name:"产品管理",
-	listHide:["introduction","bar_code","pic"],
+	listHide:["introduction","bar_code","pic","category_id1","test1_1","test1_2","test1_3","test2_1","test2_2","test2_3"],
 	modalListShow:["name","price","serial_number"],
 	fields : {
 		name:{
@@ -45,6 +43,54 @@ export const ProductConfig = {
 					return item["category_id"].name
 				return ""
 			}
+		},
+		category_id1:{
+		    label:"测试联动",
+			widget:"select",
+			searchable:true,
+			populateable:true,
+			dataSource:category_source,
+			multiple:false,
+			require:true,
+			value:"1",
+			chain:{
+				"1":"test1_1,test1_2,test1_3",
+				"2":"test2_1,test2_2,test2_3",
+			},
+		},
+		test1_1:{
+			label:"测试1-1",
+			widget:"select",
+			dataSource:"product.category",
+			queryParams:{name:"手机"},
+			require:true
+		},
+		test1_2:{
+			label:"测试1-2",
+			widget:"text",
+			require:true
+		},
+		test1_3:{
+			label:"测试1-3",
+			widget:"text",
+			require:true
+		},
+		test2_1:{
+			label:"测试2-1",
+			widget:"select",
+			dataSource:"product.category",
+			queryParams:{name:"服装"},
+			require:true
+		},
+		test2_2:{
+			label:"测试2-2",
+			widget:"text",
+			require:true
+		},
+		test2_3:{
+			label:"测试2-3",
+			widget:"datetime",
+			require:true
 		},
 		measuring_unit:{
 			label:"计量单位",
@@ -107,7 +153,7 @@ export const ProductConfig = {
 			label:"介绍",
 			widget:"textarea",
 			require:true
-		},
+		}
 
 	},
 	filters:[
