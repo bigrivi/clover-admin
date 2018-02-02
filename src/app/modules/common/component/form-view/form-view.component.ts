@@ -4,7 +4,6 @@ import { Http } from '@angular/http';
 import { FormGroup, FormBuilder,Validators,AbstractControl } from '@angular/forms';
 import {Observable} from 'rxjs'
 import {AppService} from '../../services/app.service'
-import {ChosenOption, ChosenOptionGroup} from "../chosen/chosen-commons";
 import { Router, NavigationEnd } from '@angular/router';
 import { Subscription } from 'rxjs';
 import * as _ from 'lodash';

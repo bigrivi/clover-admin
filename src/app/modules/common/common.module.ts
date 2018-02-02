@@ -7,7 +7,6 @@ import { NgZorroAntdExtraModule } from 'ng-zorro-antd-extra';
 import { CountdownModule } from 'ngx-countdown';
 import { AngularWebStorageModule } from 'angular-web-storage';
 
-import {ChosenModule} from './component/chosen/chosen.module';
 import { FormViewComponent } from './component/form-view/form-view.component';
 import { InputFieldComponent } from './component/form-view/form-fields/input/input.comonent';
 import { SelectFieldComponent } from './component/form-view/form-fields/select/select.comonent';
@@ -66,7 +65,6 @@ const HELPERS = [ ModalHelper ];
     RouterModule,
     TreeModule,
     ReactiveFormsModule,
-    ChosenModule,
     AngularWebStorageModule,
     NgZorroAntdExtraModule.forRoot()
   ],

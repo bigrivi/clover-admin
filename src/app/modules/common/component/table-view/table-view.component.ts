@@ -66,6 +66,7 @@ export class TableViewComponent implements OnInit {
     this.dataReady = false;
     this.selectedAll = false;
     this.sorting = {key:"",value:""}
+    this.loading = false
 
     //check action auth node
     let postNode = `${this._config.app}.${this._config.module}.post`;
@@ -199,6 +200,7 @@ export class TableViewComponent implements OnInit {
   rows = []
   columns = []
   filters = {}
+  loading = false
   queryIn = {}
   sorting = {key:"",value:""}
   fixedLeft = [];
@@ -389,10 +391,11 @@ export class TableViewComponent implements OnInit {
     if(populates.length>0)
       params["populate"] = populates.join(" ")
      //console.log(params)
-
+   this.loading = true
    this.lastLoadSub = this.resource.get(params).subscribe((data) => {
       let res = data.json()
       let results = res.result;
+      this.loading = false
       this.pagerData.recordCount = res.record_count;
       this.pagerData.pageCount = Math.ceil(this.pagerData.recordCount / this.pagerData.pageSize);
       if(!this.modalMode)
