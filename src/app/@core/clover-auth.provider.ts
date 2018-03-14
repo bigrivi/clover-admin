@@ -28,18 +28,19 @@ export class CloverAuthProvider extends NbAbstractAuthProvider {
     console.log(data)
 
     return Observable.create((observer)=>{
-       this.http.get(environment.API_ROOT+"account/users/authenticate?"+this.formEncode(data)).subscribe((response)=>{
+       this.http.get(environment.API_ROOT+"account/login?"+this.formEncode(data)).subscribe((response)=>{
           response = response.json();
-          if(response["err"]){
+          if(response["errmsg"]){
             observer.next(new NbAuthResult(false,
             this.createFailResponse(data),
             null,
-            [response["err"]]));
+            [response["errmsg"]]));
           }
           else{
-            this.userSerive.setUserInfo(response["userInfo"]).subscribe(()=>{})
+            response = response["data"]
+            this.userSerive.setUserInfo(response["user_info"]).subscribe(()=>{})
              let token = new NbAuthSimpleToken()
-             this.userSerive.setAuthNodes(response["authorizeNodes"])
+             this.userSerive.setAuthNodes(response["auth_nodes"])
              token.setValue(response["token"])
              let authResult = new NbAuthResult(true, this.createSuccessResponse(response), this.getConfigValue("redirect"), ['Successfully logged in.'],null,token)
              observer.next(authResult)

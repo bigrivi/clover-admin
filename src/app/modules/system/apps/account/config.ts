@@ -14,7 +14,7 @@ var hobby_source = [
 
 
 export const UserInfoConfig = {
-	resource:"users",
+	resource:"user",
 	module:"userInfo",
 	valueField:"_id",
 	labelField:"username",
@@ -124,7 +124,7 @@ export const UserInfoConfig = {
 }
 
 export const DepartmentConfig = {
-	resource:"departments",
+	resource:"department",
 	module:"department",
 	name:"部门管理",
 	treeable:true,
@@ -179,7 +179,7 @@ export const DepartmentConfig = {
 
 
 export const UserRoleConfig = {
-	resource:"userRoles",
+	resource:"user_role",
 	module:"userRole",
 	name:"用户角色管理",
 	treeable:false,
@@ -201,7 +201,7 @@ export const UserRoleConfig = {
 
 
 export const AuthNodeConfig = {
-	resource:"authNodes",
+	resource:"auth_node",
 	module:"authNode"
 }
 

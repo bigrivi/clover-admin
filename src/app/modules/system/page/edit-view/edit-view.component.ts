@@ -73,20 +73,20 @@ export class EditViewComponent implements OnInit {
     let resource = this.injector.get(apiName).resource
     if(this.formView.validata()){
         console.log(this.formView.form.value)
-        // if(this.params["id"]){
-        //     resource.put(this.params["id"],this.formView.form.value).subscribe((res)=>{
-        //       this.navigateToList()
-        //        this.messageService.success('修改成功');
-        //    })
-        // }
-        // else{
-        //   let postData = Object.assign(this.formView.form.value,this.queryParams)
-        //   resource.post(postData).subscribe((res)=>{
-        //       this.navigateToList()
-        //       this.messageService.success('保存成功');
+        if(this.params["id"]){
+            resource.put(this.params["id"],this.formView.form.value).subscribe((res)=>{
+              this.navigateToList()
+               this.messageService.success('修改成功');
+           })
+        }
+        else{
+          let postData = Object.assign(this.formView.form.value,this.queryParams)
+          resource.post(postData).subscribe((res)=>{
+              this.navigateToList()
+              this.messageService.success('保存成功');
 
-        //    })
-        // }
+           })
+        }
     }
 
   }

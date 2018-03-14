@@ -65,7 +65,7 @@ export class AuthorizeComponent {
     public appService:AppService,
     public userService:UserService ) {
       let resource = this.injector.get("account.authNodeDataApi").resource
-      resource.get().map(res=>res.json().result).subscribe((res)=>{
+      resource.get().map(res=>res.json().data).subscribe((res)=>{
          let apps_temp = {}
          res.forEach((authNodeItem)=>{
            this.node_id_by_app[authNodeItem.node] = authNodeItem._id;
@@ -95,7 +95,7 @@ export class AuthorizeComponent {
       })
 
 
-      this.injector.get("account.authorizeDataApi").resource.get({populate:"auth_node_id",auth_role_id:this.route.snapshot.params["id"]}).map(res=>res.json().result).subscribe((res)=>{
+      this.injector.get("account.authorizeDataApi").resource.get({populate:"auth_node_id",auth_role_id:this.route.snapshot.params["id"]}).map(res=>res.json().data).subscribe((res)=>{
         res.forEach((item)=>{
           this.nodes_model[item.auth_node_id.node] = true
         })
@@ -114,6 +114,7 @@ export class AuthorizeComponent {
         })
         let resource = this.injector.get("account.authorizeDataApi").resource
         let postData = {role_id:this.route.snapshot.params["id"],nodes:selected_nodes}
+        console.log(postData)
         resource.post(postData).map(res=>res.json()).subscribe((res)=>{
           this.messageService.success('授权成功');
         })

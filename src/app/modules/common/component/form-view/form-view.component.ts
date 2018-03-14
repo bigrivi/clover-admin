@@ -159,7 +159,7 @@ export class FormViewComponent {
     let apiName = `${this._config.app}.${this._config.module}DataApi`;
     let resource = this.injector.get(apiName).resource
     resource.get({populate:populates.join(" ")},"/"+this._params["id"]).subscribe((res)=>{
-          let data = res.json()
+          let data = res.json().data
           let controls = Object.keys(this.form.controls)
            controls.forEach((controlKey)=>{
               let control:AbstractControl = this.form.controls[controlKey]

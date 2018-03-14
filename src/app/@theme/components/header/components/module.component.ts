@@ -27,8 +27,8 @@ export class HeaderModuleComponent {
 
     ngOnInit() {
       this.httpService.get("home/navs").map(res=>res.json()).subscribe((res)=>{
-           this.menuService.setData(res)
-           this.navs = res;
+           this.menuService.setData(res.data)
+           this.navs = res.data;
       })
 
 

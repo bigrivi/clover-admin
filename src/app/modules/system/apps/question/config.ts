@@ -5,7 +5,7 @@ var status_source = [
 ]
 
 export const QuestionConfig = {
-	resource:"questions",
+	resource:"question",
 	module:"question",
 	treeable:false,
 	fields : {

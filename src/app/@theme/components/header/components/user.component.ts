@@ -27,7 +27,7 @@ export class HeaderUserComponent {
         this.userService.userInfoChange().subscribe((userInfo)=>{
             this.user = userInfo
             if(this.user && this.user.avatar){
-               this.user.picture = environment.API_ROOT+"uploader/attachments/preview?id="+this.user.avatar;
+               this.user.picture = environment.API_ROOT+"uploader/attachment/preview?id="+this.user.avatar;
             }
           })
     }

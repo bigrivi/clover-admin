@@ -76,7 +76,7 @@ export class FileUploaderComponent implements ControlValueAccessor {
         this.fileObjects = [];
         valueArr.forEach((attachemtId)=>{
           resource.get({},"/"+attachemtId).subscribe((res)=>{
-            var attachmentObject = res.json()
+            var attachmentObject = res.json().data
             this.fileObjects.push({id:attachmentObject._id,filetype:attachmentObject.file_mime,filename:attachmentObject.source_name,filesize:attachmentObject.file_size})
             this.valueChange(this.getFinalResult())
           })

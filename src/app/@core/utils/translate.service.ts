@@ -29,7 +29,7 @@ export class TranslateService{
 		let lang = this.getCurrLang()
 		return Observable.create((observer)=>{
 			this.http.get(environment.API_ROOT+"home/i18n?lang="+lang).map(res=>res.json()).subscribe((res)=>{
-				this.langsData = res;
+				this.langsData = res.data;
 				observer.next()
 			})
 		})

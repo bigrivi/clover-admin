@@ -1,10 +1,10 @@
 export const AttachmentConfig = {
-	resource:"attachments",
+	resource:"attachment",
 	module:"attachment",
 	addable:false,
 	fields : {
 	}
-	
+
 }
 
 

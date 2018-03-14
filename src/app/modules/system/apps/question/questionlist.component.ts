@@ -42,9 +42,9 @@ export class QuestionListComponent implements OnInit {
             params["enabled_status"] = parseInt(this.searchStatus)
         }
          this.resource = this.injector.get("question.questionDataApi").resource
-         this.resource.get(params).map(res=>res.json()).subscribe((res)=>{
-             res.result.unshift(null)
-             this.data = res.result
+         this.resource.get(params).map(res=>res.json().data).subscribe((res)=>{
+             res.unshift(null)
+             this.data = res
          })
     }
 

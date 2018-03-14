@@ -5,7 +5,7 @@ var category_source = [
 	{label: "测试2", value: "2"}
 ]
 export const ProductConfig = {
-	resource:"products",
+	resource:"product",
 	module:"product",
 	valueField:"_id",
 	labelField:"name",
@@ -175,7 +175,7 @@ export const ProductConfig = {
 
 
 export const CategoryConfig = {
-	resource:"categories",
+	resource:"category",
 	module:"category",
 	name:"产品分类管理",
 	fields : {
@@ -191,7 +191,7 @@ export const CategoryConfig = {
 
 
 export const TagConfig = {
-	resource:"tags",
+	resource:"tag",
 	module:"tag",
 	name:"产品标签管理",
 	fields : {

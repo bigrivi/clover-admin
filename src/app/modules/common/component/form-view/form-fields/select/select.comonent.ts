@@ -35,7 +35,7 @@ export class SelectFieldComponent {
          if(this._config.queryParams){
            params = Object.assign(params,this._config.queryParams)
          }
-         resource.get(params).map((res)=>res.json().result).subscribe((res)=>{
+         resource.get(params).map((res)=>res.json().data).subscribe((res)=>{
              this._dataSource = _.map(res,(item)=>{
                  return {
                    label:item[moduleConfig.labelField||"name"],

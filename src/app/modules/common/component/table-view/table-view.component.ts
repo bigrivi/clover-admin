@@ -136,7 +136,7 @@ export class TableViewComponent implements OnInit {
              let dataApi = this.injector.get(apiName)
              let resource = dataApi.resource
              let moduleConfig = dataApi.config
-             resource.get({},item.tree?"/getTreeNode":"").map((res)=>res.json().result)
+             resource.get({},item.tree?"/getTreeNode":"").map((res)=>res.json().data)
              .subscribe((res)=>{
                  if(item.tree){
                    item.dataSource = res;
@@ -393,8 +393,8 @@ export class TableViewComponent implements OnInit {
      //console.log(params)
    this.loading = true
    this.lastLoadSub = this.resource.get(params).subscribe((data) => {
-      let res = data.json()
-      let results = res.result;
+      let res = data.json().data
+      let results = res.data;
       this.loading = false
       this.pagerData.recordCount = res.record_count;
       this.pagerData.pageCount = Math.ceil(this.pagerData.recordCount / this.pagerData.pageSize);

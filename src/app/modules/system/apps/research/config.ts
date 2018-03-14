@@ -2,7 +2,7 @@ import * as _ from 'lodash';
 
 
 export const ResearchConfig = {
-	resource:"researchs",
+	resource:"research",
 	module:"research",
 	name:"调研管理",
 	treeable:false,

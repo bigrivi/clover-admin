@@ -18,7 +18,7 @@ var diaoyan_status_source = [
 
 
 export const TemplateConfig = {
-	resource:"templates",
+	resource:"template",
 	module:"template",
 	name:"模板管理",
 	treeable:false,
@@ -58,7 +58,7 @@ export const TemplateConfig = {
 
 
 export const EmailConfig = {
-	resource:"emails",
+	resource:"email",
 	module:"email",
 	name:"邮件管理",
 	treeable:false,
@@ -99,7 +99,7 @@ export const EmailConfig = {
 
 
 export const SmsConfig = {
-	resource:"smss",
+	resource:"sms",
 	module:"sms",
 	name:"短信管理",
 	treeable:false,
@@ -140,7 +140,7 @@ export const SmsConfig = {
 
 
 export const WinningConfig = {
-	resource:"winnings",
+	resource:"winning",
 	module:"winning",
 	name:"中奖管理",
 	treeable:false,

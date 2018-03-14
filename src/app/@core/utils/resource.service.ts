@@ -123,11 +123,11 @@ export class HttpService{
         return Observable.create((observer) => {
                 observable.subscribe((res)=>{
                     //如果服务端返回的ErrorCode不为0时 集中处理
-                    let resJson = res.json()
-                    if(resJson&&(resJson.code<0 && resJson.err)) //处理错误发生情况
+                    let results = res.json()
+                    if(results&&(results.errno>0 && results.errmsg)) //处理错误发生情况
                     {
-                         this.pubsub.errorToast.emit(resJson.err);
-                         observer.error(resJson.err)
+                         this.pubsub.errorToast.emit(results.errmsg);
+                         observer.error(results.errmsg)
                     }
                     else
                         observer.next(res);
