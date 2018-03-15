@@ -41,12 +41,12 @@ export class HomeComponent {
   loadData(){
       let userInfoResource = this.injector.get("account.userInfoDataApi").resource
       userInfoResource.get().map(res=>res.json()).subscribe((res)=>{
-        this.userList = res.result
+        this.userList = res.data
       })
 
       let userRoleResource = this.injector.get("account.userRoleDataApi").resource
       userRoleResource.get().map(res=>res.json()).subscribe((res)=>{
-        this.userGroupList = res.result
+        this.userGroupList = res.data
       })
 
   }

@@ -72,7 +72,7 @@ export class TableViewComponent implements OnInit {
     let postNode = `${this._config.app}.${this._config.module}.post`;
     let putNode = `${this._config.app}.${this._config.module}.put`;
     let deleteNode = `${this._config.app}.${this._config.module}.delete`;
-    let authorizeNode = "account.userRole.authorize.put";
+    let authorizeNode = "account.authorize.put";
     if(!this.userService.checkNodeIsAuth(putNode)){
       _.pull(this._config.actions, "edit");
     }

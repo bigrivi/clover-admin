@@ -251,8 +251,10 @@ export class ResourceService extends HttpService{
      * @memberof KnxHttp
      */
     put(id,body, options ? : RequestOptionsArgs): Observable < Response > {
-        return super.put(this._resourceApi+"/"+id,body,options)
-
+        if(id)
+            return super.put(this._resourceApi+"/"+id,body,options)
+        else
+            return super.put(this._resourceApi,body,options)
     }
 
     /**

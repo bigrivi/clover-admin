@@ -9,6 +9,7 @@ import {FormViewComponent} from '../../../common/component/form-view/form-view.c
 import {Subscription} from 'rxjs'
 import * as _ from 'lodash';
 import {environment} from "../../../../../environments/environment"
+import {NbAuthSimpleToken,NbTokenService} from '../../../../modules/auth/services/token.service'
 
 @Component({
   selector: 'app-export-view',
@@ -29,10 +30,12 @@ export class ExportViewComponent implements OnInit {
   sortField = "_id";//排序字段
   sort = "desc"
 
+   token:NbAuthSimpleToken;
 
   constructor(public route: ActivatedRoute,
     public appService:AppService,
     public injector:Injector,
+    public tokenService:NbTokenService,
     public router: Router) {
       let routeMap = parseRouteMap(this.router.url)
       this.module = routeMap["module"];
@@ -53,6 +56,10 @@ export class ExportViewComponent implements OnInit {
       })
       fields.unshift({field:"_id",label:"Id",checked:true})
       this.fields = fields
+
+      tokenService.tokenChange().subscribe((token)=>{
+            this.token = token
+        })
 
 
   }
@@ -111,7 +118,8 @@ export class ExportViewComponent implements OnInit {
       sortField:this.sortField,
       sort:this.sort,
       populates:populates.join(","),
-      format:format
+      format:format,
+      accesstoken: this.token.getValue()
     }
 
     let apiName = `${this.config.app}.${this.config.module}DataApi`;

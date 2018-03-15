@@ -113,9 +113,9 @@ export class AuthorizeComponent {
           })
         })
         let resource = this.injector.get("account.authorizeDataApi").resource
-        let postData = {role_id:this.route.snapshot.params["id"],nodes:selected_nodes}
+        let postData = {nodes:selected_nodes}
         console.log(postData)
-        resource.post(postData).map(res=>res.json()).subscribe((res)=>{
+        resource.put(this.route.snapshot.params["id"],postData).map(res=>res.json()).subscribe((res)=>{
           this.messageService.success('授权成功');
         })
 

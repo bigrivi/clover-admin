@@ -14,7 +14,7 @@ var hobby_source = [
 
 
 export const UserInfoConfig = {
-	resource:"user",
+	resource:"user_info",
 	module:"userInfo",
 	valueField:"_id",
 	labelField:"username",

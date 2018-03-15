@@ -26,11 +26,11 @@ export class AuthGuardService implements CanActivate {
             observer.complete()
             return;
           }
-          let authNode = parseAuthNodeByUrl(url)
-          if(!this.userService.checkNodeIsAuth(authNode)){
-            this.messageService.error('未认证'+authNode);
-            res = false
-          }
+          // let authNode = parseAuthNodeByUrl(url)
+          // if(!this.userService.checkNodeIsAuth(authNode)){
+          //   this.messageService.error('未认证'+authNode);
+          //   res = false
+          // }
           observer.next(res);
           observer.complete()
         })
