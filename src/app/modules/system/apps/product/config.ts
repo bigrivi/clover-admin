@@ -13,6 +13,13 @@ export const ProductConfig = {
 	name:"产品管理",
 	listHide:["introduction","bar_code","pic","category_id1","test1_1","test1_2","test1_3","test2_1","test2_2","test2_3"],
 	modalListShow:["name","price","serial_number"],
+	extActions:[
+		{
+	        label:"product.Order Logs",
+	        action:"orderLogs",
+	        authNode:"product.orderLogs.get"
+	    }
+	],
 	fields : {
 		name:{
 			label:"product.Product Name",
@@ -212,5 +219,40 @@ export const TagConfig = {
             editable: false
 
 		}
+	}
+}
+
+
+
+export const OrderLogsConfig = {
+	resource:"order_logs",
+	module:"orderLogs",
+	name:"产品订购记录管理",
+	fields : {
+		customer:{
+			label:"客户",
+			widget:"text",
+			require:true
+		},
+		quanity:{
+			label:"订购数量",
+			sortabld:true,
+			widget:"number",
+			titleabled :false,
+			require:false
+
+		},
+		reamrk:{
+			label:"备注",
+			widget:"textarea",
+			titleabled :false,
+			require:false
+		},
+		order_date:{
+			label:"订购时间",
+			widget:"datetime",
+			sortabld:true,
+			require:true
+		},
 	}
 }

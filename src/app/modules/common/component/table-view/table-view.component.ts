@@ -52,14 +52,20 @@ export class TableViewComponent implements OnInit {
     console.log(this._config)
     let apiName = `${this._config.app}.${this._config.module}DataApi`;
     this.resource = this.injector.get(apiName).resource
-    this._config.listHide = this._config.listHide || [];
-    this._config.modalListShow = this._config.modalListShow || [];
-    this._config.actionable = this._config.actionable || true; //出现操作列
-    this._config.selecteable = this._config.selecteable || true; //出现checkbox选择列
-    this._config.addable = this._config.addable || true; //出现新增按钮
-    this._config.filters = this._config.filters || []; //过滤器
-    this._config.treeable = this._config.treeable || false; //是否是树
-    this._config.actions = this._config.actions || ["edit","delete"]; //操作
+    let defaultOptions = {
+      listHide:[],
+      modalListShow:[],
+      actionable:true,
+      selecteable:true,
+      addable:false,
+      exportable:true,
+      filters:[],
+      treeable:false,
+      extActions:[]
+    }
+    console.log(this._config)
+    this._config = Object.assign(defaultOptions,this._config)
+    this._config.actions =[]
     this.filters = {}
     this.queryIn = {}
     this.rows = [];
@@ -67,24 +73,29 @@ export class TableViewComponent implements OnInit {
     this.selectedAll = false;
     this.sorting = {key:"",value:""}
     this.loading = false
+    let defaultAction =  [
+      {
+        label:"edit",
+        action:"edit",
+        authNode:`${this._config.app}.${this._config.module}.put`,
+        link:""
+      },
+       {
+        label:"delete",
+        action:"delete",
+        authNode:`${this._config.app}.${this._config.module}.delete`,
+        link:""
+      }
+    ];
+    _.each(defaultAction,(action)=>{
+      if(this.userService.checkNodeIsAuth(action.authNode))
+        this._config.actions.push(action)
+    })
+    _.each(this._config.extActions,(action)=>{
+      if(this.userService.checkNodeIsAuth(action.authNode))
+        this._config.actions.push(action)
+    })
 
-    //check action auth node
-    let postNode = `${this._config.app}.${this._config.module}.post`;
-    let putNode = `${this._config.app}.${this._config.module}.put`;
-    let deleteNode = `${this._config.app}.${this._config.module}.delete`;
-    let authorizeNode = "account.authorize.put";
-    if(!this.userService.checkNodeIsAuth(putNode)){
-      _.pull(this._config.actions, "edit");
-    }
-    if(!this.userService.checkNodeIsAuth(deleteNode)){
-      _.pull(this._config.actions, "delete");
-    }
-    if(!this.userService.checkNodeIsAuth(postNode)){
-      _.pull(this._config.actions, "addChild");
-    }
-    if(!this.userService.checkNodeIsAuth(authorizeNode)){
-      _.pull(this._config.actions, "authorize");
-    }
 
 
     let fields = Object.keys(this._config["fields"]);
@@ -362,6 +373,13 @@ export class TableViewComponent implements OnInit {
         }
     })
 
+     let routeMap = this.activeRouter.snapshot.params
+     if(routeMap["submodule"]){
+       let moduleConfig = this.injector.get(`${routeMap.app}.${routeMap["module"]}DataApi`).config
+       let forign_key = moduleConfig.resource+"_id"
+       params[forign_key+"__equals"] = routeMap["id"]
+     }
+
 
     if(this.sorting.key!=""&&this.sorting.value!=""){
       if(this.sorting.value=="ascend"){
@@ -436,8 +454,12 @@ export class TableViewComponent implements OnInit {
   }
 
   edit(id) {
-    let routeMap = parseRouteMap(this.router.url)
-    this.router.navigate(["apps/"+routeMap.app+"/"+routeMap.module+"/"+id+"/","edit"],{queryParams: {page: this.pagerData.currentPage}});
+    let routeMap = this.activeRouter.snapshot.params;
+    if(routeMap["submodule"])
+      this.router.navigate(["apps/"+routeMap.app+"/"+routeMap.module+"/"+routeMap["id"]+"/"+routeMap["submodule"]+"/"+id,"edit"],{queryParams: {page: this.pagerData.currentPage}});
+    else
+      this.router.navigate(["apps/"+routeMap.app+"/"+routeMap.module+"/"+id+"/","edit"],{queryParams: {page: this.pagerData.currentPage}});
+
   }
 
   addChild(id) {
@@ -457,7 +479,7 @@ export class TableViewComponent implements OnInit {
     }
     else{
       let routeMap = parseRouteMap(this.router.url)
-      this.router.navigate(["apps/"+routeMap.app+"/"+routeMap.module+"/"+id+"/","authorize"],{queryParams: {page: this.pagerData.currentPage}});
+      this.router.navigate(["apps/"+routeMap.app+"/"+routeMap.module+"/"+id+"/",action],{queryParams: {page: this.pagerData.currentPage}});
     }
   }
 
@@ -506,8 +528,11 @@ export class TableViewComponent implements OnInit {
       this.loadPageDate()
     }
     else{
-       let routeMap = parseRouteMap(this.router.url)
-       this.router.navigate(["apps/"+routeMap.app+"/"+routeMap.module+"/"],{queryParams:{page: newPage}})
+       let routeMap = this.activeRouter.snapshot.params
+       if(routeMap["submodule"])
+         this.router.navigate(["apps/"+routeMap.app+"/"+routeMap.module+"/"+routeMap["id"]+"/"+routeMap["submodule"]],{queryParams:{page: newPage}})
+       else
+         this.router.navigate(["apps/"+routeMap.app+"/"+routeMap.module+"/"],{queryParams:{page: newPage}})
     }
 
 

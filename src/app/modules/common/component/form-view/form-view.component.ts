@@ -26,6 +26,7 @@ export class FormViewComponent {
 
   form: FormGroup;
  _config;
+ routeMap;
  _params = {}
  _fields = []
  _fieldsByKey = {}
@@ -37,7 +38,8 @@ export class FormViewComponent {
 
   @Input()
   set config(val) {
-    let isEditMode = this._params["id"]?true:false;
+    let lastPath = this.route.snapshot.url[this.route.snapshot.url.length-1].path
+    let isEditMode = lastPath=="edit"?true:false;
     if(!this.form)
       this.form = this.fb.group({});
   	this._config = _.cloneDeep(val);
@@ -143,6 +145,7 @@ export class FormViewComponent {
     public injector: Injector,
     public activeRouter: ActivatedRoute) {
     this._params["id"] = this.route.snapshot.params["id"]
+    this.routeMap = this.route.snapshot.params
 
   }
 
@@ -158,7 +161,10 @@ export class FormViewComponent {
       requestUrl+= "?populate="+populates.join(" ")
     let apiName = `${this._config.app}.${this._config.module}DataApi`;
     let resource = this.injector.get(apiName).resource
-    resource.get({populate:populates.join(" ")},"/"+this._params["id"]).subscribe((res)=>{
+    let id = this._params["id"];
+    if(this.routeMap["subid"])
+      id = this.routeMap["subid"]
+    resource.get({populate:populates.join(" ")},"/"+id).subscribe((res)=>{
           let data = res.json().data
           let controls = Object.keys(this.form.controls)
            controls.forEach((controlKey)=>{

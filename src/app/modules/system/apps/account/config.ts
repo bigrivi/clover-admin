@@ -18,7 +18,6 @@ export const UserInfoConfig = {
 	module:"userInfo",
 	valueField:"_id",
 	labelField:"username",
-	addable:false,
 	name:"用户管理",
 	listHide:["password_hash","avatar"],
 	fields : {
@@ -129,7 +128,13 @@ export const DepartmentConfig = {
 	name:"部门管理",
 	treeable:true,
 	listHide:["lft","rgt","depth"],
-	actions:["edit","addChild","delete"],
+	extActions:[
+		{
+	        label:"addChild",
+	        action:"addChild",
+	        authNode:"account.department.post"
+	    }
+	],
 	fields : {
 		name:{
 			label:"名称",
@@ -183,7 +188,13 @@ export const UserRoleConfig = {
 	module:"userRole",
 	name:"用户角色管理",
 	treeable:false,
-	actions:["edit","authorize","delete"],
+	extActions:[
+		{
+	        label:"authorize",
+	        action:"authorize",
+	        authNode:"account.authorize.put"
+	    }
+	],
 	fields : {
 		name:{
 			label:"名称",

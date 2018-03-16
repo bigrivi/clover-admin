@@ -77,6 +77,10 @@ export class ProHeaderComponent implements OnInit {
                 //app name
                 paths.push({ title: this.translateService.instant(item+".NAV_NAME"), link: null });
             }
+            else if(index==1 && routerArr.length>2){
+                const node = routerArr[0]+"/"+routerArr[1]
+                paths.push({ title: this.translateService.instant(routerArr[0]+".Modules."+pascalCaseSpace(item)), link: node});
+            }
             else{
                 paths.push({ title: this.translateService.instant(routerArr[0]+".Modules."+pascalCaseSpace(item)), link: null });
             }

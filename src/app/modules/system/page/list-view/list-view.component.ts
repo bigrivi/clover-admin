@@ -21,6 +21,7 @@ export class ListViewComponent implements OnInit {
   //当前所在app
   app="";
   config;
+  routeMap;
   routeChangeSub:Subscription
   selectedObjs = [];
   addable = true;
@@ -32,9 +33,14 @@ export class ListViewComponent implements OnInit {
     // console.log(this.router.url)
     this.routeChangeSub = this.router.events.subscribe((event)=>{
       if (event instanceof NavigationEnd) {
-          let routeMap = parseRouteMap(this.router.url)
-          this.module = routeMap["module"];
-          this.app = routeMap["app"];
+          //let routeMap = parseRouteMap(this.router.url)
+          this.routeMap = this.route.snapshot.params
+          console.log(this.routeMap)
+          this.module = this.routeMap["module"];
+          this.app = this.routeMap["app"];
+          if(this.routeMap["submodule"]){
+              this.module = this.routeMap["submodule"]
+          }
           let apiName = `${this.app}.${this.module}DataApi`;
           this.config = this.injector.get(apiName).config
       }
@@ -46,8 +52,10 @@ export class ListViewComponent implements OnInit {
   }
 
   add() {
-    let routeMap = parseRouteMap(this.router.url)
-    this.router.navigate(["apps/"+routeMap.app+"/"+routeMap.module,"add"]);
+    if(this.routeMap["submodule"])
+      this.router.navigate(["apps/"+this.routeMap.app+"/"+this.routeMap.module+"/"+this.routeMap["id"]+"/"+this.routeMap["submodule"],"add"]);
+    else
+      this.router.navigate(["apps/"+this.routeMap.app+"/"+this.routeMap.module,"add"]);
   }
 
   delete() {
@@ -81,29 +89,30 @@ export class ListViewComponent implements OnInit {
   }
 
   export(){
-    let routeMap = parseRouteMap(this.router.url)
-    this.router.navigate(["apps/"+routeMap.app+"/"+routeMap.module,"export"]);
+    let routeMap =  this.route.snapshot.params
+    if(routeMap["submodule"])
+      this.router.navigate(["apps/"+routeMap.app+"/"+routeMap.module+"/"+routeMap["id"]+"/"+routeMap["submodule"],"export"]);
+    else
+      this.router.navigate(["apps/"+routeMap.app+"/"+routeMap.module,"export"]);
   }
 
   onDataLoadComplete(totalDataNum){
-    let addable = this.config.addabel || true;
-    let deleteable = this.config.deleteable || true;
-    let exportable = this.config.exportable || true;
-
-
+    let defaultOptions = {
+      addable:true,
+      exportable:true,
+      deleteable:true
+    }
+    let config = Object.assign(defaultOptions,this.config)
+    console.error(config)
+    let {addable,deleteable,exportable} = config
     if(this.config.treeable){
       deleteable = false;
       if(totalDataNum>0)
         addable = false;
     }
-    addable = addable && this.userService.checkNodeIsAuth(`${this.app}.${this.module}.post`)
-    this.addable = addable;
-
-    deleteable = deleteable && this.userService.checkNodeIsAuth(`${this.app}.${this.module}.delete`)
-    this.deleteable = deleteable;
-
-    exportable = exportable && this.userService.checkNodeIsAuth(`${this.app}.${this.module}.export`)
-    this.exportable = exportable;
+    this.addable = addable && this.userService.checkNodeIsAuth(`${this.app}.${this.module}.post`)
+    this.deleteable = deleteable && this.userService.checkNodeIsAuth(`${this.app}.${this.module}.delete`)
+    this.exportable = exportable && this.userService.checkNodeIsAuth(`${this.app}.${this.module}.export`)
 
 
 

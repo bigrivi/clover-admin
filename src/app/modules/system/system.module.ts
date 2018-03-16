@@ -19,7 +19,7 @@ import {NbAuthSimpleToken,NbTokenService} from '../../modules/auth/services/toke
 import {AuthGuardService} from "../../@core/services/auth-guard.service"
 import {CommonModule} from "../common/common.module"
 
-import {ProductConfig,CategoryConfig,TagConfig} from './apps/product/config'
+import {ProductConfig,CategoryConfig,TagConfig,OrderLogsConfig} from './apps/product/config'
 import {UserInfoConfig,DepartmentConfig,UserRoleConfig,AuthNodeConfig,AuthorizeConfig} from './apps/account/config'
 import {AttachmentConfig} from './apps/uploader/config'
 import {NavConfig} from './apps/home/config'
@@ -33,7 +33,8 @@ let appConfig = {
   product :{
     product:ProductConfig,
     category:CategoryConfig,
-    tag:TagConfig
+    tag:TagConfig,
+    orderLogs:OrderLogsConfig
   },
   account:{
     userInfo:UserInfoConfig,
@@ -101,15 +102,38 @@ const routes: Routes = [
         path: ':module/add',
         canActivate: [ AuthGuardService ],
         component: EditViewComponent,
-      }, {
+      },
+      {
         path: ':module/export',
         canActivate: [ AuthGuardService ],
         component: ExportViewComponent,
-      }, {
+      },
+       {
+        path: ':module/:id/:submodule/export',
+        canActivate: [ AuthGuardService ],
+        component: ExportViewComponent,
+      },
+      {
         path: ':module/:id/edit',
         canActivate: [ AuthGuardService ],
         component: EditViewComponent,
-      },{
+      },
+      {
+        path: ':module/:id/:submodule',
+        canActivate: [ AuthGuardService ],
+        component: ListViewComponent,
+      },
+      {
+        path: ':module/:id/:submodule/add',
+        canActivate: [ AuthGuardService ],
+        component: EditViewComponent,
+      },
+       {
+        path: ':module/:id/:submodule/:subid/edit',
+        canActivate: [ AuthGuardService ],
+        component: EditViewComponent,
+      },
+      {
         path: ':module',
         canActivate: [ AuthGuardService ],
         component: ListViewComponent,

@@ -37,8 +37,11 @@ export class ExportViewComponent implements OnInit {
     public injector:Injector,
     public tokenService:NbTokenService,
     public router: Router) {
-      let routeMap = parseRouteMap(this.router.url)
+      let routeMap = this.route.snapshot.params
       this.module = routeMap["module"];
+      if(routeMap["submodule"]){
+          this.module = routeMap["submodule"]
+      }
       this.app = routeMap["app"];
       let apiName = `${this.app}.${this.module}DataApi`;
       this.config = this.injector.get(apiName).config
@@ -109,7 +112,7 @@ export class ExportViewComponent implements OnInit {
 
     let formData = {
       fields:fields.join(","),
-      fieldNames:fieldNames.join(","),
+      fieldNames:encodeURI(fieldNames.join(",")),
       resource:this.config.resource,
       app:this.config.app,
       skipHeader:this.skipHeader,
@@ -120,6 +123,12 @@ export class ExportViewComponent implements OnInit {
       populates:populates.join(","),
       format:format,
       accesstoken: this.token.getValue()
+    }
+    let routeMap = this.route.snapshot.params
+    if(routeMap["submodule"]){
+        let moduleConfig = this.injector.get(`${routeMap.app}.${routeMap["module"]}DataApi`).config
+       let forign_key = moduleConfig.resource+"_id"
+       formData[forign_key+"__equals"] = routeMap["id"]
     }
 
     let apiName = `${this.config.app}.${this.config.module}DataApi`;

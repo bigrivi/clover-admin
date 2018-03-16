@@ -18,6 +18,7 @@ export class EditViewComponent implements OnInit {
   app= "";
   config;
   params = {};
+  routeMap;
   @ViewChild(FormViewComponent) formView:FormViewComponent;
   queryParams;
   routeChangeSub:Subscription
@@ -29,9 +30,13 @@ export class EditViewComponent implements OnInit {
     public messageService: NzMessageService,
     public router: Router,) {
 
-    let routeMap = parseRouteMap(this.router.url)
-    this.module = routeMap["module"];
-    this.app = routeMap["app"];
+    this.routeMap = this.route.snapshot.params
+    console.log(this.routeMap)
+    this.module = this.routeMap["module"];
+    if(this.routeMap["submodule"]){
+        this.module = this.routeMap["submodule"]
+    }
+    this.app = this.routeMap["app"];
     let apiName = `${this.app}.${this.module}DataApi`;
     this.config = this.injector.get(apiName).config
 
@@ -44,9 +49,12 @@ export class EditViewComponent implements OnInit {
     })
 
     this.routeChangeSub = this.router.events.subscribe((event)=>{
-      let routeMap = parseRouteMap(this.router.url)
-      this.module = routeMap["module"];
-      this.app = routeMap["app"];
+      this.routeMap = this.route.snapshot.params
+      this.module = this.routeMap["module"];
+      if(this.routeMap["submodule"]){
+        this.module = this.routeMap["submodule"]
+      }
+      this.app = this.routeMap["app"];
       let apiName = `${this.app}.${this.module}DataApi`;
       this.config = this.injector.get(apiName).config
     })
@@ -63,8 +71,10 @@ export class EditViewComponent implements OnInit {
   }
 
   navigateToList(){
-    let routeMap = parseRouteMap(this.router.url)
-    this.router.navigate(["apps/"+routeMap.app+"/"+routeMap.module+"/"],{queryParams: this.queryParams})
+    if(this.routeMap["submodule"])
+      this.router.navigate(["apps/"+this.routeMap.app+"/"+this.routeMap.module+"/"+this.routeMap["id"]+"/"+this.routeMap["submodule"]],{queryParams: this.queryParams})
+    else
+      this.router.navigate(["apps/"+this.routeMap.app+"/"+this.routeMap.module+"/"],{queryParams: this.queryParams})
   }
 
   save(){
@@ -73,14 +83,20 @@ export class EditViewComponent implements OnInit {
     let resource = this.injector.get(apiName).resource
     if(this.formView.validata()){
         console.log(this.formView.form.value)
-        if(this.params["id"]){
-            resource.put(this.params["id"],this.formView.form.value).subscribe((res)=>{
+        if(this.params["id"] && !this.routeMap["submodule"] || this.routeMap["subid"]){ //update
+            let id = this.routeMap["subid"]?this.routeMap["subid"]:this.params["id"]
+            resource.put(id,this.formView.form.value).subscribe((res)=>{
               this.navigateToList()
                this.messageService.success('修改成功');
            })
         }
         else{
           let postData = Object.assign(this.formView.form.value,this.queryParams)
+          if(this.routeMap["submodule"]){
+            let moduleConfig = this.injector.get(`${this.app}.${this.routeMap["module"]}DataApi`).config
+            let forign_key = moduleConfig.resource+"_id"
+            postData[forign_key] = this.params["id"]
+          }
           resource.post(postData).subscribe((res)=>{
               this.navigateToList()
               this.messageService.success('保存成功');
