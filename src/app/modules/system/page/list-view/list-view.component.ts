@@ -103,7 +103,6 @@ export class ListViewComponent implements OnInit {
       deleteable:true
     }
     let config = Object.assign(defaultOptions,this.config)
-    console.error(config)
     let {addable,deleteable,exportable} = config
     if(this.config.treeable){
       deleteable = false;

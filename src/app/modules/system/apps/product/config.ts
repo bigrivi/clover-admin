@@ -254,5 +254,10 @@ export const OrderLogsConfig = {
 			sortabld:true,
 			require:true
 		},
+		region:{
+			label:"所在地区",
+			widget:"region",
+			require:true
+		},
 	}
 }

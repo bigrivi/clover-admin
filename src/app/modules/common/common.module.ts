@@ -21,6 +21,8 @@ import {CheckboxComponent} from './component/form-view/form-fields/checkbox/cv-c
 import {SelectComponent} from './component/form-view/form-fields/select/cv-select.comonent';
 import {ItemSelectComponent} from './component/form-view/form-fields/select/cv-itemselect.comonent';
 import {Select3Component} from './component/form-view/form-fields/select/cv-select3.comonent';
+import {RegionFieldComponent} from './component/form-view/form-fields/region/region.comonent';
+import {RegionComponent} from './component/form-view/form-fields/region/cv-region.comonent';
 
 
 import { DynamicFieldDirective } from './directive/dynamic-field.directive';
@@ -84,6 +86,8 @@ const HELPERS = [ ModalHelper ];
     UploaderFieldComponent,
     FileUploaderComponent,
     CheckboxComponent,
+    RegionComponent,
+    RegionFieldComponent,
     SelectComponent,
     ItemSelectComponent,
     ConfirmComponent,
@@ -105,6 +109,8 @@ const HELPERS = [ ModalHelper ];
     FileUploaderComponent,
     CheckboxComponent,
     SelectComponent,
+    RegionFieldComponent,
+    RegionComponent,
     ItemSelectComponent,
     TableViewComponent,
     ConfirmComponent,

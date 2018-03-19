@@ -9,6 +9,7 @@ import {UploaderFieldComponent} from '../component/form-view/form-fields/uploade
 import { CheckboxFieldComponent } from '../component/form-view/form-fields/checkbox/checkbox.comonent';
 import { ItemSelectFieldComponent } from '../component/form-view/form-fields/select/item-select.comonent';
 import { Select3FieldComponent } from '../component/form-view/form-fields/select/select3.comonent';
+import { RegionFieldComponent } from '../component/form-view/form-fields/region/region.comonent';
 
 
 const dynamicComponents: any = {
@@ -25,7 +26,8 @@ const dynamicComponents: any = {
   uploader:UploaderFieldComponent,
   checkbox:CheckboxFieldComponent,
   itemselect:ItemSelectFieldComponent,
-  select3:Select3FieldComponent
+  select3:Select3FieldComponent,
+  region:RegionFieldComponent
 };
 
 @Directive({
@@ -52,7 +54,7 @@ export class DynamicFieldDirective implements OnChanges, OnInit {
   }
 
   ngOnInit() {
-      this.container.clear(); 
+      this.container.clear();
       if (!dynamicComponents[this.config.widget]) {
         const supportedTypes = Object.keys(dynamicComponents).join(', ');
         throw new Error(
@@ -68,6 +70,6 @@ export class DynamicFieldDirective implements OnChanges, OnInit {
   }
 
   ngOnDestroy() {
-   this.component.destroy(); 
+   this.component.destroy();
   }
 }
