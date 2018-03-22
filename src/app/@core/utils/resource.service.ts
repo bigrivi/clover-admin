@@ -123,6 +123,12 @@ export class HttpService{
         return Observable.create((observer) => {
                 observable.subscribe((res)=>{
                     //如果服务端返回的ErrorCode不为0时 集中处理
+                    var headers = res.headers;
+                    var token = headers.get('Token')
+                    if(token){
+                        this.tokenService.set(token).subscribe((t)=>{
+                        })
+                    }
                     let results = res.json()
                     if(results&&(results.errno>0 && results.errmsg)) //处理错误发生情况
                     {
@@ -159,7 +165,7 @@ export class HttpService{
         } else if (status === 500) {
             this.pubsub.errorToast.emit("服务器出错，请稍后再试");
         }else if (status === 401) {
-            this.pubsub.errorToast.emit("未认证错误发生")
+            this.pubsub.unauthorizedError.emit("未认证错误发生")
         } else {
             this.pubsub.errorToast.emit("未知错误，请检查网络");
         }

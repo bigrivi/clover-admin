@@ -19,7 +19,7 @@ export class PubSubService {
     hidePupup: PubSubEvent;
     confirm: PubSubEvent;
     errorSso: PubSubEvent;
-    trialExpiredError: PubSubEvent;
+    unauthorizedError: PubSubEvent;
 
     constructor() {
         this.beforeRequest = new PubSubEvent();
@@ -30,6 +30,6 @@ export class PubSubService {
         this.hidePupup = new PubSubEvent();
         this.confirm = new PubSubEvent();
         this.errorSso = new PubSubEvent();
-        this.trialExpiredError = new PubSubEvent();
+        this.unauthorizedError = new PubSubEvent();
     }
 }
