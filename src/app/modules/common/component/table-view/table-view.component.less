@@ -1,0 +1,60 @@
+@import "../../../../@theme/styles/alain/_antd-style/themes/default.less";
+
+:host ::ng-deep {
+  .custom-filter-dropdown {
+    padding: 8px;
+    border-radius: 6px;
+    background: #fff;
+    box-shadow: 0 1px 6px rgba(0, 0, 0, .2);
+  }
+
+  .custom-filter-dropdown ::ng-deep nz-input {
+    width: 200px;
+    margin-right: 8px;
+  }
+
+  .highlight {
+    color: #f50;
+  }
+
+  .searchbar{
+    height:30px;
+    max-width:300px;
+    margin-bottom:10px;
+    position:relative;
+
+    .ant-input{
+        height:28px;
+        line-height:28px;
+        -web-kit-appearance:none;
+        -moz-appearance: none;
+        padding:0px 5px 0px 50px !important;
+    }
+
+
+    .left{
+      display:inline-block;
+      width:40px;
+      background:none;
+      border-width:0px;
+      text-align:left;
+      padding-left:10px;
+      position:absolute;
+      z-index:999;
+      left:0px;
+      top:2px;
+      button{
+        background:none;
+        border-width:0px;
+         &:focus
+        {
+          outline:0;
+        }
+      }
+
+    }
+  }
+
+
+
+}

@@ -16,7 +16,7 @@ const PAGE_SIZE = 10;
 @Component({
   selector: 'table-view',
   templateUrl: './table-view.component.html',
-  styleUrls: ['./table-view.component.scss'],
+  styleUrls: ['./table-view.component.less'],
   host: {
     class: 'table-view'
   }
