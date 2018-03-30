@@ -24,6 +24,10 @@ import {Select3Component} from './component/form-view/form-fields/select/cv-sele
 import {RegionFieldComponent} from './component/form-view/form-fields/region/region.comonent';
 import {RegionComponent} from './component/form-view/form-fields/region/cv-region.comonent';
 
+import { CardInputFieldComponent } from './component/form-view/form-fields/input/card.comonent';
+import { CardInputComponent } from './component/form-view/form-fields/input/cv-card.comonent';
+
+
 
 import { DynamicFieldDirective } from './directive/dynamic-field.directive';
 import { InputDebounceDirective } from './directive/input-deboune';
@@ -74,6 +78,8 @@ const HELPERS = [ ModalHelper ];
     FormViewComponent,
     TableViewComponent,
     InputFieldComponent,
+    CardInputComponent,
+    CardInputFieldComponent,
     DateFieldComponent,
     SelectFieldComponent,
     ItemSelectFieldComponent,
@@ -98,10 +104,13 @@ const HELPERS = [ ModalHelper ];
   ],
   entryComponents: [
     InputFieldComponent,
+    InputFieldComponent,
     SelectFieldComponent,
     ItemSelectFieldComponent,
     Select3FieldComponent,
     Select3Component,
+    CardInputFieldComponent,
+    CardInputComponent,
     DateFieldComponent,
     RadioButtonFieldComponent,
     CheckboxFieldComponent,

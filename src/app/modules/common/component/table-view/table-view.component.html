@@ -7,24 +7,19 @@
     </button>
     <ul nz-menu>
         <li nz-menu-item>
-           <label nz-checkbox>
-              <span>1111</span>
+           <label nz-checkbox [(ngModel)]="selectAllSearchField" (ngModelChange)="onSelectAllSearchFieldChange($event)">
+              <span>All</span>
             </label>
         </li>
-        <li nz-menu-item>
-          <label nz-checkbox>
-              <span>1111</span>
-            </label>
-        </li>
-        <li nz-menu-item>
-          <label nz-checkbox>
-              <span>1111</span>
+        <li nz-menu-item *ngFor="let item of searchableFields">
+           <label nz-checkbox [(ngModel)]="item.selected" (ngModelChange)="onSelectSearchFieldChange($event)">
+              <span>{{item.label | translate}}</span>
             </label>
         </li>
       </ul>
     </nz-dropdown>
   </div>
- <nz-input nzType="text" input-debounce [nzPlaceHolder]="'搜索'"></nz-input>
+ <nz-input nzType="text" input-debounce [(ngModel)]="searchKeywords" (valueChange)="onSearchChange($event,column)" [nzPlaceHolder]="'搜索'"></nz-input>
 </div>
 
 <nz-table #nzTable
@@ -44,12 +39,7 @@
                 <th nz-th *ngIf="column.field!='selectedId'">
                     <span>{{column.label | translate}}</span>
                     <nz-table-sort *ngIf="column.sortabld"  (nzValueChange)="doSorting(column.field,$event)"></nz-table-sort>
-                    <nz-dropdown *ngIf="column.searchable && !column.dataSource" [nzTrigger]="'click'" [nzClickHide]="false">
-                      <i class="anticon anticon-smile-o ant-table-filter-icon" nz-dropdown></i>
-                      <div nz-dropdown-custom class="custom-filter-dropdown">
-                        <nz-input input-debounce [nzPlaceHolder]="'搜索'" [(ngModel)]="column.searchKey" (valueChange)="onSearchChange($event,column)"></nz-input>
-                      </div>
-                    </nz-dropdown>
+
                      <nz-dropdown *ngIf="column.searchable && column.dataSource" [nzTrigger]="'click'" [nzClickHide]="false">
                       <i class="anticon anticon-smile-o ant-table-filter-icon" nz-dropdown></i>
                       <ul nz-menu>

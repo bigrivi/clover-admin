@@ -10,6 +10,7 @@ import { CheckboxFieldComponent } from '../component/form-view/form-fields/check
 import { ItemSelectFieldComponent } from '../component/form-view/form-fields/select/item-select.comonent';
 import { Select3FieldComponent } from '../component/form-view/form-fields/select/select3.comonent';
 import { RegionFieldComponent } from '../component/form-view/form-fields/region/region.comonent';
+import { CardInputFieldComponent } from '../component/form-view/form-fields/input/card.comonent';
 
 
 const dynamicComponents: any = {
@@ -27,7 +28,8 @@ const dynamicComponents: any = {
   checkbox:CheckboxFieldComponent,
   itemselect:ItemSelectFieldComponent,
   select3:Select3FieldComponent,
-  region:RegionFieldComponent
+  region:RegionFieldComponent,
+  cardInput:CardInputFieldComponent
 };
 
 @Directive({

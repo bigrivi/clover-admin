@@ -2,7 +2,7 @@ import { Component,Input } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 
 @Component({
-  selector: 'form-input',
+  selector: 'form-radio',
   template: `
   <div  [formGroup]="group">
   <nz-radio-group [formControlName]="config.field" [(ngModel)]="config.value">

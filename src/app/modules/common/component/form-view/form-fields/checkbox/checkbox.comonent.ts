@@ -3,7 +3,7 @@ import { FormGroup } from '@angular/forms';
 import * as _ from 'lodash';
 
 @Component({
-  selector: 'form-input',
+  selector: 'form-checkbox-field',
   template: `
    <ng-container [formGroup]="group">
   <form-checkbox [formControlName]="config.field" [config]="config"  [(ngModel)]="config.value"></form-checkbox>
@@ -14,5 +14,5 @@ export class CheckboxFieldComponent {
      @Input() config;
      @Input() group;
 
-    
+
 }

@@ -2,7 +2,7 @@ import { Component,Input } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 
 @Component({
-  selector: 'form-input',
+  selector: 'form-date',
   template: `
   <ng-container [formGroup]="group" *ngIf="config.widget=='date'">
        <nz-datepicker [formControlName]="config.field" [nzFormat]="'YYYY-MM-DD'" [(ngModel)]="config.value" [nzPlaceHolder]="config.placeholder"></nz-datepicker>

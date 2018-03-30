@@ -2,6 +2,8 @@
     <ng-template #title>
      <button nz-button *ngIf="addable" [nzType]="'primary'" (click)="add()" ><i class="fa fa-plus"></i>&nbsp;{{ 'Add New' | translate}}</button>
      &nbsp;&nbsp;
+      <button nz-button  *ngIf="editable"  (click)="edit()" ><i class="fa fa-pencil-square-o"></i>&nbsp;{{ 'Edit' | translate}}</button>
+     &nbsp;&nbsp;
      <button nz-button  *ngIf="deleteable" [nzType]="'danger'" (click)="delete()" ><i class="fa fa-remove"></i>&nbsp;{{ 'Delete' | translate}}</button>
      &nbsp;&nbsp;
      <button *ngIf="exportable"  nz-button (click)="export()"><i class="fa fa-share"></i>&nbsp;{{ 'Export' | translate}}</button>

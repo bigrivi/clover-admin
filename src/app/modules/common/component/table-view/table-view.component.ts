@@ -22,6 +22,31 @@ const PAGE_SIZE = 10;
   }
 })
 export class TableViewComponent implements OnInit {
+  selectedAll = false;
+  viewInited = false;
+  rows = []
+  columns = []
+  filters = {}
+  loading = false
+  queryIn = {}
+  sorting = {key:"",value:""}
+  resizeHandler;
+  dataReady = false;
+  queryParams;
+  lastLoadSub:Subscription;
+  queryParamsSub:Subscription;
+  toggleSub: Subscription;
+  visibleWidth = 0;
+  searchableFields:any[] = [];
+  searchKeywords:string = ""
+  selectAllSearchField = true;
+  pagerData = {
+    currentPage: 1,
+    recordCount: 0,
+    pageSize: PAGE_SIZE,
+    pageCount: 0
+  }
+
 
   constructor(
    public injector: Injector,
@@ -49,7 +74,6 @@ export class TableViewComponent implements OnInit {
   @Input()
   set config(val:any) {
     this._config = _.cloneDeep(val);
-    console.log(this._config)
     let apiName = `${this._config.app}.${this._config.module}DataApi`;
     this.resource = this.injector.get(apiName).resource
     let defaultOptions = {
@@ -58,12 +82,12 @@ export class TableViewComponent implements OnInit {
       actionable:true,
       selecteable:true,
       addable:false,
+      searchable:true,
       exportable:true,
       filters:[],
       treeable:false,
       extActions:[]
     }
-    console.log(this._config)
     this._config = Object.assign(defaultOptions,this._config)
     this._config.actions =[]
     this.filters = {}
@@ -73,6 +97,8 @@ export class TableViewComponent implements OnInit {
     this.selectedAll = false;
     this.sorting = {key:"",value:""}
     this.loading = false
+    this.searchKeywords = ""
+    this.selectAllSearchField = true;
     let defaultAction =  [
       {
         label:"edit",
@@ -112,6 +138,7 @@ export class TableViewComponent implements OnInit {
     this.columns = _.filter(this.columns,(item)=>{
         return this._config.listHide.indexOf(item.field)<0;
     })
+
     if(this.modalMode && this._config.modalListShow.length>0){
       this.columns = _.filter(this.columns,(item)=>{
           return this._config.modalListShow.indexOf(item.field)>=0;
@@ -126,6 +153,9 @@ export class TableViewComponent implements OnInit {
         fixedRight: true
       })
     }
+    this.searchableFields = this.columns.filter((fieldCfg)=>{
+        return  fieldCfg.widget=="text" || fieldCfg.widget=="textarea"
+    })
 
     if (this._config.selecteable && !this._config.treeable) {
       this.columns.unshift({
@@ -168,15 +198,6 @@ export class TableViewComponent implements OnInit {
        }
     })
 
-    console.log(this.columns)
-
-    this.fixedLeft = this.columns.filter((column) => {
-      return column["fixedLeft"] == true;
-    })
-
-    this.fixedRight = this.columns.filter((column) => {
-      return column["fixedRight"] == true;
-    })
     this.pagerData = {
       currentPage: 1,
       recordCount: 0,
@@ -187,11 +208,6 @@ export class TableViewComponent implements OnInit {
       this.pagerData.pageSize = 1000;
     }
     if(this.viewInited){
-      setTimeout(()=>{
-        // this.visibleWidth = this._scrollBody.element.nativeElement.offsetWidth; //不准确
-        this.checkHorScroll()
-      },0)
-
       let currPath = this.location.path()
       if(currPath.indexOf("?page")<0) //从其他路由切换过来的情况
         this.loadPageDate()
@@ -202,38 +218,7 @@ export class TableViewComponent implements OnInit {
   // @ViewChild('scorllBody', { read: ViewContainerRef }) _scrollBody: ViewContainerRef;
   // @ViewChild('scorllHeader', { read: ViewContainerRef }) _scorllHeader: ViewContainerRef;
   // @ViewChild('scrollRight', { read: ViewContainerRef }) _scrollRight: ViewContainerRef;
-  //最大可视区域高度
-  fullHeight = 0;
-  //固定区域右边距离宽度,区别有没有滚动条的情况，没有需要设置为0
-  fixedRightOffsetWidth = 9;
-  selectedAll = false;
-  viewInited = false;
-  rows = []
-  columns = []
-  filters = {}
-  loading = false
-  queryIn = {}
-  sorting = {key:"",value:""}
-  fixedLeft = [];
-  fixedRight = [];
-  scrollHandler;
-  resizeHandler;
-  //是否出现水平滚动
-  scrollHorizontal = true;
-  //是否出现垂直滚动
-  scrollVertical = true;
-  dataReady = false;
-  queryParams;
-  lastLoadSub:Subscription;
-  queryParamsSub:Subscription;
-  toggleSub: Subscription;
-  visibleWidth = 0;
-  pagerData = {
-    currentPage: 1,
-    recordCount: 0,
-    pageSize: PAGE_SIZE,
-    pageCount: 0
-  }
+
   ngOnInit() {
     this.queryParamsSub = this.activeRouter.queryParams.subscribe(params=> {
       this.queryParams = params
@@ -263,14 +248,7 @@ export class TableViewComponent implements OnInit {
   }
 
   onResize() {
-    var doucumentHeight = document.documentElement.clientHeight
-    var visibleHeight = doucumentHeight - 76 - 76 - 63 - 48 - 40 - 64 - 60;
-    if(this._config.treeable){
-      visibleHeight+=40;
-    }
-    this.fullHeight = visibleHeight
-    this.checkVerScroll()
-    this.checkHorScroll()
+
   }
 
   refresh() {
@@ -337,6 +315,27 @@ export class TableViewComponent implements OnInit {
     this.refresh()
   }
 
+  onSelectAllSearchFieldChange(){
+    if(this.selectAllSearchField){
+        this.searchableFields.forEach((item)=>{
+            item.selected = false
+        })
+    }
+  }
+
+  onSelectSearchFieldChange(){
+     let selectCount = 0
+     this.searchableFields.forEach((item)=>{
+          if(item.selected){
+            selectCount++;
+            this.selectAllSearchField = false
+          }
+      })
+     if(selectCount==0){
+       this.selectAllSearchField = true
+     }
+  }
+
   onDateTimeSearchChange(event,column){
     this.refresh()
   }
@@ -399,6 +398,25 @@ export class TableViewComponent implements OnInit {
          }
        }
      })
+    if(this.searchKeywords!=""){
+      if(this.selectAllSearchField){
+          let orFields = this.searchableFields.map((item)=>{
+            return item.field
+          })
+          params["searchOrFields"] = orFields.join(" ");
+          params["searchKeyword"] = this.searchKeywords;
+      }
+      else{
+           let orFields = this.searchableFields.filter((item)=>{
+            return item.selected
+          }).map((item)=>{
+            return item.field
+          })
+          params["searchOrFields"] = orFields.join(" ");
+          params["searchKeyword"] = this.searchKeywords;
+      }
+    }
+
     //populateable
     let  populates= _.filter(this.columns,(item)=>{
         return item.populateable
@@ -433,25 +451,13 @@ export class TableViewComponent implements OnInit {
       })
       this.rows = results
       this.dataReady = true;
-      this.checkVerScroll();
       this.dataLoadComplete.emit(res.record_count);
     },(error)=>{
       console.log(error)
     })
   }
 
-  checkVerScroll(){
-    this.scrollVertical = this.rows.length*this.rowHeight>this.fullHeight
-    this.fixedRightOffsetWidth = this.scrollVertical?9:0;
-  }
 
-  checkHorScroll(){
-    this.scrollHorizontal = this.getColumnTotalWidth()>this.visibleWidth;
-  }
-
-  add() {
-    this.router.navigate([this.router.url,"add"]);
-  }
 
   edit(id) {
     let routeMap = this.activeRouter.snapshot.params;
@@ -550,11 +556,6 @@ export class TableViewComponent implements OnInit {
   }
 
   ngDestroy() {
-
-    if (this.scrollHandler) {
-      this.scrollHandler()
-      this.scrollHandler = null;
-    }
 
     if (this.resizeHandler) {
       this.resizeHandler()

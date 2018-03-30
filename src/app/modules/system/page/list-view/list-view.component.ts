@@ -25,6 +25,7 @@ export class ListViewComponent implements OnInit {
   routeChangeSub:Subscription
   selectedObjs = [];
   addable = true;
+  editable = true;
   deleteable = true;
   exportable = true;
 
@@ -56,6 +57,18 @@ export class ListViewComponent implements OnInit {
       this.router.navigate(["apps/"+this.routeMap.app+"/"+this.routeMap.module+"/"+this.routeMap["id"]+"/"+this.routeMap["submodule"],"add"]);
     else
       this.router.navigate(["apps/"+this.routeMap.app+"/"+this.routeMap.module,"add"]);
+  }
+
+   edit() {
+    if (this.selectedObjs.length == 0) {
+      this.messageService.error("没有选择任何选项")
+    }
+    let id = this.selectedObjs[0]._id;
+    if(this.routeMap["submodule"])
+      this.router.navigate(["apps/"+this.routeMap.app+"/"+this.routeMap.module+"/"+this.routeMap["id"]+"/"+this.routeMap["submodule"]+"/"+id,"edit"]);
+    else
+      this.router.navigate(["apps/"+this.routeMap.app+"/"+this.routeMap.module+"/"+id+"/","edit"]);
+
   }
 
   delete() {
@@ -99,17 +112,19 @@ export class ListViewComponent implements OnInit {
   onDataLoadComplete(totalDataNum){
     let defaultOptions = {
       addable:true,
+      editable:true,
       exportable:true,
       deleteable:true
     }
     let config = Object.assign(defaultOptions,this.config)
-    let {addable,deleteable,exportable} = config
+    let {addable,deleteable,exportable,editable} = config
     if(this.config.treeable){
       deleteable = false;
       if(totalDataNum>0)
         addable = false;
     }
     this.addable = addable && this.userService.checkNodeIsAuth(`${this.app}.${this.module}.post`)
+    this.editable = editable && this.userService.checkNodeIsAuth(`${this.app}.${this.module}.put`)
     this.deleteable = deleteable && this.userService.checkNodeIsAuth(`${this.app}.${this.module}.delete`)
     this.exportable = exportable && this.userService.checkNodeIsAuth(`${this.app}.${this.module}.export`)
 

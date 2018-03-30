@@ -25,7 +25,6 @@ export const ProductConfig = {
 			label:"product.Product Name",
 			widget:"text",
 			sortabld:true,
-			searchable:true,
 			width:400,
 			titleabled :true,
 			require:true
@@ -54,7 +53,6 @@ export const ProductConfig = {
 		category_id1:{
 		    label:"测试联动",
 			widget:"select",
-			searchable:true,
 			populateable:true,
 			dataSource:category_source,
 			multiple:false,
@@ -107,7 +105,6 @@ export const ProductConfig = {
 		model:{
 			label:"模型",
 			widget:"text",
-			searchable:true,
 			require:true
 		},
 		producing_area:{
@@ -189,7 +186,7 @@ export const CategoryConfig = {
 		name:{
 			label:"名称",
 			sortabld:true,
-			widget:"text",
+			widget:"cardInput",
 			titleabled :true,
 			require:true
 		}
