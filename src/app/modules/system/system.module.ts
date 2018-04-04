@@ -1,4 +1,4 @@
-import { NgModule } from '@angular/core';
+import { NgModule,InjectionToken } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { ReactiveFormsModule } from '@angular/forms';
 import { HttpModule, Http, XHRBackend, RequestOptions } from '@angular/http';
@@ -73,16 +73,13 @@ _.each(appConfig,(modules,appName)=>{
     moduleConfig.app = appName;
     moduleConfig.module = moduleName;
     let providerName = appName+"."+moduleName+"DataApi"
-    console.log(providerName)
-    appProviders.push( {
-            provide: providerName,
-            useFactory: (http: Http,pubsub:PubSubService,authService:AuthService,tokenService:NbTokenService)=>{
-               return new DataApiService(appName+"/"+moduleConfig.resource, moduleConfig, http,pubsub,authService,tokenService);
-            },
-            deps: [Http,PubSubService,AuthService,NbTokenService]
-        })
+    appProviders.push( {name:providerName,resource:appName+"/"+moduleConfig.resource, config:moduleConfig});
   })
 })
+
+
+console.log("providers")
+console.log(appProviders)
 
 
 const routes: Routes = [
@@ -161,7 +158,13 @@ const routes: Routes = [
 
   ],
   providers: [
-     ...appProviders
+      {
+            provide: "DataApiService",
+            useFactory: (http: Http,pubsub:PubSubService,authService:AuthService,tokenService:NbTokenService)=>{
+               return new DataApiService(appProviders, http,pubsub,authService,tokenService);
+            },
+            deps: [Http,PubSubService,AuthService,NbTokenService]
+        }
   ],
   exports: [
 

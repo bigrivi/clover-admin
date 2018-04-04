@@ -1,4 +1,4 @@
-import { Component,Input,forwardRef,Injector } from '@angular/core';
+import { Component,Input,forwardRef,Injector,Inject } from '@angular/core';
 import { FormGroup, ControlValueAccessor, NG_VALUE_ACCESSOR, ValidatorFn, NG_VALIDATORS, AbstractControl, ValidationErrors } from '@angular/forms';
 import * as _ from 'lodash';
 import {DialogService} from '../../../dialog/dialog.service'
@@ -58,7 +58,7 @@ const FORM_SELECT3_VALUE_ACCESSOR: any = {
 })
 export class Select3Component implements ControlValueAccessor {
 
-    constructor(public injector:Injector,public dialogService:DialogService){
+    constructor(@Inject("DataApiService") private dataApiService,public dialogService:DialogService){
 
     }
     private onTouched: any = () => { }
@@ -138,7 +138,7 @@ export class Select3Component implements ControlValueAccessor {
           }
           let moduleArr = this.dataSource.split(".")
           let apiName = `${moduleArr[0]}.${moduleArr[1]}DataApi`;
-          let dataApi = this.injector.get(apiName)
+          let dataApi = this.dataApiService.get(apiName)
           let resource = dataApi.resource
           let moduleConfig = dataApi.config
           resource.get(params).subscribe((data) => {

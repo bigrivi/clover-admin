@@ -40,7 +40,6 @@ const CORE_PROVIDERS = [
   }).providers,
    CloverAuthProvider,
   AnalyticsService,
-  ResourceService,
   HttpService,
   LocalStorageService,
   PubSubService,

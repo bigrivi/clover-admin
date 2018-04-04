@@ -1,4 +1,4 @@
-  import { Component,Input,ViewChild,Injector } from '@angular/core';
+  import { Component,Input,ViewChild,Injector,Inject } from '@angular/core';
   import {AppService} from '../../../common/services/app.service'
   import {TableViewComponent} from "../table-view/table-view.component"
   import { NzModalSubject } from 'ng-zorro-antd';
@@ -38,7 +38,7 @@
 
     initSelectedIds = [];
     selectedObjs = [];
-    constructor(private subject:NzModalSubject ,private injector:Injector) {
+    constructor(private subject:NzModalSubject,@Inject("DataApiService") private dataApiService) {
       this.subject.on('onDestory', () => {
         console.log('destroy');
       });
@@ -47,13 +47,13 @@
      ngOnInit(){
          let module = this.config["module"].split(".");
          let apiName = `${module[0]}.${module[1]}DataApi`;
-         this.tableConfig = this.injector.get(apiName).config
+         this.tableConfig = this.dataApiService.get(apiName).config
          this.initSelectedIds = this.config["selectedIds"] || []
      }
 
 
 
-     emitDataOutside() {
+     emitDataOutside(e) {
         this.subject.next(this.selectedObjs);
       }
 

@@ -1,4 +1,4 @@
-import { Component, OnInit,ViewChild,Injector } from '@angular/core';
+import { Component, OnInit,ViewChild,Inject } from '@angular/core';
 import { Routes, RouterModule,ActivatedRoute } from '@angular/router';
 import {Observable} from 'rxjs'
 import { Router, NavigationEnd } from '@angular/router';
@@ -34,7 +34,7 @@ export class ExportViewComponent implements OnInit {
 
   constructor(public route: ActivatedRoute,
     public appService:AppService,
-    public injector:Injector,
+    @Inject("DataApiService") private dataApiService,
     public tokenService:NbTokenService,
     public router: Router) {
       let routeMap = this.route.snapshot.params
@@ -44,7 +44,7 @@ export class ExportViewComponent implements OnInit {
       }
       this.app = routeMap["app"];
       let apiName = `${this.app}.${this.module}DataApi`;
-      this.config = this.injector.get(apiName).config
+      this.config = this.dataApiService.get(apiName).config
       let fieldKeys = Object.keys(this.config["fields"]);
       let fields = []
       fields = fieldKeys.map((item) => {
@@ -126,13 +126,13 @@ export class ExportViewComponent implements OnInit {
     }
     let routeMap = this.route.snapshot.params
     if(routeMap["submodule"]){
-        let moduleConfig = this.injector.get(`${routeMap.app}.${routeMap["module"]}DataApi`).config
+        let moduleConfig = this.dataApiService.get(`${routeMap.app}.${routeMap["module"]}DataApi`).config
        let forign_key = moduleConfig.resource+"_id"
        formData[forign_key+"__equals"] = routeMap["id"]
     }
 
     let apiName = `${this.config.app}.${this.config.module}DataApi`;
-    let resource = this.injector.get(apiName).resource
+    let resource = this.dataApiService.get(apiName).resource
     var url = environment.API_ROOT+resource.resourceApi+"/export?"+resource.formEncode(formData);
 
     var anchorElement = document.createElement('a');

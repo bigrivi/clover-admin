@@ -16,7 +16,7 @@ export class SidebarNavComponent implements OnInit {
 
     private rootEl: HTMLDivElement;
     private floatingEl: HTMLDivElement;
-    private menus: Menu[] = [];
+    public menus: Menu[] = [];
 
 
     constructor(

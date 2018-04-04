@@ -198,7 +198,6 @@ export class HttpService{
 
 
 
-@Injectable()
 export class ResourceService extends HttpService{
     token:NbAuthSimpleToken;
     _resourceApi = ""

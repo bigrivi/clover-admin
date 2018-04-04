@@ -9,13 +9,19 @@ import {ResourceService} from "./resource.service"
 import {TranslateService} from './translate.service'
 
 
-@Injectable()
 export class DataApiService{
-    resource:ResourceService;
-    config = {}
-	constructor(resource: string,config,public http:Http,public pubsub:PubSubService,public authService:AuthService,public tokenService:NbTokenService) {
-        this.resource = new ResourceService(resource,http,pubsub,authService,tokenService);
-        this.config = config;
+    datas = {}
+	constructor(dataApiCfgs:any[],public http:Http,public pubsub:PubSubService,public authService:AuthService,public tokenService:NbTokenService) {
+        dataApiCfgs.forEach((item)=>{
+            this.datas[item.name] = {
+                config:item.config,
+                resource:new ResourceService(item.resource,http,pubsub,authService,tokenService)
+            }
+        })
 	}
+
+    get(name){
+        return this.datas[name]
+    }
 
 }

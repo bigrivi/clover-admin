@@ -49,7 +49,6 @@ export class TableViewComponent implements OnInit {
 
 
   constructor(
-   public injector: Injector,
    public renderer: Renderer2,
    public el: ElementRef,
    public userService:UserService,
@@ -60,6 +59,7 @@ export class TableViewComponent implements OnInit {
    public activeRouter: ActivatedRoute,
    public appService:AppService,
    public ref: ChangeDetectorRef,
+   @Inject("DataApiService") private dataApiService,
    public dialogService: DialogService) {
 
   }
@@ -74,8 +74,9 @@ export class TableViewComponent implements OnInit {
   @Input()
   set config(val:any) {
     this._config = _.cloneDeep(val);
+    console.log(this._config)
     let apiName = `${this._config.app}.${this._config.module}DataApi`;
-    this.resource = this.injector.get(apiName).resource
+    this.resource = this.dataApiService.get(apiName).resource
     let defaultOptions = {
       listHide:[],
       modalListShow:[],
@@ -174,7 +175,7 @@ export class TableViewComponent implements OnInit {
              item.dataSource = []
              let moduleArr = dataSource.split(".")
              let apiName = `${moduleArr[0]}.${moduleArr[1]}DataApi`;
-             let dataApi = this.injector.get(apiName)
+             let dataApi = this.dataApiService.get(apiName)
              let resource = dataApi.resource
              let moduleConfig = dataApi.config
              resource.get({},item.tree?"/getTreeNode":"").map((res)=>res.json().data)
@@ -270,7 +271,7 @@ export class TableViewComponent implements OnInit {
     })
      let moduleArr = filterColumn.dataSourceOrigin.split(".")
      let apiName = `${moduleArr[0]}.${moduleArr[1]}DataApi`;
-     let resource = this.injector.get(apiName).resource
+     let resource = this.dataApiService.get(apiName).resource
      this.queryIn[filterColumn.field] = selectValues.join(",");
      this.refresh()
   }
@@ -311,11 +312,11 @@ export class TableViewComponent implements OnInit {
      event.stopPropagation();
   }
 
-  onSearchChange(event,column){
+  onSearchChange(event){
     this.refresh()
   }
 
-  onSelectAllSearchFieldChange(){
+  onSelectAllSearchFieldChange(event){
     if(this.selectAllSearchField){
         this.searchableFields.forEach((item)=>{
             item.selected = false
@@ -374,7 +375,7 @@ export class TableViewComponent implements OnInit {
 
      let routeMap = this.activeRouter.snapshot.params
      if(routeMap["submodule"]){
-       let moduleConfig = this.injector.get(`${routeMap.app}.${routeMap["module"]}DataApi`).config
+       let moduleConfig = this.dataApiService.get(`${routeMap.app}.${routeMap["module"]}DataApi`).config
        let forign_key = moduleConfig.resource+"_id"
        params[forign_key+"__equals"] = routeMap["id"]
      }

@@ -1,6 +1,5 @@
 import { StandardFormRowComponent } from './standard-form-row';
 import { TagSelectComponent } from './tag-select';
-import { ProHeaderComponent } from './pro-header';
 import { DescListComponent, DescListItemComponent } from './desc-list';
 import { EllipsisComponent } from './ellipsis';
 import { AvatarListComponent, AvatarListItemComponent } from './avatar-list';

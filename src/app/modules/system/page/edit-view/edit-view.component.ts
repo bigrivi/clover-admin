@@ -1,4 +1,4 @@
-import { Component, OnInit,ViewChild,Injector } from '@angular/core';
+import { Component, OnInit,ViewChild,Inject } from '@angular/core';
 import { Routes, RouterModule,ActivatedRoute } from '@angular/router';
 import {Observable} from 'rxjs'
 import { Router, NavigationEnd } from '@angular/router';
@@ -26,7 +26,7 @@ export class EditViewComponent implements OnInit {
 
   constructor(public route: ActivatedRoute,
     public appService:AppService,
-    public injector: Injector,
+    @Inject("DataApiService") private dataApiService,
     public messageService: NzMessageService,
     public router: Router,) {
 
@@ -38,7 +38,7 @@ export class EditViewComponent implements OnInit {
     }
     this.app = this.routeMap["app"];
     let apiName = `${this.app}.${this.module}DataApi`;
-    this.config = this.injector.get(apiName).config
+    this.config = this.dataApiService.get(apiName).config
 
     this.route.params.subscribe(params => {
       this.params = params;
@@ -56,7 +56,7 @@ export class EditViewComponent implements OnInit {
       }
       this.app = this.routeMap["app"];
       let apiName = `${this.app}.${this.module}DataApi`;
-      this.config = this.injector.get(apiName).config
+      this.config = this.dataApiService.get(apiName).config
     })
 
   }
@@ -80,7 +80,7 @@ export class EditViewComponent implements OnInit {
   save(){
     // console.log(this.formView.form.value)
     let apiName = `${this.config.app}.${this.config.module}DataApi`;
-    let resource = this.injector.get(apiName).resource
+    let resource = this.dataApiService.get(apiName).resource
     if(this.formView.validata()){
         console.log(this.formView.form.value)
         if(this.params["id"] && !this.routeMap["submodule"] || this.routeMap["subid"]){ //update
@@ -93,7 +93,7 @@ export class EditViewComponent implements OnInit {
         else{
           let postData = Object.assign(this.formView.form.value,this.queryParams)
           if(this.routeMap["submodule"]){
-            let moduleConfig = this.injector.get(`${this.app}.${this.routeMap["module"]}DataApi`).config
+            let moduleConfig = this.dataApiService.get(`${this.app}.${this.routeMap["module"]}DataApi`).config
             let forign_key = moduleConfig.resource+"_id"
             postData[forign_key] = this.params["id"]
           }

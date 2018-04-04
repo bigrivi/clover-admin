@@ -1,4 +1,4 @@
-import { Component,ViewChild,Injector} from '@angular/core';
+import { Component,ViewChild,Inject} from '@angular/core';
 import { Routes, RouterModule,ActivatedRoute } from '@angular/router';
 import {AppService} from '../../../common/services/app.service'
 import {pascalCaseSpace} from '../../../common/utils/common.utils'
@@ -59,12 +59,12 @@ export class AuthorizeComponent {
 
   constructor(
     public route: ActivatedRoute,
-    public injector:Injector,
     public messageService: NzMessageService,
     public translateService:TranslateService,
+    @Inject("DataApiService") private dataApiService,
     public appService:AppService,
     public userService:UserService ) {
-      let resource = this.injector.get("account.authNodeDataApi").resource
+      let resource = this.dataApiService.get("account.authNodeDataApi").resource
       resource.get().map(res=>res.json().data).subscribe((res)=>{
          let apps_temp = {}
          res.forEach((authNodeItem)=>{
@@ -95,7 +95,7 @@ export class AuthorizeComponent {
       })
 
 
-      this.injector.get("account.authorizeDataApi").resource.get({populate:"auth_node_id",auth_role_id:this.route.snapshot.params["id"]}).map(res=>res.json().data).subscribe((res)=>{
+      this.dataApiService.get("account.authorizeDataApi").resource.get({populate:"auth_node_id",auth_role_id:this.route.snapshot.params["id"]}).map(res=>res.json().data).subscribe((res)=>{
         res.forEach((item)=>{
           this.nodes_model[item.auth_node_id.node] = true
         })
@@ -112,7 +112,7 @@ export class AuthorizeComponent {
                 selected_nodes.push(this.node_id_by_app[item.node])
           })
         })
-        let resource = this.injector.get("account.authorizeDataApi").resource
+        let resource = this.dataApiService.get("account.authorizeDataApi").resource
         let postData = {nodes:selected_nodes}
         console.log(postData)
         resource.put(this.route.snapshot.params["id"],postData).map(res=>res.json()).subscribe((res)=>{

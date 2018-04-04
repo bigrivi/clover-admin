@@ -1,4 +1,4 @@
-import { Component,ViewChild,Injector} from '@angular/core';
+import { Component,ViewChild,Inject} from '@angular/core';
 import { Routes, RouterModule,ActivatedRoute } from '@angular/router';
 import {AppService} from '../../../common/services/app.service'
 import {UserService} from '../../../../@core/data/users.service'
@@ -26,8 +26,7 @@ export class HomeComponent {
 
   constructor(
     public route: ActivatedRoute,
-    public injector:Injector,
-    public appService:AppService,
+    @Inject("DataApiService") private dataApiService,
     public messageService: NzMessageService,
     public userService:UserService ) {
 
@@ -39,12 +38,12 @@ export class HomeComponent {
   }
 
   loadData(){
-      let userInfoResource = this.injector.get("account.userInfoDataApi").resource
+      let userInfoResource = this.dataApiService.get("account.userInfoDataApi").resource
       userInfoResource.get().map(res=>res.json()).subscribe((res)=>{
         this.userList = res.data
       })
 
-      let userRoleResource = this.injector.get("account.userRoleDataApi").resource
+      let userRoleResource = this.dataApiService.get("account.userRoleDataApi").resource
       userRoleResource.get().map(res=>res.json()).subscribe((res)=>{
         this.userGroupList = res.data
       })

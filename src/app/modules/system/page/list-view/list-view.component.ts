@@ -1,4 +1,4 @@
-import { Component, OnInit,Inject,Injector,ViewChild } from '@angular/core';
+import { Component, OnInit,Inject,Injector,ViewChild,InjectionToken } from '@angular/core';
 import { Routes, Router,RouterModule,ActivatedRoute,NavigationEnd } from '@angular/router';
 import {AppService} from '../../../common/services/app.service'
 import {parseRouteMap} from '../../../common/utils/route.utils'
@@ -30,7 +30,13 @@ export class ListViewComponent implements OnInit {
   exportable = true;
 
   @ViewChild(TableViewComponent) tableView:TableViewComponent;
-  constructor( public userService:UserService,public messageService:NzMessageService,public dialogService:DialogService , public router: Router, public route: ActivatedRoute,public appService:AppService,public injector: Injector, ) {
+  constructor( public userService:UserService,
+    public messageService:NzMessageService,
+    public dialogService:DialogService ,
+    public router: Router,
+    public route: ActivatedRoute,
+    public appService:AppService,
+    @Inject("DataApiService") private dataApiService) {
     // console.log(this.router.url)
     this.routeChangeSub = this.router.events.subscribe((event)=>{
       if (event instanceof NavigationEnd) {
@@ -43,7 +49,8 @@ export class ListViewComponent implements OnInit {
               this.module = this.routeMap["submodule"]
           }
           let apiName = `${this.app}.${this.module}DataApi`;
-          this.config = this.injector.get(apiName).config
+          let dataApi = dataApiService.get(apiName)
+          this.config = dataApi.config
       }
 
     })
@@ -78,7 +85,7 @@ export class ListViewComponent implements OnInit {
     else {
       this.dialogService.confirm("确认删除吗?").then((res) => {
         let deleteCount = this.selectedObjs.length;
-        let resource = this.injector.get(`${this.app}.${this.module}DataApi`).resource
+        let resource = this.dataApiService.get(`${this.app}.${this.module}DataApi`).resource
         _.each(this.selectedObjs, (row) => {
           resource.delete(row._id).subscribe((res) => {
             deleteCount--;

@@ -2,7 +2,6 @@ import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { ReactiveFormsModule } from '@angular/forms';
 import { HttpModule, Http, XHRBackend, RequestOptions } from '@angular/http';
-import { TreeModule } from 'angular-tree-component';
 import { NgZorroAntdExtraModule } from 'ng-zorro-antd-extra';
 import { CountdownModule } from 'ngx-countdown';
 import { AngularWebStorageModule } from 'angular-web-storage';
@@ -34,8 +33,6 @@ import { InputDebounceDirective } from './directive/input-deboune';
 
 import { toUploadFileThumbPipe } from './pipes/to_upload_file_thumb.pipe';
 
-import {ConfirmComponent} from './component/dialog/confirm.component';
-import {AlertComponent} from './component/dialog/alert.component';
 import {TableViewDailogComponent} from './component/dialog/list.component';
 import {DialogService} from './component/dialog/dialog.service';
 
@@ -69,7 +66,6 @@ const HELPERS = [ ModalHelper ];
     HttpModule,
     ThemeModule,
     RouterModule,
-    TreeModule,
     ReactiveFormsModule,
     AngularWebStorageModule,
     NgZorroAntdExtraModule.forRoot()
@@ -96,8 +92,6 @@ const HELPERS = [ ModalHelper ];
     RegionFieldComponent,
     SelectComponent,
     ItemSelectComponent,
-    ConfirmComponent,
-    AlertComponent,
     TableViewDailogComponent,
     toUploadFileThumbPipe,
     ...DIRECTIVES, ...PIPES,...shared_components
@@ -122,8 +116,6 @@ const HELPERS = [ ModalHelper ];
     RegionComponent,
     ItemSelectComponent,
     TableViewComponent,
-    ConfirmComponent,
-    AlertComponent,
     TableViewDailogComponent,
     ...shared_entry_components
 

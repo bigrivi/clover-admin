@@ -1,6 +1,4 @@
 import { Injectable } from '@angular/core';
-import {ConfirmComponent} from './confirm.component';
-import {AlertComponent} from './alert.component';
 import {TableViewDailogComponent} from './list.component';
 import { NzModalService } from 'ng-zorro-antd';
 import * as _ from 'lodash';

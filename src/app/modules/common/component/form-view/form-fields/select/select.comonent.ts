@@ -1,4 +1,4 @@
-import { Component,Input,Injector } from '@angular/core';
+import { Component,Input,Injector,Inject} from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import * as _ from 'lodash';
 import {AppService} from '../../../../services/app.service'
@@ -13,7 +13,7 @@ import {AppService} from '../../../../services/app.service'
 })
 export class SelectFieldComponent {
 
-    constructor(private appService:AppService,public injector: Injector){
+    constructor(private appService:AppService,@Inject("DataApiService") private dataApiService){
 
     }
      _config;
@@ -28,7 +28,7 @@ export class SelectFieldComponent {
          this._dataSource = []
          let moduleArr = val.dataSource.split(".")
          let apiName = `${moduleArr[0]}.${moduleArr[1]}DataApi`;
-         let dataApi = this.injector.get(apiName)
+         let dataApi = this.dataApiService.get(apiName)
          let moduleConfig = dataApi.config
          let resource = dataApi.resource
          let params = {}

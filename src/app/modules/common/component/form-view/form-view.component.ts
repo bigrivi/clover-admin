@@ -1,4 +1,4 @@
-import { Component, Injector,OnInit,Input,HostBinding } from '@angular/core';
+import { Component, Inject,OnInit,Input,HostBinding } from '@angular/core';
 import { Routes, RouterModule,ActivatedRoute } from '@angular/router';
 import { Http } from '@angular/http';
 import { FormGroup, FormBuilder,Validators,AbstractControl } from '@angular/forms';
@@ -141,8 +141,8 @@ export class FormViewComponent {
     public route: ActivatedRoute,
     public router: Router,
     public translateService:TranslateService,
+    @Inject("DataApiService") private dataApiService,
     public messageService: NzMessageService,
-    public injector: Injector,
     public activeRouter: ActivatedRoute) {
     this._params["id"] = this.route.snapshot.params["id"]
     this.routeMap = this.route.snapshot.params
@@ -160,7 +160,7 @@ export class FormViewComponent {
     if(populates.length>0)
       requestUrl+= "?populate="+populates.join(" ")
     let apiName = `${this._config.app}.${this._config.module}DataApi`;
-    let resource = this.injector.get(apiName).resource
+    let resource = this.dataApiService.get(apiName).resource
     let id = this._params["id"];
     if(this.routeMap["subid"])
       id = this.routeMap["subid"]

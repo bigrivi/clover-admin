@@ -1,6 +1,6 @@
 
 
-<form nz-form [formGroup]="form" (submit)="handleSubmit($event)">
+<form nz-form [formGroup]="form">
   <ng-container *ngFor="let item of _fields">
     <div nz-form-item nz-row *ngIf="item.visible">
           <div nz-form-label nz-col [nzSm]="4">

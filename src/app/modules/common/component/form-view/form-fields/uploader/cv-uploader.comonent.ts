@@ -1,4 +1,4 @@
-import { Component, Input, forwardRef,Injector } from '@angular/core';
+import { Component, Input, forwardRef,Inject } from '@angular/core';
 import { FormGroup, ControlValueAccessor, NG_VALUE_ACCESSOR, ValidatorFn, NG_VALIDATORS, AbstractControl, ValidationErrors } from '@angular/forms';
 
 
@@ -46,7 +46,7 @@ export class FileUploaderComponent implements ControlValueAccessor {
 
   @Input() multiple = false;
 
-  constructor(public injector:Injector) {
+  constructor(@Inject("DataApiService") private dataApiService) {
       this.fileObjects = [];
   }
 
@@ -59,7 +59,7 @@ export class FileUploaderComponent implements ControlValueAccessor {
   remove(index){
     var fileObject = this.fileObjects[index]
 
-    let resource = this.injector.get("uploader.attachmentDataApi").resource
+    let resource = this.dataApiService.get("uploader.attachmentDataApi").resource
 
     if(fileObject.id){
        resource.delete(fileObject.id).subscribe(()=>{})
@@ -71,7 +71,7 @@ export class FileUploaderComponent implements ControlValueAccessor {
   writeValue(value: any) {
     if(value){
       let valueArr = value.split(",")
-       let resource = this.injector.get("uploader.attachmentDataApi").resource
+       let resource = this.dataApiService.get("uploader.attachmentDataApi").resource
       if(valueArr.length>0){
         this.fileObjects = [];
         valueArr.forEach((attachemtId)=>{

@@ -19,7 +19,7 @@
       </ul>
     </nz-dropdown>
   </div>
- <nz-input nzType="text" input-debounce [(ngModel)]="searchKeywords" (valueChange)="onSearchChange($event,column)" [nzPlaceHolder]="'搜索'"></nz-input>
+ <nz-input nzType="text" input-debounce [(ngModel)]="searchKeywords" (valueChange)="onSearchChange($event)" [nzPlaceHolder]="'搜索'"></nz-input>
 </div>
 
 <nz-table #nzTable

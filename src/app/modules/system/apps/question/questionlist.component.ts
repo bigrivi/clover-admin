@@ -1,4 +1,4 @@
-import { Component, OnInit,Injector } from '@angular/core';
+import { Component, OnInit,Inject } from '@angular/core';
 import { NzMessageService } from 'ng-zorro-antd';
 import { DialogService } from "../../../common/component/dialog/dialog.service"
 
@@ -24,7 +24,7 @@ export class QuestionListComponent implements OnInit {
 
     constructor(
         public msg: NzMessageService,
-        public injector:Injector,
+        @Inject("DataApiService") private dataApiService,
         public dialogService:DialogService
 
     ) { }
@@ -41,7 +41,7 @@ export class QuestionListComponent implements OnInit {
         if(this.searchStatus!="0"){
             params["enabled_status"] = parseInt(this.searchStatus)
         }
-         this.resource = this.injector.get("question.questionDataApi").resource
+         this.resource = this.dataApiService.get("question.questionDataApi").resource
          this.resource.get(params).map(res=>res.json().data).subscribe((res)=>{
              res.unshift(null)
              this.data = res

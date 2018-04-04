@@ -22,12 +22,10 @@ export class HomeComponent {
 
   constructor(
     public route: ActivatedRoute,
-    public injector:Injector,
     public appService:AppService,
     public settingsService: SettingsService,
     public messageService: NzMessageService,
     public userService:UserService ) {
-        //this.config = this.injector.get("account.userInfoDataApi").config
 
 
   }
