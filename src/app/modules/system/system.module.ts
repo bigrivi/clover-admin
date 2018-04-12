@@ -19,67 +19,24 @@ import {NbAuthSimpleToken,NbTokenService} from '../../modules/auth/services/toke
 import {AuthGuardService} from "../../@core/services/auth-guard.service"
 import {CommonModule} from "../common/common.module"
 
-import {ProductConfig,CategoryConfig,TagConfig,OrderLogsConfig} from './apps/product/config'
-import {UserInfoConfig,DepartmentConfig,UserRoleConfig,AuthNodeConfig,AuthorizeConfig} from './apps/account/config'
-import {AttachmentConfig} from './apps/uploader/config'
-import {NavConfig} from './apps/home/config'
-import {ResearchConfig} from './apps/research/config'
-import {TemplateConfig,EmailConfig,SmsConfig,WinningConfig} from './apps/notification/config'
-import {QuestionConfig} from './apps/question/config'
+import {ModuleConfig} from "./config"
 
 
-
-let appConfig = {
-  product :{
-    product:ProductConfig,
-    category:CategoryConfig,
-    tag:TagConfig,
-    orderLogs:OrderLogsConfig
-  },
-  account:{
-    userInfo:UserInfoConfig,
-    userRole:UserRoleConfig,
-    department:DepartmentConfig,
-    authNode:AuthNodeConfig,
-    authorize:AuthorizeConfig
-  },
-  home:{
-    nav:NavConfig
-  },
-  uploader:{
-    attachment:AttachmentConfig
-  },
-  research:{
-    research:ResearchConfig
-  },
-  question:{
-    question:QuestionConfig
-  },
-  notification:{
-    template:TemplateConfig,
-    email:EmailConfig,
-    sms:SmsConfig,
-    winning:WinningConfig
-  },
-}
 
 // export function createDataApiProvider(http: Http,pubsub:PubSubService,authService:NbAuthService,tokenService:NbTokenService) {
 //     return new DataApiService("fff", {}, http,pubsub,authService,tokenService);
 // }
 
-let appProviders = []
-_.each(appConfig,(modules,appName)=>{
+let apiConfigs = []
+_.each(ModuleConfig,(modules,appName)=>{
   _.each(modules,(moduleConfig,moduleName)=>{
     moduleConfig.app = appName;
     moduleConfig.module = moduleName;
     let providerName = appName+"."+moduleName+"DataApi"
-    appProviders.push( {name:providerName,resource:appName+"/"+moduleConfig.resource, config:moduleConfig});
+    apiConfigs.push( {name:providerName,resource:appName+"/"+moduleConfig.resource, config:moduleConfig});
   })
 })
 
-
-console.log("providers")
-console.log(appProviders)
 
 
 const routes: Routes = [
@@ -159,12 +116,12 @@ const routes: Routes = [
   ],
   providers: [
       {
-            provide: "DataApiService",
-            useFactory: (http: Http,pubsub:PubSubService,authService:AuthService,tokenService:NbTokenService)=>{
-               return new DataApiService(appProviders, http,pubsub,authService,tokenService);
-            },
-            deps: [Http,PubSubService,AuthService,NbTokenService]
-        }
+          provide: "DataApiService",
+          useFactory: (http: Http,pubsub:PubSubService,authService:AuthService,tokenService:NbTokenService)=>{
+             return new DataApiService(apiConfigs, http,pubsub,authService,tokenService);
+          },
+          deps: [Http,PubSubService,AuthService,NbTokenService]
+       }
   ],
   exports: [
 
