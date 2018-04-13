@@ -34,6 +34,8 @@ import { InputDebounceDirective } from './directive/input-deboune';
 import { toUploadFileThumbPipe } from './pipes/to_upload_file_thumb.pipe';
 
 import {TableViewDailogComponent} from './component/dialog/list.component';
+import {EditDialogComponent} from './component/dialog/edit.component';
+import {ExportDialogComponent} from './component/dialog/export.component';
 import {DialogService} from './component/dialog/dialog.service';
 
 
@@ -93,6 +95,8 @@ const HELPERS = [ ModalHelper ];
     SelectComponent,
     ItemSelectComponent,
     TableViewDailogComponent,
+    EditDialogComponent,
+    ExportDialogComponent,
     toUploadFileThumbPipe,
     ...DIRECTIVES, ...PIPES,...shared_components
   ],
@@ -117,6 +121,8 @@ const HELPERS = [ ModalHelper ];
     ItemSelectComponent,
     TableViewComponent,
     TableViewDailogComponent,
+    EditDialogComponent,
+    ExportDialogComponent,
     ...shared_entry_components
 
   ],

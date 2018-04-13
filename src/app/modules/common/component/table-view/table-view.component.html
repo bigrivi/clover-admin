@@ -73,12 +73,6 @@
                   </ng-container>
                 </div>
               </td>
-              <td nz-td *ngIf="column.field=='action'">
-                 <ng-container *ngFor="let action of _config.actions;let i=index">
-                    <a (click)="doAction(action.action,row._id)">{{action.label | translate}}</a>
-                    <span *ngIf="i<_config.actions.length-1" nz-table-divider></span>
-                 </ng-container>
-              </td>
             </ng-container>
         </tr>
     </tbody>

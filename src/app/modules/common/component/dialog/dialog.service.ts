@@ -1,5 +1,8 @@
 import { Injectable } from '@angular/core';
 import {TableViewDailogComponent} from './list.component';
+import {EditDialogComponent} from './edit.component';
+import {ExportDialogComponent} from './export.component';
+
 import { NzModalService } from 'ng-zorro-antd';
 import * as _ from 'lodash';
 
@@ -38,7 +41,6 @@ export class DialogService {
         })
     }
 
-      //提示框
     modalTable(module:String,selectedIds = [],title = "选择"): Promise<any> {
         return new Promise((resolve,reject) => {
              const currentModal = this.modalService.open({
@@ -68,5 +70,70 @@ export class DialogService {
 
         })
     }
+
+
+    openEditDialog(app:String,module:String,params:any): Promise<any> {
+         let title = params.id?"修改":"添加"
+        return new Promise((resolve,reject) => {
+             const currentModal = this.modalService.open({
+                title          : title,
+                width          :"70%",
+                content        : EditDialogComponent,
+                onOk() {
+
+                },
+                onCancel() {
+                    // if(reject)
+                    //   reject("cancel")
+                },
+                footer         : false,
+                componentParams: {
+                  config:{ title:title,app:app,module:module,params:params}
+                }
+              });
+              currentModal.subscribe(result => {
+                 if(_.isObject(result)){
+                  currentModal.destroy('onOk');
+                  resolve(result)
+                }
+              })
+
+        })
+    }
+
+
+    openExportDialog(app:String,module:String,params:any = {}): Promise<any> {
+        let title = "导出"
+        return new Promise((resolve,reject) => {
+             const currentModal = this.modalService.open({
+                title          : title,
+                width          :"70%",
+                content        : ExportDialogComponent,
+                onOk() {
+
+                },
+                onCancel() {
+                    // if(reject)
+                    //   reject("cancel")
+                },
+                footer         : false,
+                componentParams: {
+                  app:app,
+                  module:module,
+                  params:params
+                }
+              });
+              currentModal.subscribe(result => {
+                 if(_.isObject(result)){
+                  currentModal.destroy('onOk');
+                  resolve(result)
+                }
+              })
+
+        })
+    }
+
+
+
 
 }

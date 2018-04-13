@@ -60,21 +60,55 @@ export class ListViewComponent implements OnInit {
   }
 
   add() {
-    if(this.routeMap["submodule"])
-      this.router.navigate(["apps/"+this.routeMap.app+"/"+this.routeMap.module+"/"+this.routeMap["id"]+"/"+this.routeMap["submodule"],"add"]);
-    else
-      this.router.navigate(["apps/"+this.routeMap.app+"/"+this.routeMap.module,"add"]);
+      let moduleConfig = this.dataApiService.get(`${this.app}.${this.routeMap["module"]}DataApi`).config
+      if(this.routeMap["submodule"]){
+        let forign_key = moduleConfig.resource+"_id"
+        let params = {}
+        params[forign_key] = this.routeMap["id"]
+        this.dialogService.openEditDialog(this.routeMap.app,this.routeMap["submodule"],params).then(()=>{
+           this.tableView.refresh()
+        })
+      }
+      else{
+        let params = {}
+         if(moduleConfig.treeable){
+           if (this.selectedObjs.length == 0 && this.tableView.rows.length>0) {
+              this.messageService.error("必须选择一个父节点才能新增")
+              return;
+            }
+            params["parentId"] = this.selectedObjs[0]._id
+         }
+        this.dialogService.openEditDialog(this.routeMap.app,this.routeMap.module,params).then(()=>{
+          this.tableView.refresh()
+          this.selectedObjs = []
+        })
+
+
+      }
   }
 
    edit() {
     if (this.selectedObjs.length == 0) {
       this.messageService.error("没有选择任何选项")
     }
-    let id = this.selectedObjs[0]._id;
-    if(this.routeMap["submodule"])
-      this.router.navigate(["apps/"+this.routeMap.app+"/"+this.routeMap.module+"/"+this.routeMap["id"]+"/"+this.routeMap["submodule"]+"/"+id,"edit"]);
-    else
-      this.router.navigate(["apps/"+this.routeMap.app+"/"+this.routeMap.module+"/"+id+"/","edit"]);
+    else if (this.selectedObjs.length >1) {
+      this.messageService.error("同时只能选择一条记录修改")
+    }
+    else{
+      if(this.routeMap["submodule"]){
+        this.dialogService.openEditDialog(this.routeMap.app,this.routeMap.submodule,{id:this.selectedObjs[0]._id}).then(()=>{
+          this.tableView.refresh()
+        })
+      }
+      else{
+         this.dialogService.openEditDialog(this.routeMap.app,this.routeMap.module,{id:this.selectedObjs[0]._id}).then(()=>{
+          this.tableView.refresh()
+        })
+      }
+
+    }
+
+
 
   }
 
@@ -109,11 +143,20 @@ export class ListViewComponent implements OnInit {
   }
 
   export(){
-    let routeMap =  this.route.snapshot.params
-    if(routeMap["submodule"])
-      this.router.navigate(["apps/"+routeMap.app+"/"+routeMap.module+"/"+routeMap["id"]+"/"+routeMap["submodule"],"export"]);
-    else
-      this.router.navigate(["apps/"+routeMap.app+"/"+routeMap.module,"export"]);
+    if(this.routeMap["submodule"]){
+        let moduleConfig = this.dataApiService.get(`${this.app}.${this.routeMap["module"]}DataApi`).config
+        let forign_key = moduleConfig.resource+"_id"
+        let params = {}
+        params[forign_key+"__equals"] = this.routeMap["id"]
+        this.dialogService.openExportDialog(this.routeMap.app,this.routeMap["submodule"],params).then(()=>{
+
+        })
+      }
+      else{
+         this.dialogService.openExportDialog(this.routeMap.app,this.routeMap.module,).then(()=>{
+
+          })
+      }
   }
 
   onDataLoadComplete(totalDataNum){
@@ -127,8 +170,6 @@ export class ListViewComponent implements OnInit {
     let {addable,deleteable,exportable,editable} = config
     if(this.config.treeable){
       deleteable = false;
-      if(totalDataNum>0)
-        addable = false;
     }
     this.addable = addable && this.userService.checkNodeIsAuth(`${this.app}.${this.module}.post`)
     this.editable = editable && this.userService.checkNodeIsAuth(`${this.app}.${this.module}.put`)

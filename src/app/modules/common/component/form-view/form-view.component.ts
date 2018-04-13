@@ -1,10 +1,8 @@
 import { Component, Inject,OnInit,Input,HostBinding } from '@angular/core';
-import { Routes, RouterModule,ActivatedRoute } from '@angular/router';
 import { Http } from '@angular/http';
 import { FormGroup, FormBuilder,Validators,AbstractControl } from '@angular/forms';
 import {Observable} from 'rxjs'
 import {AppService} from '../../services/app.service'
-import { Router, NavigationEnd } from '@angular/router';
 import { Subscription } from 'rxjs';
 import * as _ from 'lodash';
 import {formatDate} from '../../utils/date.utils'
@@ -26,20 +24,17 @@ export class FormViewComponent {
 
   form: FormGroup;
  _config;
- routeMap;
- _params = {}
  _fields = []
  _fieldsByKey = {}
  _subscriptions:Subscription[] = [];
-  @Input()
-  set params(val) {
-    this._params = val;
-  }
+
+  @Input() params;
+
 
   @Input()
   set config(val) {
-    let lastPath = this.route.snapshot.url[this.route.snapshot.url.length-1].path
-    let isEditMode = lastPath=="edit"?true:false;
+    //let lastPath = this.route.snapshot.url[this.route.snapshot.url.length-1].path
+    let isEditMode = val["id"]&& val["id"]!="";
     if(!this.form)
       this.form = this.fb.group({});
   	this._config = _.cloneDeep(val);
@@ -138,14 +133,9 @@ export class FormViewComponent {
 
   constructor(private fb: FormBuilder,
     private http:Http,
-    public route: ActivatedRoute,
-    public router: Router,
     public translateService:TranslateService,
     @Inject("DataApiService") private dataApiService,
-    public messageService: NzMessageService,
-    public activeRouter: ActivatedRoute) {
-    this._params["id"] = this.route.snapshot.params["id"]
-    this.routeMap = this.route.snapshot.params
+    public messageService: NzMessageService) {
 
   }
 
@@ -156,14 +146,12 @@ export class FormViewComponent {
     populates = _.map(populates,(item)=>{
       return item.field
     })
-    let requestUrl = this._config.resource+"/"+this._params["id"]
+    let requestUrl = this._config.resource+"/"+this._config["id"]
     if(populates.length>0)
       requestUrl+= "?populate="+populates.join(" ")
     let apiName = `${this._config.app}.${this._config.module}DataApi`;
     let resource = this.dataApiService.get(apiName).resource
-    let id = this._params["id"];
-    if(this.routeMap["subid"])
-      id = this.routeMap["subid"]
+    let id = this._config["id"];
     resource.get({populate:populates.join(" ")},"/"+id).subscribe((res)=>{
           let data = res.json().data
           let controls = Object.keys(this.form.controls)

@@ -145,20 +145,11 @@ export class TableViewComponent implements OnInit {
           return this._config.modalListShow.indexOf(item.field)>=0;
       })
     }
-    if (this._config.actionable) {
-      let width = this._config.treeable?300:200
-      this.columns.push({
-        field: "action",
-        label: "操作",
-        width: width,
-        fixedRight: true
-      })
-    }
     this.searchableFields = this.columns.filter((fieldCfg)=>{
         return  fieldCfg.widget=="text" || fieldCfg.widget=="textarea"
     })
 
-    if (this._config.selecteable && !this._config.treeable) {
+    if (this._config.selecteable) {
       this.columns.unshift({
         field: "selectedId",
         label: "",

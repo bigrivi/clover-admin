@@ -186,7 +186,7 @@ export const CategoryConfig = {
 		name:{
 			label:"名称",
 			sortabld:true,
-			widget:"cardInput",
+			widget:"text",
 			titleabled :true,
 			require:true
 		}
