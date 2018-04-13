@@ -36,7 +36,6 @@ export class TableViewComponent implements OnInit {
   lastLoadSub:Subscription;
   queryParamsSub:Subscription;
   toggleSub: Subscription;
-  visibleWidth = 0;
   searchableFields:any[] = [];
   searchKeywords:string = ""
   selectAllSearchField = true;
@@ -55,8 +54,6 @@ export class TableViewComponent implements OnInit {
    public location: Location,
    public http: Http,
    public messageService: NzMessageService,
-   public router: Router,
-   public activeRouter: ActivatedRoute,
    public appService:AppService,
    public ref: ChangeDetectorRef,
    @Inject("DataApiService") private dataApiService,
@@ -207,36 +204,14 @@ export class TableViewComponent implements OnInit {
 
   }
 
-  // @ViewChild('scorllBody', { read: ViewContainerRef }) _scrollBody: ViewContainerRef;
-  // @ViewChild('scorllHeader', { read: ViewContainerRef }) _scorllHeader: ViewContainerRef;
-  // @ViewChild('scrollRight', { read: ViewContainerRef }) _scrollRight: ViewContainerRef;
 
   ngOnInit() {
-    this.queryParamsSub = this.activeRouter.queryParams.subscribe(params=> {
-      this.queryParams = params
-      this.loadPageDate()
-    })
+    this.loadPageDate()
   }
 
   ngAfterViewInit() {
     this.viewInited = true;
-    // this.visibleWidth = this._scrollBody.element.nativeElement.offsetWidth;
     this.onResize()
-    //同步滚动条
-    // let fixedBodyList = Array.prototype.slice.call(this.el.nativeElement.querySelectorAll(".table-fixed .table-body"))
-    // this.scrollHandler = this.renderer.listen(this._scrollBody.element.nativeElement, "scroll", (evt) => {
-    //   let scorllHeaderElement = this._scorllHeader.element.nativeElement
-    //   scorllHeaderElement.scrollLeft = evt.target.scrollLeft
-    //   fixedBodyList.forEach((item) => {
-    //     item.scrollTop = evt.target.scrollTop
-    //   })
-    // })
-
-    // this.resizeHandler = this.renderer.listen(window, "resize", (evt) => {
-    //   this.visibleWidth = this._scrollBody.element.nativeElement.offsetWidth;
-    //   this.onResize()
-    // })
-
   }
 
   onResize() {
@@ -337,13 +312,7 @@ export class TableViewComponent implements OnInit {
       this.lastLoadSub.unsubscribe()
       this.lastLoadSub = null;
     }
-    let currentPage = 1;
-    if(this.modalMode){
-      currentPage = this.pagerData.currentPage
-    }
-    else if(this.queryParams["page"]){
-      currentPage = parseInt(this.queryParams["page"])
-    }
+    let currentPage =  this.pagerData.currentPage
     let params = {
       sort:"-_id",
       limit:this.pagerData.pageSize,
@@ -364,12 +333,12 @@ export class TableViewComponent implements OnInit {
         }
     })
 
-     let routeMap = this.activeRouter.snapshot.params
-     if(routeMap["submodule"]){
-       let moduleConfig = this.dataApiService.get(`${routeMap.app}.${routeMap["module"]}DataApi`).config
-       let forign_key = moduleConfig.resource+"_id"
-       params[forign_key+"__equals"] = routeMap["id"]
-     }
+     // let routeMap = this.activeRouter.snapshot.params
+     // if(routeMap["submodule"]){
+     //   let moduleConfig = this.dataApiService.get(`${routeMap.app}.${routeMap["module"]}DataApi`).config
+     //   let forign_key = moduleConfig.resource+"_id"
+     //   params[forign_key+"__equals"] = routeMap["id"]
+     // }
 
 
     if(this.sorting.key!=""&&this.sorting.value!=""){
@@ -450,51 +419,6 @@ export class TableViewComponent implements OnInit {
   }
 
 
-
-  edit(id) {
-    let routeMap = this.activeRouter.snapshot.params;
-    if(routeMap["submodule"])
-      this.router.navigate(["apps/"+routeMap.app+"/"+routeMap.module+"/"+routeMap["id"]+"/"+routeMap["submodule"]+"/"+id,"edit"],{queryParams: {page: this.pagerData.currentPage}});
-    else
-      this.router.navigate(["apps/"+routeMap.app+"/"+routeMap.module+"/"+id+"/","edit"],{queryParams: {page: this.pagerData.currentPage}});
-
-  }
-
-  addChild(id) {
-    let routeMap = parseRouteMap(this.router.url)
-    this.router.navigate(["apps/"+routeMap.app+"/"+routeMap.module+"/","add"],{queryParams: {parentId:id,page: this.pagerData.currentPage}});
-  }
-
-  doAction(action,id){
-    if(action=="edit"){
-      this.edit(id)
-    }
-    else if(action=="delete"){
-      this.delete(id)
-    }
-    else if(action=="addChild"){
-      this.addChild(id)
-    }
-    else{
-      let routeMap = parseRouteMap(this.router.url)
-      this.router.navigate(["apps/"+routeMap.app+"/"+routeMap.module+"/"+id+"/",action],{queryParams: {page: this.pagerData.currentPage}});
-    }
-  }
-
-
-
-  delete(id) {
-    this.dialogService.confirm("确认删除吗?").then((res) => {
-      this.resource.delete(id).subscribe((res) => {
-        this.messageService.success('删除成功');
-        this.refresh()
-      })
-    }, (reason) => {
-
-    })
-
-  }
-
  /**
  获取列的总宽度
  **/
@@ -520,20 +444,8 @@ export class TableViewComponent implements OnInit {
 
 
   onPageChange(newPage) {
-
-    if(this.modalMode){
-        this.pagerData.currentPage = newPage
+      this.pagerData.currentPage = newPage
       this.loadPageDate()
-    }
-    else{
-       let routeMap = this.activeRouter.snapshot.params
-       if(routeMap["submodule"])
-         this.router.navigate(["apps/"+routeMap.app+"/"+routeMap.module+"/"+routeMap["id"]+"/"+routeMap["submodule"]],{queryParams:{page: newPage}})
-       else
-         this.router.navigate(["apps/"+routeMap.app+"/"+routeMap.module+"/"],{queryParams:{page: newPage}})
-    }
-
-
   }
 
   onSelectedAllChange(checked) {

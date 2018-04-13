@@ -42,7 +42,6 @@ export class ListViewComponent implements OnInit {
       if (event instanceof NavigationEnd) {
           //let routeMap = parseRouteMap(this.router.url)
           this.routeMap = this.route.snapshot.params
-          console.log(this.routeMap)
           this.module = this.routeMap["module"];
           this.app = this.routeMap["app"];
           if(this.routeMap["submodule"]){
@@ -139,7 +138,6 @@ export class ListViewComponent implements OnInit {
 
   onSelectedChange(event){
     this.selectedObjs = event
-    console.log(this.selectedObjs)
   }
 
   export(){
@@ -175,8 +173,6 @@ export class ListViewComponent implements OnInit {
     this.editable = editable && this.userService.checkNodeIsAuth(`${this.app}.${this.module}.put`)
     this.deleteable = deleteable && this.userService.checkNodeIsAuth(`${this.app}.${this.module}.delete`)
     this.exportable = exportable && this.userService.checkNodeIsAuth(`${this.app}.${this.module}.export`)
-
-
 
   }
 
