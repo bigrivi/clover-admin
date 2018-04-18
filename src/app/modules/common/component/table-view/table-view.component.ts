@@ -53,6 +53,7 @@ export class TableViewComponent implements OnInit {
    public userService:UserService,
    public location: Location,
    public http: Http,
+   public router:Router,
    public messageService: NzMessageService,
    public appService:AppService,
    public ref: ChangeDetectorRef,
@@ -67,6 +68,7 @@ export class TableViewComponent implements OnInit {
   @Output() onSelectedChange:EventEmitter<any> = new EventEmitter();
   @Input() rowHeight = 50;
   @Input() initSelectedIds = [];
+  @Input() params = {};
   @Input() modalMode = false; //是否为弹窗模式
   @Input()
   set config(val:any) {
@@ -339,6 +341,9 @@ export class TableViewComponent implements OnInit {
      //   let forign_key = moduleConfig.resource+"_id"
      //   params[forign_key+"__equals"] = routeMap["id"]
      // }
+     for(var key in this.params){
+         params[key+"__equals"] = this.params[key]
+     }
 
 
     if(this.sorting.key!=""&&this.sorting.value!=""){
@@ -428,6 +433,11 @@ export class TableViewComponent implements OnInit {
        totalWidth+=column.width
     })
     return totalWidth
+  }
+
+  openDetailPage(row){
+    if(this._config.detailable)
+      this.router.navigateByUrl(`apps/${this._config.app}/${this._config.module}/${row._id}`)
   }
 
 

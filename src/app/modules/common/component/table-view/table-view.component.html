@@ -62,7 +62,7 @@
         <tr nz-tbody-tr *ngFor="let row of rows">
             <ng-container *ngFor="let column of columns">
               <td nz-td *ngIf="column.field!='action'">
-                <div *ngIf="column.titleabled"[attr.title]="row[column.field]">{{row[column.field]}}</div>
+                <div *ngIf="column.titleabled"[attr.title]="row[column.field]" (click)="openDetailPage(row)">{{row[column.field]}}</div>
                 <div *ngIf="!column.titleabled">
                   <ng-container *ngIf="column.field!='selectedId'">
                      {{row[column.field]}}

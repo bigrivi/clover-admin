@@ -9,6 +9,6 @@
      <button *ngIf="exportable"  nz-button (click)="export()"><i class="fa fa-share"></i>&nbsp;{{ 'Export' | translate}}</button>
       </ng-template>
       <ng-template #body>
-            <table-view (onSelectedChange)="onSelectedChange($event)" (dataLoadComplete)="onDataLoadComplete($event)" [config]="config"></table-view>
+            <table-view (onSelectedChange)="onSelectedChange($event)" (dataLoadComplete)="onDataLoadComplete($event)" [config]="config" [params]="params"></table-view>
       </ng-template>
 </nz-card>

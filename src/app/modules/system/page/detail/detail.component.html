@@ -1,0 +1,24 @@
+<nz-card [nzBordered]="false">
+      <ng-template #title>
+        产品详细
+      </ng-template>
+      <ng-template #body>
+        <nz-tabset
+                nzAnimated="false">
+                <nz-tab (nzClick)="switchTab(1)">
+                    <ng-template #nzTabHeading>
+                       详细信息
+                    </ng-template>
+                </nz-tab>
+                <nz-tab (nzClick)="switchTab(2)">
+                    <ng-template #nzTabHeading>
+                       订购记录
+                    </ng-template>
+                </nz-tab>
+            </nz-tabset>
+            <div class="tab-content">
+              <router-outlet></router-outlet>
+            </div>
+      </ng-template>
+</nz-card>
+

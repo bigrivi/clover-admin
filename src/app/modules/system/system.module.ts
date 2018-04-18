@@ -4,9 +4,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { HttpModule, Http, XHRBackend, RequestOptions } from '@angular/http';
 import * as _ from 'lodash';
 
-import { ListViewComponent } from './page/list-view/list-view.component';
-import { EditViewComponent } from './page/edit-view/edit-view.component';
-import { ExportViewComponent } from './page/export-view/export-view.component';
+import { ListPageComponent } from './page/list/list-page.component';
 import { ThemeModule } from '../../@theme/theme.module';
 import { SystemComponent } from './system.component'
 import { DataApiService } from '../../@core/utils/dataApi.service'
@@ -53,44 +51,14 @@ const routes: Routes = [
       canActivate: [ AuthGuardService ],
       children: [
       {
-        path: ':module/add',
+        path: ':module/:id',
         canActivate: [ AuthGuardService ],
-        component: EditViewComponent,
-      },
-      {
-        path: ':module/export',
-        canActivate: [ AuthGuardService ],
-        component: ExportViewComponent,
-      },
-       {
-        path: ':module/:id/:submodule/export',
-        canActivate: [ AuthGuardService ],
-        component: ExportViewComponent,
-      },
-      {
-        path: ':module/:id/edit',
-        canActivate: [ AuthGuardService ],
-        component: EditViewComponent,
-      },
-      {
-        path: ':module/:id/:submodule',
-        canActivate: [ AuthGuardService ],
-        component: ListViewComponent,
-      },
-      {
-        path: ':module/:id/:submodule/add',
-        canActivate: [ AuthGuardService ],
-        component: EditViewComponent,
-      },
-       {
-        path: ':module/:id/:submodule/:subid/edit',
-        canActivate: [ AuthGuardService ],
-        component: EditViewComponent,
+        loadChildren: "app/modules/system/page/detail/detail.module#DetailModule",
       },
       {
         path: ':module',
         canActivate: [ AuthGuardService ],
-        component: ListViewComponent,
+        component: ListPageComponent,
       }],
     }
   ]
@@ -106,9 +74,7 @@ const routes: Routes = [
   ],
   declarations: [
     SystemComponent,
-    ListViewComponent,
-    EditViewComponent,
-    ExportViewComponent
+    ListPageComponent
   ],
   entryComponents: [
 

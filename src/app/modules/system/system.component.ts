@@ -35,7 +35,6 @@ export class SystemComponent {
 
 
   ngOnDestroy(){
-       console.log("system exit")
        if(this.intervalId){
            clearInterval(this.intervalId)
        }
