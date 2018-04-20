@@ -45,6 +45,7 @@ export const ProductConfig = {
 			fullRow:false,
 			searchable:true,
 			populateable:true,
+			isParameterData:true,
 			dataSource:"dataModel.parameter",
 			queryParams:{"group":"product_category"},
 			multiple:false,

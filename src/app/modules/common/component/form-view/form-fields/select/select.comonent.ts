@@ -1,4 +1,4 @@
-import { Component,Input,Injector,Inject,ViewChild} from '@angular/core';
+import { Component,Input,Injector,Inject,ViewChild,HostBinding} from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import * as _ from 'lodash';
 import {AppService} from '../../../../services/app.service'
@@ -9,16 +9,14 @@ import {SelectComponent} from "./cv-select.comonent"
   template: `
     <ng-container  [formGroup]="group">
   <form-select [placeholder]="_config.placeholder" [multiple]="_config.multiple" [dataSource] = "_dataSource" [formControlName]="_config.field" [(ngModel)]="_config.value"></form-select>
-   <a (click)="openParameterDialog()">
+   <a (click)="openParameterDialog()" *ngIf="_config.isParameterData">
       &nbsp;<i class="fa fa-plus"></i> <span>编辑</span>
     </a>
   </ng-container>
   `
   ,styles  : [
         `
-        :host ::ng-deep nz-select {
-            width:calc(100% - 60px)
-        }
+        
 
       `
     ]
@@ -28,6 +26,11 @@ export class SelectFieldComponent {
     constructor(private appService:AppService,@Inject("DataApiService") private dataApiService,public dialogService:DialogService){
 
     }
+
+    @HostBinding('class.isParameterPicker')
+     private get isParameterPicker() {
+       return this._config.isParameterData
+     }
 
     @ViewChild(SelectComponent) selectComp:SelectComponent;
      _config;
@@ -98,7 +101,7 @@ export class SelectFieldComponent {
           if(item["value"] == this._config.value)
             selectIndex = index
       })
-       this.dialogService.openParameterDialog("product_category",{selectIndex:selectIndex}).then(()=>{
+       this.dialogService.openParameterDialog(this._config.queryParams.group,{selectIndex:selectIndex}).then(()=>{
            this.loadDataSource()
        })
      }
