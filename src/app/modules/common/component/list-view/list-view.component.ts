@@ -63,9 +63,12 @@ export class ListViewComponent implements OnInit {
             }
             params["parentId"] = this.selectedObjs[0]._id
          }
-        this.dialogService.openEditDialog(this.config.app,this.config.module,params).then(()=>{
-          this.tableView.refresh()
-          this.selectedObjs = []
+        // this.dialogService.openEditDialog(this.config.app,this.config.module,params).then(()=>{
+        //   this.tableView.refresh()
+        //   this.selectedObjs = []
+        // })
+        this.dialogService.openParameterDialog("test").then(()=>{
+
         })
 
 

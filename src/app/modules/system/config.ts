@@ -5,6 +5,7 @@ import {NavConfig} from './apps/home/config'
 import {ResearchConfig} from './apps/research/config'
 import {TemplateConfig,EmailConfig,SmsConfig,WinningConfig} from './apps/notification/config'
 import {QuestionConfig} from './apps/question/config'
+import {ParameterConfig} from './apps/dataModel/config'
 
 
 export const ModuleConfig = {
@@ -38,5 +39,8 @@ export const ModuleConfig = {
         email:EmailConfig,
         sms:SmsConfig,
         winning:WinningConfig
+      },
+      dataModel:{
+        parameter:ParameterConfig
       }
 }

@@ -37,6 +37,7 @@ import { toUploadFileThumbPipe } from './pipes/to_upload_file_thumb.pipe';
 import {TableViewDailogComponent} from './component/dialog/list.component';
 import {EditDialogComponent} from './component/dialog/edit.component';
 import {ExportDialogComponent} from './component/dialog/export.component';
+import {ParameterDialogComponent} from './component/dialog/parameter.component';
 import {DialogService} from './component/dialog/dialog.service';
 
 
@@ -99,6 +100,7 @@ const HELPERS = [ ModalHelper ];
     TableViewDailogComponent,
     EditDialogComponent,
     ExportDialogComponent,
+    ParameterDialogComponent,
     toUploadFileThumbPipe,
     ...DIRECTIVES, ...PIPES,...shared_components
   ],
@@ -126,6 +128,7 @@ const HELPERS = [ ModalHelper ];
     TableViewDailogComponent,
     EditDialogComponent,
     ExportDialogComponent,
+    ParameterDialogComponent,
     ...shared_entry_components
 
   ],

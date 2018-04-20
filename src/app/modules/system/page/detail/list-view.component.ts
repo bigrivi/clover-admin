@@ -32,10 +32,6 @@ export class ListViewComponent implements OnInit {
       this.app = this.route.snapshot.parent.params["app"]
       this.id = this.route.snapshot.parent.params["id"]
       this.parentModule = this.route.snapshot.parent.params["module"]
-      console.log(this.app)
-      console.log(this.module)
-      console.log(this.id)
-      console.log(this.parentModule)
       let apiName = `${this.app}.${this.module}DataApi`;
       let dataApi = dataApiService.get(apiName)
       this.config = dataApi.config

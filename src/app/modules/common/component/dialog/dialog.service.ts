@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import {TableViewDailogComponent} from './list.component';
 import {EditDialogComponent} from './edit.component';
 import {ExportDialogComponent} from './export.component';
+import {ParameterDialogComponent} from './parameter.component';
 
 import { NzModalService } from 'ng-zorro-antd';
 import * as _ from 'lodash';
@@ -120,6 +121,36 @@ export class DialogService {
                 componentParams: {
                   app:app,
                   module:module,
+                  params:params
+                }
+              });
+              currentModal.subscribe(result => {
+                 if(_.isObject(result)){
+                  currentModal.destroy('onOk');
+                  resolve(result)
+                }
+              })
+
+        })
+    }
+
+
+     openParameterDialog(group:String,params:any = {}): Promise<any> {
+        let title = "分类编辑 - 客户状态"
+        return new Promise((resolve,reject) => {
+             const currentModal = this.modalService.open({
+                title          : title,
+                width          :"550px",
+                wrapClassName  :"no-padding",
+                content        : ParameterDialogComponent,
+                onOk() {
+
+                },
+                onCancel() {
+
+                },
+                footer         : false,
+                componentParams: {
                   params:params
                 }
               });
