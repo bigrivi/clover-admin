@@ -16,10 +16,10 @@ import { Router, NavigationEnd } from '@angular/router';
       </div>
      <div class="customize-footer">
           <button nz-button [nzType]="'primary'" [nzSize]="'large'" (click)="save($event)">
-            确定
+            保存
           </button>
           <button nz-button [nzType]="'default'" [nzSize]="'large'" (click)="handleCancel($event)">
-            取消
+            关闭
           </button>
         </div>
 
@@ -31,11 +31,10 @@ import { Router, NavigationEnd } from '@angular/router';
            overflow:auto;
         }
         :host ::ng-deep.customize-footer {
-            border-top: 1px solid #e9e9e9;
-            padding: 10px 18px 0 10px;
-            text-align: right;
+            background: #e9e9e9;
+            padding: 10px;
+            text-align: center;
             border-radius: 0 0 0px 0px;
-            margin: 15px -16px -5px -16px;
         }
       `
     ]

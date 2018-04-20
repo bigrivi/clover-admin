@@ -27,6 +27,7 @@ export const ProductConfig = {
 			widget:"text",
 			sortabld:true,
 			width:400,
+			fullRow:true,
 			titleabled :true,
 			require:true
 		},
@@ -42,7 +43,8 @@ export const ProductConfig = {
 			widget:"select",
 			searchable:true,
 			populateable:true,
-			dataSource:"product.category",
+			dataSource:"dataModel.parameter",
+			queryParams:{"group":"product_category"},
 			multiple:false,
 			require:true,
 			get_display:function(item){
@@ -51,53 +53,7 @@ export const ProductConfig = {
 				return ""
 			}
 		},
-		category_id1:{
-		    label:"测试联动",
-			widget:"select",
-			populateable:true,
-			dataSource:category_source,
-			multiple:false,
-			require:true,
-			value:"1",
-			chain:{
-				"1":"test1_1,test1_2,test1_3",
-				"2":"test2_1,test2_2,test2_3",
-			},
-		},
-		test1_1:{
-			label:"测试1-1",
-			widget:"select",
-			dataSource:"product.category",
-			queryParams:{name:"手机"},
-			require:true
-		},
-		test1_2:{
-			label:"测试1-2",
-			widget:"text",
-			require:true
-		},
-		test1_3:{
-			label:"测试1-3",
-			widget:"text",
-			require:true
-		},
-		test2_1:{
-			label:"测试2-1",
-			widget:"select",
-			dataSource:"product.category",
-			queryParams:{name:"服装"},
-			require:true
-		},
-		test2_2:{
-			label:"测试2-2",
-			widget:"text",
-			require:true
-		},
-		test2_3:{
-			label:"测试2-3",
-			widget:"datetime",
-			require:true
-		},
+
 		measuring_unit:{
 			label:"计量单位",
 			widget:"text",
@@ -147,16 +103,19 @@ export const ProductConfig = {
 			label:"创建时间",
 			widget:"datetime",
 			sortabld:true,
+			fullRow:true,
 			require:true
 		},
 		pic:{
 			label:"产品图",
 			widget:"uploader",
-			require:false
+			fullRow:true,
+			require:true
 		},
 		introduction:{
 			label:"介绍",
 			widget:"textarea",
+			fullRow:true,
 			require:true
 		}
 

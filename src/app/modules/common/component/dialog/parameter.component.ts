@@ -3,6 +3,7 @@ import {AppService} from '../../../common/services/app.service'
 import {TableViewComponent} from "../table-view/table-view.component"
 import { NzModalSubject } from 'ng-zorro-antd';
 import {Subscription} from 'rxjs'
+import * as _ from 'lodash';
 import {NzNotificationService,NzMessageService} from 'ng-zorro-antd';
 import {FormViewComponent} from '../../../common/component/form-view/form-view.component'
 import { Router, NavigationEnd } from '@angular/router';
@@ -57,6 +58,7 @@ import {
                        <nz-input
                         style="width: 100%;"
                         [nzSize]="'large'"
+                        [nzType]="'number'"
                         [formControlName]="'ord'"
                         [nzId]="index">
                       </nz-input>
@@ -93,6 +95,7 @@ import {
   export class ParameterDialogComponent implements OnInit {
   formGroup: FormArray;
   resource:any;
+  @Input() group;
 
   constructor(
     private subject:NzModalSubject,
@@ -110,7 +113,7 @@ import {
 
   ngOnInit() {
 
-     this.resource.get({"group__equals":"product_category"}).subscribe((res)=>{
+     this.resource.get({"group__equals":this.group,"sort":"ord"}).subscribe((res)=>{
           res = res.json().data
           res = res.map((item)=>{
             this.addRow({
@@ -128,8 +131,8 @@ import {
      data = data || {
         "is_default":"0",
         "name":"",
-        "ord":"0"
-      }
+        "ord":this.getMaxOrd()
+     }
     const {is_default,name,ord} = data
     let formGroup:FormGroup = this.fb.group({
         'is_default': [is_default, [Validators.required]],
@@ -138,6 +141,17 @@ import {
      })
     this.formGroup.push(formGroup)
 
+  }
+
+  getMaxOrd(){
+    if(this.formGroup.controls.length<=0){
+        return 10
+    }
+    else{
+        let values = this.formGroup.value;
+        let max = _.maxBy(values,(item)=>Number(item.ord))
+        return Number(max.ord)+10
+    }
   }
 
   onDefaultChange(index){
@@ -161,10 +175,10 @@ import {
     })
 
     parameters.forEach((item)=>{
-      item.group = "product_category"
+      item.group = this.group
     })
-    this.resource.post({parameters:parameters,group:"product_category"}).subscribe((res)=>{
-        console.log(res)
+    this.resource.post({parameters:parameters,group:this.group}).subscribe((res)=>{
+       this.subject.next(res.json());
     })
 
   }

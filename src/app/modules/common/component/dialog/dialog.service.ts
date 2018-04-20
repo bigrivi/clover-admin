@@ -78,7 +78,8 @@ export class DialogService {
         return new Promise((resolve,reject) => {
              const currentModal = this.modalService.open({
                 title          : title,
-                width          :"70%",
+                width          :"80%",
+                wrapClassName  :"no-padding",
                 content        : EditDialogComponent,
                 onOk() {
 
@@ -150,8 +151,10 @@ export class DialogService {
 
                 },
                 footer         : false,
+                zIndex:2000,
                 componentParams: {
-                  params:params
+                  params:params,
+                  group:group
                 }
               });
               currentModal.subscribe(result => {

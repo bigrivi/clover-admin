@@ -65,6 +65,8 @@ export class FormViewComponent {
       let src = this._config["fields"][field]
       let clone = Object.assign({},src)
       clone.field = field
+      clone.span = clone.fullRow?"24":"12";
+
       if(src.visible == false)
         clone.visible = false
       else

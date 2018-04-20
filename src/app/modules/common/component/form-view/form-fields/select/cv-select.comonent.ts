@@ -35,9 +35,12 @@ const FORM_SELECT_VALUE_ACCESSOR: any = {
     </nz-select>
   </ng-container>
 
+
   `
+
 })
 export class SelectComponent implements ControlValueAccessor {
+
 
     private onTouched: any = () => { }
     private valueChange: any = (value: any) => { }
@@ -76,6 +79,8 @@ export class SelectComponent implements ControlValueAccessor {
        this.valueChange(newValue)
 
      }
+
+
 
     registerOnChange(fn: any) {
       this.valueChange = fn;
