@@ -95,7 +95,9 @@ import {
   export class ParameterDialogComponent implements OnInit {
   formGroup: FormArray;
   resource:any;
+  keepValue = "";
   @Input() group;
+  @Input() params = {};
 
   constructor(
     private subject:NzModalSubject,
@@ -115,11 +117,15 @@ import {
 
      this.resource.get({"group__equals":this.group,"sort":"ord"}).subscribe((res)=>{
           res = res.json().data
-          res = res.map((item)=>{
+          res = res.forEach((item,index)=>{
+              if(index == this.params["selectIndex"]){
+                  this.keepValue = item["_id"]
+              }
             this.addRow({
               "is_default":item["is_default"].toString(),
               "name":item["name"],
-              "ord":item["ord"]
+              "ord":item["ord"],
+              "value":item["_id"],
             })
           })
           //this.formGroup.setValue(res)
@@ -131,13 +137,15 @@ import {
      data = data || {
         "is_default":"0",
         "name":"",
+        "value":"",
         "ord":this.getMaxOrd()
      }
-    const {is_default,name,ord} = data
+    const {is_default,name,ord,value} = data
     let formGroup:FormGroup = this.fb.group({
         'is_default': [is_default, [Validators.required]],
         'name': [name, [Validators.required]],
-        'ord': [ord, [Validators.required]]
+        'ord': [ord, [Validators.required]],
+        'value': [value, [Validators.required]]
      })
     this.formGroup.push(formGroup)
 
@@ -165,6 +173,10 @@ import {
   }
 
   removeRow(index){
+    let currentVal = this.formGroup.controls[index].get("value");
+    if(currentVal.value == this.keepValue){
+        this.keepValue = ""
+    }
     this.formGroup.removeAt(index)
   }
 
@@ -177,7 +189,9 @@ import {
     parameters.forEach((item)=>{
       item.group = this.group
     })
-    this.resource.post({parameters:parameters,group:this.group}).subscribe((res)=>{
+    console.log(this.keepValue)
+    console.log(parameters)
+    this.resource.post({keepValue:this.keepValue,parameters:parameters,group:this.group}).subscribe((res)=>{
        this.subject.next(res.json());
     })
 
