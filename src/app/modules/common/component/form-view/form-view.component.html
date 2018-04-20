@@ -11,9 +11,11 @@
                         <label  *ngIf="!item.require">{{item.label | translate}}</label>
 
                   </div>
-                  <div nz-form-control nz-col [nzSm]="18" [nzValidateStatus]="form.controls[item.field]">
+                  <div nz-form-control nz-col [nzSm]="19" [nzValidateStatus]="form.controls[item.field]">
                       	<ng-container dynamicField [config]="item" [group]="form"></ng-container>
 
+                  </div>
+                  <div  nz-col [nzSm]="1">
                   </div>
                  </div>
            </div>
@@ -27,9 +29,10 @@
                         <label  *ngIf="!item.require">{{item.label | translate}}</label>
 
                   </div>
-                  <div nz-form-control nz-col [nzSm]="16" [nzValidateStatus]="form.controls[item.field]">
+                  <div nz-form-control nz-col [nzSm]="14" [nzValidateStatus]="form.controls[item.field]">
                         <ng-container dynamicField [config]="item" [group]="form"></ng-container>
-
+                  </div>
+                  <div  nz-col [nzSm]="2">
                   </div>
                  </div>
            </div>

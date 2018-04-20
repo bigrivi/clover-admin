@@ -65,6 +65,7 @@ export class FormViewComponent {
       let src = this._config["fields"][field]
       let clone = Object.assign({},src)
       clone.field = field
+      clone.fullRow = !_.isUndefined(src.fullRow)?clone.fullRow:true;
       clone.span = clone.fullRow?"24":"12";
 
       if(src.visible == false)

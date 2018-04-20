@@ -10,14 +10,14 @@ import {SelectComponent} from "./cv-select.comonent"
     <ng-container  [formGroup]="group">
   <form-select [placeholder]="_config.placeholder" [multiple]="_config.multiple" [dataSource] = "_dataSource" [formControlName]="_config.field" [(ngModel)]="_config.value"></form-select>
    <a (click)="openParameterDialog()">
-      &nbsp;<i class="fa fa-plus"></i><span>编辑</span>
+      &nbsp;<i class="fa fa-plus"></i> <span>编辑</span>
     </a>
   </ng-container>
   `
   ,styles  : [
         `
         :host ::ng-deep nz-select {
-            width:calc(100% - 100px)
+            width:calc(100% - 60px)
         }
 
       `

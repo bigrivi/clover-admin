@@ -35,12 +35,14 @@ export const ProductConfig = {
 			label:"product.Product Price",
 			widget:"number",
 			sortabld:true,
+			fullRow:false,
 			require:true,
 			width:100
 		},
 		category_id:{
 		    label:"类别",
 			widget:"select",
+			fullRow:false,
 			searchable:true,
 			populateable:true,
 			dataSource:"dataModel.parameter",
@@ -57,21 +59,25 @@ export const ProductConfig = {
 		measuring_unit:{
 			label:"计量单位",
 			widget:"text",
+			fullRow:false,
 			require:true
 		},
 		model:{
 			label:"模型",
 			widget:"text",
+			fullRow:false,
 			require:true
 		},
 		producing_area:{
 			label:"产地",
+			fullRow:false,
 			widget:"text",
-			require:true
+			require:false
 		},
 		serial_number:{
 			label:"序列号",
 			widget:"text",
+			fullRow:false,
 			require:true
 		},
 		bar_code:{
@@ -79,7 +85,7 @@ export const ProductConfig = {
 			widget:"text",
 			require:true,
 			addable: true,
-            editable: false
+            editable: true
 		},
 		tags:{
 			label:"标签",
@@ -110,7 +116,7 @@ export const ProductConfig = {
 			label:"产品图",
 			widget:"uploader",
 			fullRow:true,
-			require:true
+			require:false
 		},
 		introduction:{
 			label:"介绍",
@@ -147,6 +153,7 @@ export const CategoryConfig = {
 			label:"名称",
 			sortabld:true,
 			widget:"text",
+			fullRow:true,
 			titleabled :true,
 			require:true
 		}
@@ -163,6 +170,7 @@ export const TagConfig = {
 			label:"名称",
 			sortabld:true,
 			widget:"text",
+			fullRow:true,
 			titleabled :true,
 			require:true
 		},
@@ -170,6 +178,7 @@ export const TagConfig = {
 			label:"产品数量",
 			sortabld:true,
 			widget:"text",
+			fullRow:true,
 			titleabled :false,
 			require:false,
 			addable: false,

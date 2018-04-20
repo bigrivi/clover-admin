@@ -200,10 +200,12 @@ export const UserRoleConfig = {
 			label:"名称",
 			widget:"text",
 			titleabled :true,
+			fullRow:true,
 			require:true
 		},
 		description:{
 			label:"描述",
+			fullRow:true,
 			widget:"textarea",
 			require:false
 		}
@@ -220,8 +222,3 @@ export const AuthorizeConfig = {
 	resource:"authorize",
 	module:"authorize"
 }
-
-
-
-
-
