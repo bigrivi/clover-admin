@@ -65,9 +65,7 @@ export class FormViewComponent {
       let src = this._config["fields"][field]
       let clone = Object.assign({},src)
       clone.field = field
-      clone.fullRow = !_.isUndefined(src.fullRow)?clone.fullRow:true;
-      clone.span = clone.fullRow?"24":"12";
-
+      clone.formWidth = !_.isUndefined(src.formWidth)?clone.formWidth:"fullRow";
       if(src.visible == false)
         clone.visible = false
       else
@@ -182,8 +180,15 @@ export class FormViewComponent {
 
     })
     if(!this.form.valid){
-      this.messageService.error('请正确填写数据');
-      return false
+        _.each(this._fields,(field)=>{
+            var formControl = this.form.controls[field.field]
+            if(formControl.errors && formControl.errors["required"]){
+                console.log(formControl)
+                this.messageService.error(field.errMsg);
+                return false;
+            }
+        })
+        return false
     }
     return true;
   }
@@ -204,11 +209,11 @@ export class FormViewComponent {
     }else if(fieldData.widget=="uploader"){
       msg = "请选择"+label+"文件";
     }else if(fieldData.widget=="date"){
-      msg = "请选择日期";
+      msg = "请选择"+label;
     }else if(fieldData.widget=="datetime"){
-      msg = "请选择日期时间";
+      msg = "请选择"+label;
     }else if(fieldData.widget=="time"){
-      msg = "请选择时间";
+      msg = "请选择"+label;
     }else if(fieldData.widget=="checkbox"){
       msg = "请至少选项一项"+label;
     }else if(fieldData.widget=="select" || fieldData.widget=="itemselect" || fieldData.widget=="select3"){

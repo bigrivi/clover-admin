@@ -27,7 +27,6 @@ export const ProductConfig = {
 			widget:"text",
 			sortabld:true,
 			width:400,
-			fullRow:true,
 			titleabled :true,
 			require:true
 		},
@@ -35,14 +34,14 @@ export const ProductConfig = {
 			label:"product.Product Price",
 			widget:"number",
 			sortabld:true,
-			fullRow:false,
+			formWidth:"halfWidth",
 			require:true,
 			width:100
 		},
 		category_id:{
 		    label:"类别",
 			widget:"select",
-			fullRow:false,
+			formWidth:"halfWidth",
 			searchable:true,
 			populateable:true,
 			isParameterData:true,
@@ -60,30 +59,31 @@ export const ProductConfig = {
 		measuring_unit:{
 			label:"计量单位",
 			widget:"text",
-			fullRow:false,
+			formWidth:"halfWidth",
 			require:true
 		},
 		model:{
 			label:"模型",
 			widget:"text",
-			fullRow:false,
+			formWidth:"halfWidth",
 			require:true
 		},
 		producing_area:{
 			label:"产地",
-			fullRow:false,
+			formWidth:"halfWidth",
 			widget:"text",
 			require:false
 		},
 		serial_number:{
 			label:"序列号",
 			widget:"text",
-			fullRow:false,
+			formWidth:"halfWidth",
 			require:true
 		},
 		bar_code:{
 			label:"条形码",
 			widget:"text",
+			formWidth:"halfWidth_",
 			require:true,
 			addable: true,
             editable: true
@@ -106,13 +106,6 @@ export const ProductConfig = {
 				return "";
 			}
 		},
-		creation_on:{
-			label:"创建时间",
-			widget:"datetime",
-			sortabld:true,
-			fullRow:true,
-			require:true
-		},
 		pic:{
 			label:"产品图",
 			widget:"uploader",
@@ -122,6 +115,13 @@ export const ProductConfig = {
 		introduction:{
 			label:"介绍",
 			widget:"textarea",
+			fullRow:true,
+			require:true
+		},
+		creation_on:{
+			label:"创建时间",
+			widget:"datetime",
+			sortabld:true,
 			fullRow:true,
 			require:true
 		}
