@@ -5,10 +5,10 @@
   </div>
   <div nz-row>
     <ng-container *ngFor="let item of group.fields">
-      <div nz-col class="cell" [nzSpan]="24" *ngIf="item.formWidth=='fullRow'">
+      <div nz-col class="field-cell" [nzSpan]="24" *ngIf="item.formWidth=='fullRow'">
         <div nz-form-item nz-row>
-          <div class="field-name" nz-col [nzSm]="4">
-            <label>{{item.label | translate}}：</label>
+          <div class="field-name" nz-form-control nz-col [nzSm]="4">
+            {{item.label | translate}}：
           </div>
           <div nz-form-control nz-col [nzSm]="18">
               {{infoData[item.field]}}
@@ -17,9 +17,9 @@
           </div>
         </div>
       </div>
-      <div nz-col class="cell" [nzSpan]="12" *ngIf="item.formWidth=='halfWidth'">
+      <div nz-col class="field-cell" [nzSpan]="12" *ngIf="item.formWidth=='halfWidth'">
         <div nz-form-item nz-row>
-          <div class="field-name" nz-col [nzSm]="8">
+          <div class="field-name" nz-form-control nz-col [nzSm]="8">
             <label>{{item.label | translate}}：</label>
           </div>
           <div nz-form-control nz-col [nzSm]="12">
@@ -29,9 +29,9 @@
           </div>
         </div>
       </div>
-      <div nz-col class="cell" [nzSpan]="24" *ngIf="item.formWidth=='halfWidth_'">
+      <div nz-col class="field-cell" [nzSpan]="24" *ngIf="item.formWidth=='halfWidth_'">
         <div nz-form-item nz-row>
-          <div  class="field-name" nz-col [nzSm]="4">
+          <div  class="field-name" nz-form-control nz-col [nzSm]="4">
             <label>{{item.label | translate}}：</label>
           </div>
           <div nz-form-control nz-col [nzSm]="6">
