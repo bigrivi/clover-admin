@@ -15,7 +15,7 @@ import { Router, NavigationEnd } from '@angular/router';
         <form-view [config]="formConfig"></form-view>
       </div>
      <div class="customize-footer">
-          <button nz-button [nzType]="'primary'" [nzSize]="'large'" (click)="save($event)">
+          <button nz-button [nzType]="'primary'" [nzSize]="'large'" (click)="save()">
             保存
           </button>
           <button nz-button [nzType]="'default'" [nzSize]="'large'" (click)="handleCancel($event)">

@@ -20,7 +20,7 @@ import {
     styleUrls:["parameter.component.less"],
     template: `
      <div class="modal-body">
-       <form nz-form [formGroup]="formGroup" (ngSubmit)="_submitForm()">
+       <form nz-form [formGroup]="formGroup">
         <table  width="100%" border="0" align="center" cellpadding="0" cellspacing="0" class="TableList">
                 <tr class="TableHeader">
                     <td width="6%" align="center" id="" title="" onclick="">默认</td>
@@ -133,7 +133,7 @@ import {
 
   }
 
-  addRow(data) {
+  addRow(data?) {
      data = data || {
         "is_default":"0",
         "name":"",
