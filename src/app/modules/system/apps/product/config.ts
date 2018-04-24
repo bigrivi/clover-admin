@@ -12,7 +12,7 @@ export const ProductConfig = {
 	addable:true,
 	detailable:true,
 	name:"产品管理",
-	group:["产品基本信息"]
+	group:["产品基本信息"],
 	listHide:["introduction","bar_code","pic","category_id1","test1_1","test1_2","test1_3","test2_1","test2_2","test2_3"],
 	modalListShow:["name","price","serial_number"],
 	extActions:[
