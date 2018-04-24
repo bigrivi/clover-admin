@@ -12,6 +12,7 @@ export const ProductConfig = {
 	addable:true,
 	detailable:true,
 	name:"产品管理",
+	group:["产品基本信息"]
 	listHide:["introduction","bar_code","pic","category_id1","test1_1","test1_2","test1_3","test2_1","test2_2","test2_3"],
 	modalListShow:["name","price","serial_number"],
 	extActions:[
@@ -26,6 +27,7 @@ export const ProductConfig = {
 			label:"product.Product Name",
 			widget:"text",
 			sortabld:true,
+			group:"1",
 			width:400,
 			titleabled :true,
 			require:true
@@ -33,6 +35,7 @@ export const ProductConfig = {
 		price:{
 			label:"product.Product Price",
 			widget:"number",
+			group:"1",
 			sortabld:true,
 			formWidth:"halfWidth",
 			require:true,
@@ -41,6 +44,7 @@ export const ProductConfig = {
 		category_id:{
 		    label:"类别",
 			widget:"select",
+			group:"1",
 			formWidth:"halfWidth",
 			searchable:true,
 			populateable:true,
@@ -59,29 +63,34 @@ export const ProductConfig = {
 		measuring_unit:{
 			label:"计量单位",
 			widget:"text",
+			group:"1",
 			formWidth:"halfWidth",
 			require:true
 		},
 		model:{
 			label:"模型",
 			widget:"text",
+			group:"1",
 			formWidth:"halfWidth",
 			require:true
 		},
 		producing_area:{
 			label:"产地",
+			group:"1",
 			formWidth:"halfWidth",
 			widget:"text",
 			require:false
 		},
 		serial_number:{
 			label:"序列号",
+			group:"1",
 			widget:"text",
 			formWidth:"halfWidth",
 			require:true
 		},
 		bar_code:{
 			label:"条形码",
+			group:"1",
 			widget:"text",
 			formWidth:"halfWidth_",
 			require:true,
@@ -91,6 +100,7 @@ export const ProductConfig = {
 		tags:{
 			label:"标签",
 			searchable:true,
+			group:"1",
 			widget:"select",
 			dataSource:"product.tag",
 			populateable:true,
@@ -109,6 +119,7 @@ export const ProductConfig = {
 		pic:{
 			label:"产品图",
 			widget:"uploader",
+			group:"1",
 			fullRow:true,
 			require:false
 		},

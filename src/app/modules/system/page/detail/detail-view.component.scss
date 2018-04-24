@@ -1,0 +1,38 @@
+:host {
+    display: block;
+
+
+    ::ng-deep {
+        .cell{
+            border-bottom:1px solid #f1f1f1;
+            padding:7px 0px;
+        }
+
+        .form-field-header{
+            background: #efefef;
+            padding: 5px 0px 5px 12px;
+        }
+
+        .ant-form-item{
+            margin-bottom:0px;
+            nz-input{
+
+            }
+
+            .field-name{
+                text-align: right;
+            }
+
+            .isParameterPicker {
+                nz-select {
+                    width:calc(100% - 60px)
+                }
+            }
+
+            textarea{
+                width: 100%;
+                min-height:100px;
+            }
+        }
+    }
+}

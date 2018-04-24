@@ -20,6 +20,8 @@ export class DetailViewComponent implements OnInit {
   config;
   id = "";
   fields = [];
+  groups = []
+  infoData = {}
 
 
   constructor(public route: ActivatedRoute,
@@ -33,16 +35,27 @@ export class DetailViewComponent implements OnInit {
       this.module = this.route.snapshot.parent.params["module"]
       let apiName = `${this.app}.${this.module}DataApi`;
       let dataApi = dataApiService.get(apiName)
-      this.config = dataApi.config
-
+      this.config = _.cloneDeep(dataApi.config);
+      let groupNames = this.config.group?this.config.group:["基本信息"];
+      let groups = []
+      groupNames.forEach((item)=>{
+          groups.push({name:item,fields:[]})
+      })
        this.fields = Object.keys(this.config["fields"]);
        this.fields = this.fields.map((field)=>{
           let src = this.config["fields"][field]
           let clone = Object.assign({},src)
+          clone.formWidth = !_.isUndefined(src.formWidth) ? clone.formWidth : "fullRow";
           clone.field = field
           return clone;
       })
-      console.log(this.fields)
+
+      this.fields.forEach(config => {
+        let groupIndex = (Number(config.group)-1) || 0
+        groups[groupIndex].fields.push(config)
+      });
+      this.groups = groups
+
 
 
   }
@@ -52,7 +65,7 @@ export class DetailViewComponent implements OnInit {
   }
 
   loadData(){
-    let  populates= _.filter(this.config.fields,(item)=>{
+    let  populates= _.filter(this.fields,(item)=>{
         return item.populateable
     })
     populates = _.map(populates,(item)=>{
@@ -66,7 +79,14 @@ export class DetailViewComponent implements OnInit {
     let id = this.id;
     resource.get({populate:populates.join(" ")},"/"+id).subscribe((res)=>{
           let data = res.json().data
-           console.log(data)
+          _.each(data,(val,field)=>{
+              let fieldCfg = this.config["fields"][field]
+              if(fieldCfg && fieldCfg.get_display){
+                data[field] = this.config["fields"][field].get_display(data)
+                console.log(field)
+              }
+          })
+          this.infoData = data
       })
   }
 
