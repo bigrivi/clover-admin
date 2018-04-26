@@ -54,7 +54,26 @@ export class DetailViewComponent implements OnInit {
         let groupIndex = (Number(config.group)-1) || 0
         groups[groupIndex].fields.push(config)
       });
+      groups.forEach((group)=>{
+          let fields = group.fields;
+          group.rows = []
+          let index = 0
+          fields.forEach((field)=>{
+              let prevRowIndex = group.rows.length-1
+              if(index == 0 || prevRowIndex<0){
+                  group.rows.push([field])
+              }
+              else if(index==1){
+                  group.rows[prevRowIndex].push(field)
+              }
+              if(index ==1 || field.formWidth == "fullRow" || field.formWidth == "halfWidth_"){
+                  index = -1
+              }
+              index++;
+          })
+      })
       this.groups = groups
+      console.log(this.groups)
 
 
 

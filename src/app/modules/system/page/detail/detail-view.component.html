@@ -3,8 +3,8 @@
   <div class="form-field-header">
     {{group.name}}
   </div>
-  <div nz-row>
-    <ng-container *ngFor="let item of group.fields">
+  <div nz-row *ngFor="let row of group.rows">
+     <ng-container *ngFor="let item of row">
       <div nz-col class="field-cell" [nzSpan]="24" *ngIf="item.formWidth=='fullRow'">
         <div nz-form-item nz-row>
           <div class="field-name" nz-form-control nz-col [nzSm]="4">

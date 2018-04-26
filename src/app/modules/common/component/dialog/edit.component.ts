@@ -24,19 +24,9 @@ import { Router, NavigationEnd } from '@angular/router';
         </div>
 
     `,
-     styles  : [
+     styles: [
         `
-        :host ::ng-deep.modal-body {
-           max-height:500px;
-           overflow:auto;
-        }
-        :host ::ng-deep.customize-footer {
-            background: #e9e9e9;
-            padding: 10px;
-            text-align: center;
-            border-radius: 0 0 0px 0px;
-        }
-      `
+        `
     ]
   })
   export class EditDialogComponent implements OnInit {

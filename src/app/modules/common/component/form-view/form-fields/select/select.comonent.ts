@@ -16,7 +16,7 @@ import {SelectComponent} from "./cv-select.comonent"
   `
   ,styles  : [
         `
-        
+
 
       `
     ]
@@ -59,7 +59,7 @@ export class SelectFieldComponent {
          params["sort"] = "ord"
          this._dataSource = []
          resource.get(params).map((res)=>res.json().data).subscribe((res)=>{
-             this._dataSource = _.map(res,(item)=>{
+             let dataSource = _.map(res,(item)=>{
                  if(item["is_default"]==1){
                      this._config.value =  item[moduleConfig.valueField||"_id"]
                  }
@@ -69,10 +69,14 @@ export class SelectFieldComponent {
                  }
 
              })
+             this._dataSource = dataSource
              if(currSelectLabel){
+                 console.log(currSelectLabel.value)
                  var isFoundInOption = this._dataSource.find((item)=>{
                      return item["value"] == currSelectLabel.value
                  })
+                 console.log("find isFoundInOption")
+                 console.log(isFoundInOption)
                  if(!isFoundInOption){
                    this._config.value = null;
                  }
@@ -95,14 +99,14 @@ export class SelectFieldComponent {
      }
 
       openParameterDialog(){
-      //this._config.value = null
-      var selectIndex = -1
-      this._dataSource.forEach((item,index)=>{
-          if(item["value"] == this._config.value)
-            selectIndex = index
-      })
-       this.dialogService.openParameterDialog(this._config.queryParams.group,{selectIndex:selectIndex}).then(()=>{
-           this.loadDataSource()
-       })
+          //this._config.value = null
+          var selectIndex = -1
+          this._dataSource.forEach((item,index)=>{
+              if(item["value"] == this._config.value)
+                selectIndex = index
+          })
+           this.dialogService.openParameterDialog(this._config.queryParams.group,{selectIndex:selectIndex}).then(()=>{
+               this.loadDataSource()
+           })
      }
 }

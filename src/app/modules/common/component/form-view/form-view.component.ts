@@ -15,7 +15,7 @@ import { NzNotificationService, NzMessageService } from 'ng-zorro-antd';
 @Component({
   selector: 'form-view',
   templateUrl: './form-view.component.html',
-  styleUrls: ['./form-view.component.scss'],
+  styleUrls: ['./form-view.component.less'],
   host: {
     class: 'form-view'
   }
@@ -103,8 +103,28 @@ export class FormViewComponent {
     if (isEditMode) {
       this.loadData()
     }
+
+    groups.forEach((group)=>{
+        let fields = group.fields;
+        group.rows = []
+        let index = 0
+        fields.forEach((field)=>{
+            let prevRowIndex = group.rows.length-1
+            if(index == 0 || prevRowIndex<0){
+                group.rows.push([field])
+            }
+            else if(index==1){
+                group.rows[prevRowIndex].push(field)
+            }
+            if(index ==1 || field.formWidth == "fullRow" || field.formWidth == "halfWidth_"){
+                index = -1
+            }
+            index++;
+        })
+    })
+    console.log(groups)
     this._groups = groups;
-    console.log(this._groups)
+    // console.log(this._groups)
 
 
     //初始化联动效果

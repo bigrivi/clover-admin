@@ -52,7 +52,7 @@ export const ProductConfig = {
 			dataSource:"dataModel.parameter",
 			queryParams:{"group":"product_category"},
 			multiple:false,
-			require:true,
+			require:false,
 			get_display:function(item){
 				if(item["category_id"])
 					return item["category_id"].name

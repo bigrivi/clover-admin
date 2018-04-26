@@ -22,21 +22,12 @@ import {
      <div class="modal-body">
        <form nz-form [formGroup]="formGroup">
         <table  width="100%" border="0" align="center" cellpadding="0" cellspacing="0" class="TableList">
-                <tr class="TableHeader">
-                    <td width="6%" align="center" id="" title="" onclick="">默认</td>
-                    <td align="center" id="" title="" onclick="">名称</td>
-                    <td align="center" id="" title="" onclick="">排序号</td>
-                    <td align="center" id="" title="" onclick="">删除</td>
-                </tr>
-                <tr class="TableHeader">
-                    <td align="center" id="Td2" title="">
-                    <label nz-radio [nzValue]="'1'">
-                        </label>
-                    </td>
-                    <td width="26%" align="center" id="Td3" title="" onclick="">空值</td>
-                    <td width="14%" align="center" id="Td4" title="" onclick=""></td>
-                    <td width="10%" align="center" id="Td5" title="" onclick=""></td>
-                </tr>
+            <tr class="TableHeader">
+               <td width="6%" align="center" id="" title="" onclick="">默认</td>
+               <td width="26%"  align="center" id="" title="" onclick="">名称</td>
+               <td align="center" id="" title="" onclick="">排序号</td>
+               <td align="center" id="" title="" onclick="">删除</td>
+           </tr>
 
                 <tr *ngFor="let control of formGroup.controls;let i = index" class="TableData">
                   <ng-container [formGroup]="control">
@@ -48,14 +39,17 @@ import {
                     </td>
                     <td width="26%" align="center" id="" title="">
                         <nz-input
+                        *ngIf="control.value.name!='blank'"
                         style="width: 100%;"
                         [nzSize]="'large'"
                         [formControlName]="'name'"
                         [nzId]="index">
                       </nz-input>
+                      <span *ngIf="control.value.name=='blank'">空值</span>
                     </td>
                     <td width="14%" align="center" id="" title="">
                        <nz-input
+                       *ngIf="control.value.name!='blank'"
                         style="width: 100%;"
                         [nzSize]="'large'"
                         [nzType]="'number'"
@@ -64,7 +58,7 @@ import {
                       </nz-input>
                     </td>
                     <td width="10%" align="center" id="" title="">
-                    <i class="fa fa-remove remove" (click)="removeRow(i)"></i>
+                    <i *ngIf="control.value.name!='blank'" class="fa fa-remove remove" (click)="removeRow(i)"></i>
                     </td>
                   </ng-container>
                 </tr>
@@ -117,6 +111,13 @@ import {
 
      this.resource.get({"group__equals":this.group,"sort":"ord"}).subscribe((res)=>{
           res = res.json().data
+          let isExistDefault = res.find((item)=>{
+              return item["is_default"] == "1"
+          })
+          // if(!isExistDefault)
+          //       res.unshift({is_default:"1",name:"blank",ord:0,value:""})
+          // else
+          //       res.unshift({is_default:"0",name:"blank",ord:0,value:""})
           res = res.forEach((item,index)=>{
               if(index == this.params["selectIndex"]){
                   this.keepValue = item["_id"]
@@ -129,6 +130,7 @@ import {
             })
           })
           //this.formGroup.setValue(res)
+          console.log(this.formGroup)
       })
 
   }
@@ -183,7 +185,7 @@ import {
   save(){
     let parameters = this.formGroup.value
     parameters = parameters.filter((item)=>{
-      return item.name!=""
+      return item.name!="" && item.name!="blank"
     })
 
     parameters.forEach((item)=>{
