@@ -142,7 +142,6 @@ export class DialogService {
              const currentModal = this.modalService.open({
                 title          : title,
                 width          :"550px",
-                wrapClassName  :"no-padding",
                 content        : ParameterDialogComponent,
                 onOk() {
 

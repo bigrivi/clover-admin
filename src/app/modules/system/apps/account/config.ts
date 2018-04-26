@@ -188,6 +188,15 @@ export const UserRoleConfig = {
 	module:"userRole",
 	name:"用户角色管理",
 	treeable:false,
+	extraAction:[
+		{
+			icon: "fa fa-key",
+			label: "account.Role Authorize",
+			type: "normal",
+			authNode: "authorize.put",
+			action: "add"
+		}
+	],
 	extActions:[
 		{
 	        label:"authorize",
