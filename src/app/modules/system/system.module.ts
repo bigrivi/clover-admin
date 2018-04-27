@@ -13,10 +13,8 @@ import {PubSubService} from "../../@core/utils/pubsub.service"
 import {TranslateService} from "../../@core/utils/translate.service"
 import {AuthService} from '../../modules/auth/services/auth.service'
 import {NbAuthSimpleToken,NbTokenService} from '../../modules/auth/services/token.service'
-
 import {AuthGuardService} from "../../@core/services/auth-guard.service"
 import {CommonModule} from "../common/common.module"
-
 import {ModuleConfig} from "./config"
 
 
@@ -27,13 +25,12 @@ import {ModuleConfig} from "./config"
 
 let apiConfigs = []
 _.each(ModuleConfig,(modules,appName)=>{
-  _.each(modules,(moduleConfig,moduleName)=>{
-    moduleConfig.app = appName;
-    moduleConfig.module = moduleName;
+  _.each(modules,(moduleCfgService,moduleName)=>{
     let providerName = appName+"."+moduleName+"DataApi"
-    apiConfigs.push( {name:providerName,resource:appName+"/"+moduleConfig.resource, config:moduleConfig});
+    apiConfigs.push( {name:providerName,app:appName,module:moduleName, configServiceCls:moduleCfgService});
   })
 })
+
 
 
 

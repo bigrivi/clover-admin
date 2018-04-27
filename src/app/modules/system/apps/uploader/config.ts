@@ -1,10 +1,16 @@
-export const AttachmentConfig = {
-	resource:"attachment",
-	module:"attachment",
-	addable:false,
-	fields : {
+import { Injectable } from '@angular/core';
+
+
+export class AttachmentService {
+	config = {}
+    constructor() {
+		this.config = {
+			resource:"attachment",
+			addable:false,
+			fields : {
+			}
+
+		}
 	}
 
 }
-
-

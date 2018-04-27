@@ -1,7 +1,7 @@
 <nz-card [nzBordered]="false">
     <ng-template #title>
       <ng-container *ngFor="let item of actions">
-          <button nz-button  [nzType]="item.type" (click)="doAction(item.action)" ><i [className]="item.icon"></i>&nbsp;{{ item.label | translate}}</button>
+          <button nz-button  [nzType]="item.type" (click)="doAction(item)" ><i [className]="item.icon"></i>&nbsp;{{ item.label | translate}}</button>
         &nbsp;&nbsp;
       </ng-container>
       </ng-template>

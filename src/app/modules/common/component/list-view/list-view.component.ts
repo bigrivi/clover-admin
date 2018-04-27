@@ -53,6 +53,7 @@ export class ListViewComponent implements OnInit {
     @ViewChild(TableViewComponent) tableView: TableViewComponent;
     constructor(public userService: UserService,
         public messageService: NzMessageService,
+        public injector:Injector,
         public dialogService: DialogService,
         @Inject("DataApiService") private dataApiService) {
 
@@ -60,7 +61,7 @@ export class ListViewComponent implements OnInit {
     }
 
     ngOnInit() {
-        if (this.parentModule) {
+        if (this.parentModule && this.config) {
             let parentModule = this.dataApiService.get(`${this.config.app}.${this.parentModule}DataApi`).config
             let forign_key = parentModule.resource + "_id"
             this.params = {}
@@ -155,12 +156,19 @@ export class ListViewComponent implements OnInit {
         }
     }
 
-    doAction(action) {
-        console.log(typeof(action))
-        this[action]()
+    doAction(target) {
+        if(typeof(target.action)=="function"){
+            target.action(this.selectedObjs)
+        }
+        else{
+            this[target.action]()
+        }
     }
 
     onDataLoadComplete(totalDataNum) {
+        if(this.config == null){
+            return;
+        }
         let defaultOptions = {
             addable:true,
             editable:true,

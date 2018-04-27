@@ -8,14 +8,16 @@ import {NbAuthSimpleToken,NbTokenService} from '../../modules/auth/services/toke
 import {ResourceService} from "./resource.service"
 import {TranslateService} from './translate.service'
 
-
 export class DataApiService{
     datas = {}
 	constructor(dataApiCfgs:any[],public http:Http,public pubsub:PubSubService,public authService:AuthService,public tokenService:NbTokenService) {
         dataApiCfgs.forEach((item)=>{
+            let configInstance = new item.configServiceCls(authService)
+            configInstance.config.app = item.app;
+            configInstance.config.module = item.module
             this.datas[item.name] = {
-                config:item.config,
-                resource:new ResourceService(item.resource,http,pubsub,authService,tokenService)
+                config:configInstance.config,
+                resource:new ResourceService(item.app+"/"+configInstance.config.resource,http,pubsub,authService,tokenService)
             }
         })
 	}

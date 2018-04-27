@@ -157,7 +157,6 @@ export class HttpService{
      * @memberof KnxHttp
      */
     handleError(status) {
-        console.log(status+" error occured!");
         if (status === 0) {
             this.pubsub.errorToast.emit("请求响应错误，请检查网络");
         } else if (status === 404) {
@@ -200,7 +199,7 @@ export class HttpService{
 
 export class ResourceService extends HttpService{
     token:NbAuthSimpleToken;
-    _resourceApi = ""
+    _resourceApi = "";
     constructor(resource: string,public http:Http,public pubsub:PubSubService,public authService:AuthService,public tokenService:NbTokenService) {
         super(http,pubsub,authService,tokenService)
         this._resourceApi = resource;
@@ -274,6 +273,4 @@ export class ResourceService extends HttpService{
        return super.delete(this._resourceApi+"/"+id,options)
     }
 
-
 }
-

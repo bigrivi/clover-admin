@@ -53,6 +53,7 @@ export class TableViewComponent implements OnInit {
    public userService:UserService,
    public location: Location,
    public http: Http,
+   public injector:Injector,
    public router:Router,
    public messageService: NzMessageService,
    public appService:AppService,
@@ -72,8 +73,10 @@ export class TableViewComponent implements OnInit {
   @Input() modalMode = false; //是否为弹窗模式
   @Input()
   set config(val:any) {
+    if(!!!val){
+        return
+    }
     this._config = _.cloneDeep(val);
-    console.log(this._config)
     let apiName = `${this._config.app}.${this._config.module}DataApi`;
     this.resource = this.dataApiService.get(apiName).resource
     let defaultOptions = {
@@ -310,6 +313,9 @@ export class TableViewComponent implements OnInit {
   }
 
   loadPageDate() {
+    if(!!!this._config){
+        return;
+    }
     if(this.lastLoadSub){
       this.lastLoadSub.unsubscribe()
       this.lastLoadSub = null;

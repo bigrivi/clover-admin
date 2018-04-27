@@ -1,4 +1,5 @@
 export const environment = {
   production: true,
-  API_ROOT : 'http://10.55.6.17:8360/'
+  hmr: false,
+  API_ROOT : 'http://127.0.0.1:8360/'
 };

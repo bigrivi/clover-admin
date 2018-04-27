@@ -1,4 +1,4 @@
-import { Component,ViewChild,Inject} from '@angular/core';
+import { Component,ViewChild,Inject,Injector} from '@angular/core';
 import { Routes, RouterModule,ActivatedRoute } from '@angular/router';
 import {AppService} from '../../../common/services/app.service'
 import {UserService} from '../../../../@core/data/users.service'
@@ -26,11 +26,11 @@ export class HomeComponent {
 
   constructor(
     public route: ActivatedRoute,
+    public injector:Injector,
     @Inject("DataApiService") private dataApiService,
     public messageService: NzMessageService,
     public userService:UserService ) {
-
-
+        
   }
 
   ngOnInit() {
