@@ -1,4 +1,4 @@
-import {ProductConfig, ProductService, CategoryConfig, CategoryService, TagConfig, TagService, OrderLogsConfig, OrderLogsService} from './apps/product/config';
+import {ProductService, CategoryService, TagService, OrderLogsService} from './apps/product/config';
 import {UserInfoService, DepartmentService, UserRoleService, AuthNodeService, AuthorizeService} from './apps/account/config';
 import {AttachmentService} from './apps/uploader/config';
 import {NavService} from './apps/home/config';

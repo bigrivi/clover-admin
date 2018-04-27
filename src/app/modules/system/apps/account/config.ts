@@ -204,7 +204,7 @@ export class DepartmentService {
 
 export class UserRoleService {
 	config = {}
-    constructor(messageService:any) {
+    constructor(commonService:any) {
 		this.config = {
 			app:"account",
 			resource:"user_role",
@@ -219,12 +219,11 @@ export class UserRoleService {
 					authNode: "authorize.put",
 					action:function(ids){
 						console.log("customer link,")
-						console.log(messageService)
 						if (ids.length == 0) {
-				            //messageService.error("没有选择任何选项")
+				            commonService.messageService.error("没有选择任何选项")
 				        }
 				        else if (ids.length > 1) {
-				           // messageService.error("同时只能选择一条记录授权")
+				           commonService.messageService.error("同时只能选择一条记录授权")
 				        }
 						else{
 

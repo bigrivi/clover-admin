@@ -10,6 +10,7 @@ import { SystemComponent } from './system.component'
 import { DataApiService } from '../../@core/utils/dataApi.service'
 
 import {PubSubService} from "../../@core/utils/pubsub.service"
+import {CommonService} from "../../@core/utils/common.service"
 import {TranslateService} from "../../@core/utils/translate.service"
 import {AuthService} from '../../modules/auth/services/auth.service'
 import {NbAuthSimpleToken,NbTokenService} from '../../modules/auth/services/token.service'
@@ -80,10 +81,10 @@ const routes: Routes = [
   providers: [
       {
           provide: "DataApiService",
-          useFactory: (http: Http,pubsub:PubSubService,authService:AuthService,tokenService:NbTokenService)=>{
-             return new DataApiService(apiConfigs, http,pubsub,authService,tokenService);
+          useFactory: (http: Http,pubsub:PubSubService,authService:AuthService,tokenService:NbTokenService,commonService:CommonService)=>{
+             return new DataApiService(apiConfigs, http,pubsub,authService,tokenService,commonService);
           },
-          deps: [Http,PubSubService,AuthService,NbTokenService]
+          deps: [Http,PubSubService,AuthService,NbTokenService,CommonService]
        }
   ],
   exports: [

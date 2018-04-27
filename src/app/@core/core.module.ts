@@ -9,6 +9,7 @@ import { DataModule } from './data/data.module';
 import { AnalyticsService } from './utils/analytics.service';
 import { ResourceService,HttpService } from './utils/resource.service';
 import { PubSubService } from './utils/pubsub.service';
+import { CommonService } from './utils/common.service';
 import { TranslateService } from './utils/translate.service';
 
 import { SettingsService } from './services/settings.service';
@@ -43,6 +44,7 @@ const CORE_PROVIDERS = [
   HttpService,
   LocalStorageService,
   PubSubService,
+  CommonService,
   TranslateService,
   SettingsService,
   ThemesService,
