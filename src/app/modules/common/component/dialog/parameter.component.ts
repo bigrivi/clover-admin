@@ -1,23 +1,23 @@
-import { Component,Input,ViewChild,Injector,Inject,OnInit,ChangeDetectionStrategy } from '@angular/core';
-import {AppService} from '../../../common/services/app.service'
-import {TableViewComponent} from "../table-view/table-view.component"
+import { Component, Input, ViewChild, Injector, Inject, OnInit, ChangeDetectionStrategy } from '@angular/core';
+import { AppService } from '../../../common/services/app.service'
+import { TableViewComponent } from "../table-view/table-view.component"
 import { NzModalSubject } from 'ng-zorro-antd';
-import {Subscription} from 'rxjs'
+import { Subscription } from 'rxjs'
 import * as _ from 'lodash';
-import {NzNotificationService,NzMessageService} from 'ng-zorro-antd';
-import {FormViewComponent} from '../../../common/component/form-view/form-view.component'
+import { NzNotificationService, NzMessageService } from 'ng-zorro-antd';
+import { FormViewComponent } from '../../../common/component/form-view/form-view.component'
 import { Router, NavigationEnd } from '@angular/router';
 import {
-  FormBuilder,
-  FormGroup,
-  FormArray,
-  FormControl,
-  Validators
+    FormBuilder,
+    FormGroup,
+    FormArray,
+    FormControl,
+    Validators
 } from '@angular/forms';
 
-  @Component({
+@Component({
     selector: 'ngx-dialog-parameter',
-    styleUrls:["parameter.component.less"],
+    styleUrls: ["parameter.component.less"],
     template: `
      <div class="modal-body">
        <form nz-form [formGroup]="formGroup">
@@ -85,127 +85,127 @@ import {
         </div>
 
     `
-  })
-  export class ParameterDialogComponent implements OnInit {
-  formGroup: FormArray;
-  resource:any;
-  keepValue = "";
-  @Input() group;
-  @Input() params = {};
+})
+export class ParameterDialogComponent implements OnInit {
+    formGroup: FormArray;
+    resource: any;
+    keepValue = "";
+    @Input() group;
+    @Input() params = {};
 
-  constructor(
-    private subject:NzModalSubject,
-    public appService:AppService,
-    private fb: FormBuilder,
-    @Inject("DataApiService") private dataApiService,
-    public messageService: NzMessageService,
-    public router: Router) {
+    constructor(
+        private subject: NzModalSubject,
+        public appService: AppService,
+        private fb: FormBuilder,
+        @Inject("DataApiService") private dataApiService,
+        public messageService: NzMessageService,
+        public router: Router) {
 
 
-   this.formGroup = this.fb.array([])
-   this.resource = this.dataApiService.get("dataModel.parameterDataApi").resource
+        this.formGroup = this.fb.array([])
+        this.resource = this.dataApiService.get("dataModel.parameterDataApi").resource
 
-  }
+    }
 
-  ngOnInit() {
+    ngOnInit() {
 
-     this.resource.get({"group__equals":this.group,"sort":"ord"}).subscribe((res)=>{
-          res = res.json().data
-          let isExistDefault = res.find((item)=>{
-              return item["is_default"] == "1"
-          })
-          // if(!isExistDefault)
-          //       res.unshift({is_default:"1",name:"blank",ord:0,value:""})
-          // else
-          //       res.unshift({is_default:"0",name:"blank",ord:0,value:""})
-          res = res.forEach((item,index)=>{
-              if(index == this.params["selectIndex"]){
-                  this.keepValue = item["_id"]
-              }
-            this.addRow({
-              "is_default":item["is_default"].toString(),
-              "name":item["name"],
-              "ord":item["ord"],
-              "value":item["_id"],
+        this.resource.get({ "group__equals": this.group, "sort": "ord" }).subscribe((res) => {
+            res = res.json().data
+            let isExistDefault = res.find((item) => {
+                return item["is_default"] == "1"
             })
-          })
-          //this.formGroup.setValue(res)
-          console.log(this.formGroup)
-      })
+            // if(!isExistDefault)
+            //       res.unshift({is_default:"1",name:"blank",ord:0,value:""})
+            // else
+            //       res.unshift({is_default:"0",name:"blank",ord:0,value:""})
+            res = res.forEach((item, index) => {
+                if (index == this.params["selectIndex"]) {
+                    this.keepValue = item["_id"]
+                }
+                this.addRow({
+                    "is_default": item["is_default"].toString(),
+                    "name": item["name"],
+                    "ord": item["ord"],
+                    "value": item["_id"],
+                })
+            })
+            //this.formGroup.setValue(res)
+            console.log(this.formGroup)
+        })
 
-  }
-
-  addRow(data?) {
-     data = data || {
-        "is_default":"0",
-        "name":"",
-        "value":"",
-        "ord":this.getMaxOrd()
-     }
-    const {is_default,name,ord,value} = data
-    let formGroup:FormGroup = this.fb.group({
-        'is_default': [is_default, [Validators.required]],
-        'name': [name, [Validators.required]],
-        'ord': [ord, [Validators.required]],
-        'value': [value, [Validators.required]]
-     })
-    this.formGroup.push(formGroup)
-
-  }
-
-  getMaxOrd(){
-    if(this.formGroup.controls.length<=0){
-        return 10
-    }
-    else{
-        let values = this.formGroup.value;
-        let max = _.maxBy(values,(item)=>Number(item.ord))
-        return Number(max.ord)+10
-    }
-  }
-
-  onDefaultChange(index){
-    for(var i=0;i<this.formGroup.controls.length;i++){
-       let current = this.formGroup.controls[i].get("is_default");
-       if(current.value=="1" && i!=index)
-         current.setValue("0")
     }
 
+    addRow(data?) {
+        data = data || {
+            "is_default": "0",
+            "name": "",
+            "value": "",
+            "ord": this.getMaxOrd()
+        }
+        const { is_default, name, ord, value } = data
+        let formGroup: FormGroup = this.fb.group({
+            'is_default': [is_default, [Validators.required]],
+            'name': [name, [Validators.required]],
+            'ord': [ord, [Validators.required]],
+            'value': [value, [Validators.required]]
+        })
+        this.formGroup.push(formGroup)
 
-  }
-
-  removeRow(index){
-    let currentVal = this.formGroup.controls[index].get("value");
-    if(currentVal.value == this.keepValue){
-        this.keepValue = ""
     }
-    this.formGroup.removeAt(index)
-  }
 
-  save(){
-    let parameters = this.formGroup.value
-    parameters = parameters.filter((item)=>{
-      return item.name!="" && item.name!="blank"
-    })
+    getMaxOrd() {
+        if (this.formGroup.controls.length <= 0) {
+            return 10
+        }
+        else {
+            let values = this.formGroup.value;
+            let max = _.maxBy(values, (item) => Number(item.ord))
+            return Number(max.ord) + 10
+        }
+    }
 
-    parameters.forEach((item)=>{
-      item.group = this.group
-    })
-    console.log(this.keepValue)
-    console.log(parameters)
-    this.resource.post({keepValue:this.keepValue,parameters:parameters,group:this.group}).subscribe((res)=>{
-       this.subject.next(res.json());
-    })
-
-  }
-
-  handleCancel(e) {
-    this.subject.destroy('onCancel');
-  }
-
-  ngOnDestroy(){
+    onDefaultChange(index) {
+        for (var i = 0; i < this.formGroup.controls.length; i++) {
+            let current = this.formGroup.controls[i].get("is_default");
+            if (current.value == "1" && i != index)
+                current.setValue("0")
+        }
 
 
-  }
+    }
+
+    removeRow(index) {
+        let currentVal = this.formGroup.controls[index].get("value");
+        if (currentVal.value == this.keepValue) {
+            this.keepValue = ""
+        }
+        this.formGroup.removeAt(index)
+    }
+
+    save() {
+        let parameters = this.formGroup.value
+        parameters = parameters.filter((item) => {
+            return item.name != "" && item.name != "blank"
+        })
+
+        parameters.forEach((item) => {
+            item.group = this.group
+        })
+        console.log(this.keepValue)
+        console.log(parameters)
+        this.resource.post({ keepValue: this.keepValue, parameters: parameters, group: this.group }).subscribe((res) => {
+            this.subject.next(res.json());
+        })
+
+    }
+
+    handleCancel(e) {
+        this.subject.destroy('onCancel');
+    }
+
+    ngOnDestroy() {
+
+
+    }
 
 }

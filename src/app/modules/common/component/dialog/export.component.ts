@@ -1,13 +1,13 @@
-  import { Component,Input,ViewChild,Injector,Inject,OnInit } from '@angular/core';
-  import {AppService} from '../../../common/services/app.service'
-  import {TableViewComponent} from "../table-view/table-view.component"
-  import { NzModalSubject } from 'ng-zorro-antd';
+import { Component, Input, ViewChild, Injector, Inject, OnInit } from '@angular/core';
+import { AppService } from '../../../common/services/app.service'
+import { TableViewComponent } from "../table-view/table-view.component"
+import { NzModalSubject } from 'ng-zorro-antd';
 import * as _ from 'lodash';
-import {environment} from "../../../../../environments/environment"
-import {NbAuthSimpleToken,NbTokenService} from '../../../../modules/auth/services/token.service'
+import { environment } from "../../../../../environments/environment"
+import { NbAuthSimpleToken, NbTokenService } from '../../../../modules/auth/services/token.service'
 
 
-  @Component({
+@Component({
     selector: 'ngx-dialog-export',
     template: `
      <div class="modal-body">
@@ -144,18 +144,18 @@ import {NbAuthSimpleToken,NbTokenService} from '../../../../modules/auth/service
           </button>
         </div>
     `,
-     styles  : [
+    styles: [
         `
         .modal-body{
           padding:20px;
         }
       `
     ]
-  })
-  export class ExportDialogComponent implements OnInit {
-    @Input() module= "";
-    @Input() app= "";
-    @Input() params= {};
+})
+export class ExportDialogComponent implements OnInit {
+    @Input() module = "";
+    @Input() app = "";
+    @Input() params = {};
     config;
     fields = [];
     fieldsExpand = true
@@ -166,36 +166,36 @@ import {NbAuthSimpleToken,NbTokenService} from '../../../../modules/auth/service
     colSep = ""; //列分割副
     sortField = "_id";//排序字段
     sort = "desc"
-     token:NbAuthSimpleToken;
+    token: NbAuthSimpleToken;
 
     constructor(
-      private subject:NzModalSubject,
-      public appService:AppService,
-      @Inject("DataApiService") private dataApiService,
-      public tokenService:NbTokenService,
-      ) {
-        this.tokenService.tokenChange().subscribe((token)=>{
-              this.token = token
-          })
+        private subject: NzModalSubject,
+        public appService: AppService,
+        @Inject("DataApiService") private dataApiService,
+        public tokenService: NbTokenService,
+    ) {
+        this.tokenService.tokenChange().subscribe((token) => {
+            this.token = token
+        })
 
     }
 
     ngOnInit() {
-       let apiName = `${this.app}.${this.module}DataApi`;
+        let apiName = `${this.app}.${this.module}DataApi`;
         this.config = this.dataApiService.get(apiName).config
         let fieldKeys = Object.keys(this.config["fields"]);
         let fields = []
         fields = fieldKeys.map((item) => {
-          let clone = _.cloneDeep(this.config["fields"][item])
-          clone.field = item
-          clone.checked = true
-          return clone;
+            let clone = _.cloneDeep(this.config["fields"][item])
+            clone.field = item
+            clone.checked = true
+            return clone;
         })
-        fields = _.filter(fields,(item)=>{
+        fields = _.filter(fields, (item) => {
             let listHide = this.config.listHide || []
-            return listHide.indexOf(item.field)<0;
+            return listHide.indexOf(item.field) < 0;
         })
-        fields.unshift({field:"_id",label:"Id",checked:true})
+        fields.unshift({ field: "_id", label: "Id", checked: true })
         this.fields = fields
 
 
@@ -203,76 +203,76 @@ import {NbAuthSimpleToken,NbTokenService} from '../../../../modules/auth/service
 
 
 
-    toggleFieldsShow(){
-      this.fieldsExpand = !this.fieldsExpand
+    toggleFieldsShow() {
+        this.fieldsExpand = !this.fieldsExpand
     }
 
-    toggleOptionShow(){
-      this.optionExpand = !this.optionExpand
+    toggleOptionShow() {
+        this.optionExpand = !this.optionExpand
     }
 
-    toggleSortShow(){
-      this.sortExpand = !this.sortExpand
+    toggleSortShow() {
+        this.sortExpand = !this.sortExpand
     }
 
-    fanxuan(){
-      this.fields.forEach((item)=>{
-        item.checked = !item.checked;
-      })
+    fanxuan() {
+        this.fields.forEach((item) => {
+            item.checked = !item.checked;
+        })
     }
 
 
     handleCancel(e) {
-      this.subject.destroy('onCancel');
+        this.subject.destroy('onCancel');
     }
 
 
     //导出类型
     //csv/excel/json/xml
-    export(format){
-      let fields = this.fields.filter((item)=>{return item.checked}).map((item)=>{return item.field})
-      let  populates= _.filter(fields,(field)=>{
-          if(field=="_id")
-            return false;
-          return this.config["fields"][field].populateable?true:false
-      })
+    export(format) {
+        let fields = this.fields.filter((item) => { return item.checked }).map((item) => { return item.field })
+        let populates = _.filter(fields, (field) => {
+            if (field == "_id")
+                return false;
+            return this.config["fields"][field].populateable ? true : false
+        })
 
-      let  fieldNames= _.map(fields,(field)=>{
-          if(field=="_id")
-            return "Id";
-          return this.config["fields"][field].label
-      })
+        let fieldNames = _.map(fields, (field) => {
+            if (field == "_id")
+                return "Id";
+            return this.config["fields"][field].label
+        })
 
-      let formData = {
-        fields:fields.join(","),
-        fieldNames:encodeURI(fieldNames.join(",")),
-        resource:this.config.resource,
-        app:this.config.app,
-        skipHeader:this.skipHeader,
-        encodingTo:this.encodingTo,
-        colSep:this.colSep,
-        sortField:this.sortField,
-        sort:this.sort,
-        populates:populates.join(","),
-        format:format,
-        accesstoken: this.token.getValue()
-      }
+        let formData = {
+            fields: fields.join(","),
+            fieldNames: encodeURI(fieldNames.join(",")),
+            resource: this.config.resource,
+            app: this.config.app,
+            skipHeader: this.skipHeader,
+            encodingTo: this.encodingTo,
+            colSep: this.colSep,
+            sortField: this.sortField,
+            sort: this.sort,
+            populates: populates.join(","),
+            format: format,
+            accesstoken: this.token.getValue()
+        }
 
-      let newFormData = Object.assign(formData,this.params)
-      let apiName = `${this.config.app}.${this.config.module}DataApi`;
-      let resource = this.dataApiService.get(apiName).resource
-      var url = environment.API_ROOT+resource.resourceApi+"/export?"+resource.formEncode(newFormData);
+        let newFormData = Object.assign(formData, this.params)
+        let apiName = `${this.config.app}.${this.config.module}DataApi`;
+        let resource = this.dataApiService.get(apiName).resource
+        var url = environment.API_ROOT + resource.resourceApi + "/export?" + resource.formEncode(newFormData);
 
-      var anchorElement = document.createElement('a');
-      anchorElement.href = url;
-      anchorElement.target="_parent"
-      document.body.appendChild(anchorElement);
-      anchorElement.click();
-      document.body.removeChild(anchorElement);
+        var anchorElement = document.createElement('a');
+        anchorElement.href = url;
+        anchorElement.target = "_parent"
+        document.body.appendChild(anchorElement);
+        anchorElement.click();
+        document.body.removeChild(anchorElement);
 
     }
 
 
 
 
-  }
+}

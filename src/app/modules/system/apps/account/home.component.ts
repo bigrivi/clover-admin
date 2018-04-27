@@ -1,9 +1,9 @@
-import { Component,ViewChild,Inject,Injector} from '@angular/core';
-import { Routes, RouterModule,ActivatedRoute } from '@angular/router';
-import {AppService} from '../../../common/services/app.service'
-import {UserService} from '../../../../@core/data/users.service'
-import {FormViewComponent} from '../../../common/component/form-view/form-view.component'
-import {NzNotificationService,NzMessageService} from 'ng-zorro-antd';
+import { Component, ViewChild, Inject, Injector } from '@angular/core';
+import { Routes, RouterModule, ActivatedRoute } from '@angular/router';
+import { AppService } from '../../../common/services/app.service'
+import { UserService } from '../../../../@core/data/users.service'
+import { FormViewComponent } from '../../../common/component/form-view/form-view.component'
+import { NzNotificationService, NzMessageService } from 'ng-zorro-antd';
 
 
 @Component({
@@ -12,9 +12,9 @@ import {NzNotificationService,NzMessageService} from 'ng-zorro-antd';
     styleUrls: ['./home.less']
 })
 export class HomeComponent {
-  config;
-  params = {};
-  importObj = {
+    config;
+    params = {};
+    importObj = {
         success: 100,
         fail: 5,
         running: 20,
@@ -24,31 +24,31 @@ export class HomeComponent {
     userList: any[] = [];
     langList: any[] = [];
 
-  constructor(
-    public route: ActivatedRoute,
-    public injector:Injector,
-    @Inject("DataApiService") private dataApiService,
-    public messageService: NzMessageService,
-    public userService:UserService ) {
-        
-  }
+    constructor(
+        public route: ActivatedRoute,
+        public injector: Injector,
+        @Inject("DataApiService") private dataApiService,
+        public messageService: NzMessageService,
+        public userService: UserService) {
 
-  ngOnInit() {
-    this.loadData()
-  }
+    }
 
-  loadData(){
-      let userInfoResource = this.dataApiService.get("account.userInfoDataApi").resource
-      userInfoResource.get().map(res=>res.json()).subscribe((res)=>{
-        this.userList = res.data
-      })
+    ngOnInit() {
+        this.loadData()
+    }
 
-      let userRoleResource = this.dataApiService.get("account.userRoleDataApi").resource
-      userRoleResource.get().map(res=>res.json()).subscribe((res)=>{
-        this.userGroupList = res.data
-      })
+    loadData() {
+        let userInfoResource = this.dataApiService.get("account.userInfoDataApi").resource
+        userInfoResource.get().map(res => res.json()).subscribe((res) => {
+            this.userList = res.data
+        })
 
-  }
+        let userRoleResource = this.dataApiService.get("account.userRoleDataApi").resource
+        userRoleResource.get().map(res => res.json()).subscribe((res) => {
+            this.userGroupList = res.data
+        })
+
+    }
 
 
 

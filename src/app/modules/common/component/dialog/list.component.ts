@@ -1,9 +1,9 @@
-  import { Component,Input,ViewChild,Injector,Inject } from '@angular/core';
-  import {AppService} from '../../../common/services/app.service'
-  import {TableViewComponent} from "../table-view/table-view.component"
-  import { NzModalSubject } from 'ng-zorro-antd';
+import { Component, Input, ViewChild, Injector, Inject } from '@angular/core';
+import { AppService } from '../../../common/services/app.service'
+import { TableViewComponent } from "../table-view/table-view.component"
+import { NzModalSubject } from 'ng-zorro-antd';
 
-  @Component({
+@Component({
     selector: 'ngx-dialog-list',
     template: `
       <div class="modal-body">
@@ -18,7 +18,7 @@
           </button>
         </div>
     `,
-     styles  : [
+    styles: [
         `
         :host ::ng-deep .customize-footer {
           border-top: 1px solid #e9e9e9;
@@ -29,41 +29,41 @@
         }
       `
     ]
-  })
-  export class TableViewDailogComponent {
+})
+export class TableViewDailogComponent {
 
-   @Input() config = {};
-   tableConfig;
+    @Input() config = {};
+    tableConfig;
 
 
     initSelectedIds = [];
     selectedObjs = [];
-    constructor(private subject:NzModalSubject,@Inject("DataApiService") private dataApiService) {
-      this.subject.on('onDestory', () => {
-        console.log('destroy');
-      });
-     }
+    constructor(private subject: NzModalSubject, @Inject("DataApiService") private dataApiService) {
+        this.subject.on('onDestory', () => {
+            console.log('destroy');
+        });
+    }
 
-     ngOnInit(){
-         let module = this.config["module"].split(".");
-         let apiName = `${module[0]}.${module[1]}DataApi`;
-         this.tableConfig = this.dataApiService.get(apiName).config
-         this.initSelectedIds = this.config["selectedIds"] || []
-     }
-
-
-
-     emitDataOutside(e) {
-        this.subject.next(this.selectedObjs);
-      }
-
-      handleCancel(e) {
-        this.subject.destroy('onCancel');
-      }
-
-    onSelectedChange(event){
-      this.selectedObjs = event
+    ngOnInit() {
+        let module = this.config["module"].split(".");
+        let apiName = `${module[0]}.${module[1]}DataApi`;
+        this.tableConfig = this.dataApiService.get(apiName).config
+        this.initSelectedIds = this.config["selectedIds"] || []
     }
 
 
-  }
+
+    emitDataOutside(e) {
+        this.subject.next(this.selectedObjs);
+    }
+
+    handleCancel(e) {
+        this.subject.destroy('onCancel');
+    }
+
+    onSelectedChange(event) {
+        this.selectedObjs = event
+    }
+
+
+}

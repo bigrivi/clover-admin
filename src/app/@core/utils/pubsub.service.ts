@@ -3,7 +3,7 @@
  */
 import { Injectable } from '@angular/core';
 import { Subject } from 'rxjs/Subject';
-class PubSubEvent extends Subject < any > {
+class PubSubEvent extends Subject<any> {
     constructor() {
         super();
     }

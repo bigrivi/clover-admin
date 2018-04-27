@@ -1,14 +1,14 @@
-import { Component,Input,ViewChild,Injector,Inject,OnInit } from '@angular/core';
-import {AppService} from '../../../common/services/app.service'
-import {TableViewComponent} from "../table-view/table-view.component"
+import { Component, Input, ViewChild, Injector, Inject, OnInit } from '@angular/core';
+import { AppService } from '../../../common/services/app.service'
+import { TableViewComponent } from "../table-view/table-view.component"
 import { NzModalSubject } from 'ng-zorro-antd';
-import {Subscription} from 'rxjs'
-import {NzNotificationService,NzMessageService} from 'ng-zorro-antd';
-import {FormViewComponent} from '../../../common/component/form-view/form-view.component'
+import { Subscription } from 'rxjs'
+import { NzNotificationService, NzMessageService } from 'ng-zorro-antd';
+import { FormViewComponent } from '../../../common/component/form-view/form-view.component'
 import { Router, NavigationEnd } from '@angular/router';
 
 
-  @Component({
+@Component({
     selector: 'ngx-dialog-list',
     template: `
      <div class="modal-body">
@@ -24,67 +24,67 @@ import { Router, NavigationEnd } from '@angular/router';
         </div>
 
     `,
-     styles: [
+    styles: [
         `
         `
     ]
-  })
-  export class EditDialogComponent implements OnInit {
-  module= "";
-  app= "";
-  formConfig;
-  @ViewChild(FormViewComponent) formView:FormViewComponent;
+})
+export class EditDialogComponent implements OnInit {
+    module = "";
+    app = "";
+    formConfig;
+    @ViewChild(FormViewComponent) formView: FormViewComponent;
 
-  @Input() config = {};
+    @Input() config = {};
 
-  constructor(
-    private subject:NzModalSubject,
-    public appService:AppService,
-    @Inject("DataApiService") private dataApiService,
-    public messageService: NzMessageService,
-    public router: Router) {
-  }
-
-  ngOnInit() {
-      this.module = this.config["module"];
-      this.app = this.config["app"];
-      let apiName = `${this.app}.${this.module}DataApi`;
-      this.formConfig = Object.assign(this.dataApiService.get(apiName).config,{id:this.config["params"]["id"]})
-  }
-
-
-
-  save(){
-    let apiName = `${this.formConfig.app}.${this.formConfig.module}DataApi`;
-    let resource = this.dataApiService.get(apiName).resource
-    if(this.formView.validata()){
-        console.log(this.formView.form.value)
-        if(this.config["params"]["id"]){ //update
-            let id = this.config["params"]["id"]
-            resource.put(id,this.formView.form.value).subscribe((res)=>{
-               this.messageService.success('修改成功');
-               this.subject.next(res.json());
-           })
-        }
-        else{
-          let postData = Object.assign(this.formView.form.value,this.config["params"])
-          console.log(postData)
-          resource.post(postData).subscribe((res)=>{
-              this.messageService.success('保存成功');
-              this.subject.next(res.json());
-           })
-        }
+    constructor(
+        private subject: NzModalSubject,
+        public appService: AppService,
+        @Inject("DataApiService") private dataApiService,
+        public messageService: NzMessageService,
+        public router: Router) {
     }
 
-  }
+    ngOnInit() {
+        this.module = this.config["module"];
+        this.app = this.config["app"];
+        let apiName = `${this.app}.${this.module}DataApi`;
+        this.formConfig = Object.assign(this.dataApiService.get(apiName).config, { id: this.config["params"]["id"] })
+    }
+
+
+
+    save() {
+        let apiName = `${this.formConfig.app}.${this.formConfig.module}DataApi`;
+        let resource = this.dataApiService.get(apiName).resource
+        if (this.formView.validata()) {
+            console.log(this.formView.form.value)
+            if (this.config["params"]["id"]) { //update
+                let id = this.config["params"]["id"]
+                resource.put(id, this.formView.form.value).subscribe((res) => {
+                    this.messageService.success('修改成功');
+                    this.subject.next(res.json());
+                })
+            }
+            else {
+                let postData = Object.assign(this.formView.form.value, this.config["params"])
+                console.log(postData)
+                resource.post(postData).subscribe((res) => {
+                    this.messageService.success('保存成功');
+                    this.subject.next(res.json());
+                })
+            }
+        }
+
+    }
 
     handleCancel(e) {
-      this.subject.destroy('onCancel');
+        this.subject.destroy('onCancel');
     }
 
-   ngOnDestroy(){
+    ngOnDestroy() {
 
 
-  }
+    }
 
 }

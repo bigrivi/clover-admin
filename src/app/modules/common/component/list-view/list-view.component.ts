@@ -8,9 +8,9 @@ import { Subscription } from 'rxjs'
 import * as _ from 'lodash';
 
 @Component({
-  selector: 'listView',
-  templateUrl: './list-view.component.html',
-  styleUrls: ['./list-view.component.scss']
+    selector: 'listView',
+    templateUrl: './list-view.component.html',
+    styleUrls: ['./list-view.component.scss']
 })
 export class ListViewComponent implements OnInit {
     @Input() config;
@@ -20,32 +20,32 @@ export class ListViewComponent implements OnInit {
     actions = [];
     baseActions = [
         {
-          icon: "fa fa-plus",
-          label: "Add New",
-          type: "primary",
-          authNode: "post",
-          action: "add"
+            icon: "fa fa-plus",
+            label: "Add New",
+            type: "primary",
+            authNode: "post",
+            action: "add"
         },
         {
-          icon: "fa fa-pencil-square-o",
-          label: "Edit",
-          type: "normal",
-          authNode: "put",
-          action: "edit"
+            icon: "fa fa-pencil-square-o",
+            label: "Edit",
+            type: "normal",
+            authNode: "put",
+            action: "edit"
         },
         {
-          icon: "fa fa-remove",
-          label: "Delete",
-          type: "danger",
-          authNode: "delete",
-          action: "delete"
+            icon: "fa fa-remove",
+            label: "Delete",
+            type: "danger",
+            authNode: "delete",
+            action: "delete"
         },
         {
-          icon: "fa fa-share",
-          label: "Export",
-          type: "normal",
-          authNode: "export",
-          action: "export"
+            icon: "fa fa-share",
+            label: "Export",
+            type: "normal",
+            authNode: "export",
+            action: "export"
         }
     ]
     params = {}
@@ -53,7 +53,7 @@ export class ListViewComponent implements OnInit {
     @ViewChild(TableViewComponent) tableView: TableViewComponent;
     constructor(public userService: UserService,
         public messageService: NzMessageService,
-        public injector:Injector,
+        public injector: Injector,
         public dialogService: DialogService,
         @Inject("DataApiService") private dataApiService) {
 
@@ -112,24 +112,24 @@ export class ListViewComponent implements OnInit {
 
     delete() {
         if (this.selectedObjs.length == 0) {
-          this.messageService.error("没有选择任何选项")
+            this.messageService.error("没有选择任何选项")
         }
         else {
-          this.dialogService.confirm("确认删除吗?").then((res) => {
-            let deleteCount = this.selectedObjs.length;
-            let resource = this.dataApiService.get(`${this.config.app}.${this.config.module}DataApi`).resource
-            _.each(this.selectedObjs, (row) => {
-              resource.delete(row._id).subscribe((res) => {
-                deleteCount--;
-                if (deleteCount <= 0) {
-                  this.tableView.refresh()
-                }
-              })
+            this.dialogService.confirm("确认删除吗?").then((res) => {
+                let deleteCount = this.selectedObjs.length;
+                let resource = this.dataApiService.get(`${this.config.app}.${this.config.module}DataApi`).resource
+                _.each(this.selectedObjs, (row) => {
+                    resource.delete(row._id).subscribe((res) => {
+                        deleteCount--;
+                        if (deleteCount <= 0) {
+                            this.tableView.refresh()
+                        }
+                    })
+                })
+                this.messageService.success('删除成功');
+            }, (reason) => {
+                console.log(reason)
             })
-            this.messageService.success('删除成功');
-          }, (reason) => {
-            console.log(reason)
-          })
         }
 
     }
@@ -141,42 +141,42 @@ export class ListViewComponent implements OnInit {
 
     export() {
         if (this.parentId) {
-          let parentModule = this.dataApiService.get(`${this.config.app}.${this.parentModule}DataApi`).config
-          let forign_key = parentModule.resource + "_id"
-          let params = {}
-          params[forign_key + "__equals"] = this.parentId
-          this.dialogService.openExportDialog(this.config.app, this.config.module, params).then(() => {
+            let parentModule = this.dataApiService.get(`${this.config.app}.${this.parentModule}DataApi`).config
+            let forign_key = parentModule.resource + "_id"
+            let params = {}
+            params[forign_key + "__equals"] = this.parentId
+            this.dialogService.openExportDialog(this.config.app, this.config.module, params).then(() => {
 
-          })
+            })
         }
         else {
-          this.dialogService.openExportDialog(this.config.app, this.config.module, ).then(() => {
+            this.dialogService.openExportDialog(this.config.app, this.config.module, ).then(() => {
 
-          })
+            })
         }
     }
 
     doAction(target) {
-        if(typeof(target.action)=="function"){
+        if (typeof (target.action) == "function") {
             target.action(this.selectedObjs)
         }
-        else{
+        else {
             this[target.action]()
         }
     }
 
     onDataLoadComplete(totalDataNum) {
-        if(this.config == null){
+        if (this.config == null) {
             return;
         }
         let defaultOptions = {
-            addable:true,
-            editable:true,
-            exportable:true,
-            deleteable:true,
-            extraAction:[]
+            addable: true,
+            editable: true,
+            exportable: true,
+            deleteable: true,
+            extraAction: []
         }
-        let config = Object.assign(defaultOptions,this.config)
+        let config = Object.assign(defaultOptions, this.config)
         this.actions = []
         let allAction = this.baseActions.concat(config.extraAction)
         allAction.forEach((action) => {
@@ -185,7 +185,7 @@ export class ListViewComponent implements OnInit {
             let node = action.authNode;
             let authNodes = action.authNode.split(".")
             //console.log(authNodes)
-            if(authNodes.length>1){
+            if (authNodes.length > 1) {
                 module = action.authNode.split(".")[0]
                 node = action.authNode.split(".")[1]
             }
