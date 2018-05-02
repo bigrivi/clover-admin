@@ -122,11 +122,8 @@ export class FormViewComponent {
                 index++;
             })
         })
-        console.log(groups)
         this._groups = groups;
         // console.log(this._groups)
-
-
         //初始化联动效果
         this._subscriptions = []
         this._fields.forEach(control => {
