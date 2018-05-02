@@ -90,12 +90,19 @@ export class SelectFieldComponent {
      }
 
      ngOnInit(){
+        if(!_.isArray(this._config.dataSource)){
+            this._dataSource = []
+        }
+        else{
+           this._dataSource = this._config.dataSource
+        }
+    }
+
+    ngAfterViewInit(){
          if(!_.isArray(this._config.dataSource)){
             this.loadDataSource()
          }
-         else{
-            this._dataSource = this._config.dataSource
-         }
+        
      }
 
       openParameterDialog(){

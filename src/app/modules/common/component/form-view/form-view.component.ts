@@ -100,9 +100,9 @@ export class FormViewComponent {
             this._fieldsByKey[config.field] = config
             this.form.addControl(config.field, this.createControl(config))
         });
-        if (isEditMode) {
-            this.loadData()
-        }
+        // if (isEditMode) {
+        //     this.loadData()
+        // }
 
         groups.forEach((group) => {
             let fields = group.fields;
@@ -168,6 +168,13 @@ export class FormViewComponent {
         @Inject("DataApiService") private dataApiService,
         public messageService: NzMessageService) {
 
+    }
+
+    ngAfterViewInit(){
+        let isEditMode = this._config["id"] && this._config["id"] != "";
+        if(isEditMode){
+            this.loadData()
+        }
     }
 
     loadData() {
