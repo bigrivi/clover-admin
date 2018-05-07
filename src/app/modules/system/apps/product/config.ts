@@ -34,7 +34,8 @@ export class ProductService {
 					widget:"text",
 					sortabld:true,
 					group:"1",
-					width:400,
+                    width:400,
+                    fixed:true,
 					titleabled :true,
 					require:true
 				},
@@ -44,8 +45,7 @@ export class ProductService {
 					group:"1",
 					sortabld:true,
 					formWidth:"halfWidth",
-					require:true,
-					width:100
+					require:true
 				},
 				category_id:{
 				    label:"类别",
@@ -90,7 +90,7 @@ export class ProductService {
 				serial_number:{
 					label:"序列号",
 					group:"1",
-					widget:"text",
+                    widget:"text",
 					formWidth:"halfWidth",
 					require:true
 				},
@@ -106,7 +106,8 @@ export class ProductService {
 				tags:{
 					label:"标签",
 					searchable:true,
-					group:"1",
+                    group:"1",
+                    width:250,
 					widget:"select",
 					dataSource:"product.tag",
 					populateable:true,
@@ -172,8 +173,8 @@ export class CategoryService {
 			name:"产品分类管理",
 			fields : {
 				name:{
-					label:"名称",
-					sortabld:true,
+                    label:"名称",
+                    sortabld:true,
 					widget:"text",
 					fullRow:true,
 					titleabled :true,
@@ -195,7 +196,9 @@ export class TagService {
 			fields : {
 				name:{
 					label:"名称",
-					sortabld:true,
+                    sortabld:true,
+                    fixed:true,
+                    width:500,
 					widget:"text",
 					fullRow:true,
 					titleabled :true,

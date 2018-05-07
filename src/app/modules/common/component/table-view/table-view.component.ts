@@ -13,6 +13,7 @@ import { UserService } from '../../../../@core/data/users.service'
 
 
 const PAGE_SIZE = 10;
+const DEFAULT_COLUMN_WIDTH = 100;
 @Component({
     selector: 'table-view',
     templateUrl: './table-view.component.html',
@@ -26,6 +27,8 @@ export class TableViewComponent implements OnInit {
     viewInited = false;
     rows = []
     columns = []
+    fixedLeft = []
+    fixedleftWidth = 0;
     filters = {}
     loading = false
     queryIn = {}
@@ -102,31 +105,7 @@ export class TableViewComponent implements OnInit {
         this.loading = false
         this.searchKeywords = ""
         this.selectAllSearchField = true;
-        let defaultAction = [
-            {
-                label: "edit",
-                action: "edit",
-                authNode: `${this._config.app}.${this._config.module}.put`,
-                link: ""
-            },
-            {
-                label: "delete",
-                action: "delete",
-                authNode: `${this._config.app}.${this._config.module}.delete`,
-                link: ""
-            }
-        ];
-        _.each(defaultAction, (action) => {
-            if (this.userService.checkNodeIsAuth(action.authNode))
-                this._config.actions.push(action)
-        })
-        _.each(this._config.extActions, (action) => {
-            if (this.userService.checkNodeIsAuth(action.authNode))
-                this._config.actions.push(action)
-        })
-
-
-
+       
         let fields = Object.keys(this._config["fields"]);
         if (this.modalMode) {
             this._config.actionable = false;
@@ -134,7 +113,7 @@ export class TableViewComponent implements OnInit {
         this.columns = fields.map((item) => {
             let clone = _.cloneDeep(this._config["fields"][item])
             clone.field = item
-            clone.width = clone.width || 200;
+            clone.width = clone.width || DEFAULT_COLUMN_WIDTH;
             clone.value = clone.value || ""
             return clone;
         })
@@ -155,7 +134,8 @@ export class TableViewComponent implements OnInit {
             this.columns.unshift({
                 field: "selectedId",
                 label: "",
-                width: 50,
+                fixed:true,
+                width: 16,
             })
         }
 
@@ -190,6 +170,18 @@ export class TableViewComponent implements OnInit {
                         })
                 }
             }
+        })
+        let totalLeftWidth = 0
+        this.fixedLeft = this.columns.filter((item)=>{
+            return item.fixed;
+        })
+        this.fixedLeft.forEach((item)=>{
+            totalLeftWidth+=(item.width+16);
+        })
+        this.fixedleftWidth = totalLeftWidth;
+
+        this.columns = this.columns.filter((item)=>{
+            return !!!item.fixed;
         })
 
         this.pagerData = {
@@ -421,7 +413,7 @@ export class TableViewComponent implements OnInit {
                     }
                 })
             })
-            this.rows = results
+           this.rows = results
             this.dataReady = true;
             this.dataLoadComplete.emit(res.record_count);
         }, (error) => {
@@ -461,7 +453,8 @@ export class TableViewComponent implements OnInit {
 
     onPageChange(newPage) {
         this.pagerData.currentPage = newPage
-        this.loadPageDate()
+        // this.loading = true;
+       this.loadPageDate()
     }
 
     onSelectedAllChange(checked) {

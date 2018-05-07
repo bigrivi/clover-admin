@@ -21,59 +21,133 @@
   </div>
  <nz-input nzType="text" input-debounce [(ngModel)]="searchKeywords" (valueChange)="onSearchChange($event)" [nzPlaceHolder]="'搜索'"></nz-input>
 </div>
+<div class="table-container">
+    <div class="table-fixed-column" [style.width]="fixedleftWidth+'px'">
+            <nz-table #nzTable
+            [nzAjaxData]="rows"
+            [nzCustomNoResult] = "true"
+            [nzIsPagination]="'false'"
+            [nzPageIndex]="pagerData.currentPage"
+            [nzPageSize]="pagerData.pageSize"
+            [nzTotal]="pagerData.recordCount"
+            (nzPageIndexChange)="onPageChange($event)">
+            <div noResult>
+                &nbsp;
+            </div>
+            <thead nz-thead>
+                <tr>
+                    <ng-container *ngFor="let column of fixedLeft">
+                        <th [nzWidth]="column.width+'px'"  nz-th *ngIf="column.field=='selectedId'">
+                            <label nz-checkbox [(ngModel)]="selectedAll" (ngModelChange)="onSelectedAllChange($event)">
+                            </label>
+                        </th>
+                        <th [nzWidth]="column.width+'px'" nz-th  *ngIf="column.field!='selectedId'">
+                            <span>{{column.label | translate}}</span>
+                            <nz-table-sort *ngIf="column.sortabld"  (nzValueChange)="doSorting(column.field,$event)"></nz-table-sort>
 
-<nz-table #nzTable
-    [nzAjaxData]="rows"
-    [nzPageIndex]="pagerData.currentPage"
-    [nzPageSize]="pagerData.pageSize"
-    [nzTotal]="pagerData.recordCount"
-    [nzLoading]="loading"
-    (nzPageIndexChange)="onPageChange($event)">
-    <thead nz-thead>
-        <tr>
-            <ng-container *ngFor="let column of columns">
-                <th [nzWidth]="'40px'" nz-th *ngIf="column.field=='selectedId'">
-                    <label nz-checkbox [(ngModel)]="selectedAll" (ngModelChange)="onSelectedAllChange($event)">
-                    </label>
-                </th>
-                <th nz-th *ngIf="column.field!='selectedId'">
-                    <span>{{column.label | translate}}</span>
-                    <nz-table-sort *ngIf="column.sortabld"  (nzValueChange)="doSorting(column.field,$event)"></nz-table-sort>
+                            <nz-dropdown *ngIf="column.searchable && column.dataSource" [nzTrigger]="'click'" [nzClickHide]="false">
+                            <i class="anticon anticon-smile-o ant-table-filter-icon" nz-dropdown></i>
+                            <ul nz-menu>
+                                <li nz-menu-item *ngFor="let filter of column.dataSource">
+                                <label nz-checkbox [(ngModel)]="filter.selected">
+                                    <span>{{filter.label}}</span>
+                                </label>
+                                </li>
+                            </ul>
+                            <div nz-table-filter>
+                                <span nz-table-filter-confirm (click)="doQueryIn(column)">OK</span>
+                                <span nz-table-filter-clear (click)="resetQueryIn(column)">Reset</span>
+                            </div>
+                            </nz-dropdown>
+                        </th>
+                    </ng-container>
+                </tr>
+            </thead>
+            <tbody nz-tbody>
+                <tr nz-tbody-tr *ngFor="let row of rows">
+                    <ng-container *ngFor="let column of fixedLeft">
+                    <td nz-td *ngIf="column.field!='action'">
+                        <div class="cell" [style.width]="column.width+'px'" *ngIf="column.titleabled"[attr.title]="row[column.field]" (click)="openDetailPage(row)">{{row[column.field]}}</div>
+                        <div class="cell" [style.width]="column.width+'px'" *ngIf="!column.titleabled">
+                        <ng-container *ngIf="column.field!='selectedId'">
+                            {{row[column.field]}}
+                        </ng-container>
+                        <ng-container *ngIf="column.field=='selectedId'">
+                            <label nz-checkbox [(ngModel)]="row.selected" (ngModelChange)="onSelectedSingleChange($event)">
+                            </label>
+                        </ng-container>
+                        </div>
+                    </td>
+                    </ng-container>
+                </tr>
+            </tbody>
+        </nz-table>
+    </div>
+    <div class="table-notfixed-column" [style.marginLeft]="fixedleftWidth+'px'">
+        <nz-table #nzTable
+            [nzAjaxData]="rows"
+            [nzPageIndex]="pagerData.currentPage"
+            [nzPageSize]="pagerData.pageSize"
+            [nzTotal]="pagerData.recordCount"
+            [nzCustomNoResult] = "true"
+            (nzPageIndexChange)="onPageChange($event)">
+            <div noResult>
+                &nbsp;
+            </div>
+            <thead nz-thead>
+                <tr>
+                    <ng-container *ngFor="let column of columns">
+                        <th [style.width]="column.width+'px'"  nz-th *ngIf="column.field=='selectedId'">
+                            <label nz-checkbox [(ngModel)]="selectedAll" (ngModelChange)="onSelectedAllChange($event)">
+                            </label>
+                        </th>
+                        <th  nz-th *ngIf="column.field!='selectedId'">
+                            <div class="cell" [style.width]="column.width+'px'">
+                            {{column.label | translate}}
+                            <nz-table-sort *ngIf="column.sortabld"  (nzValueChange)="doSorting(column.field,$event)"></nz-table-sort>
 
-                     <nz-dropdown *ngIf="column.searchable && column.dataSource" [nzTrigger]="'click'" [nzClickHide]="false">
-                      <i class="anticon anticon-smile-o ant-table-filter-icon" nz-dropdown></i>
-                      <ul nz-menu>
-                        <li nz-menu-item *ngFor="let filter of column.dataSource">
-                          <label nz-checkbox [(ngModel)]="filter.selected">
-                            <span>{{filter.label}}</span>
-                          </label>
-                        </li>
-                      </ul>
-                      <div nz-table-filter>
-                        <span nz-table-filter-confirm (click)="doQueryIn(column)">OK</span>
-                        <span nz-table-filter-clear (click)="resetQueryIn(column)">Reset</span>
-                      </div>
-                    </nz-dropdown>
-                </th>
-            </ng-container>
-        </tr>
-    </thead>
-    <tbody nz-tbody>
-        <tr nz-tbody-tr *ngFor="let row of rows">
-            <ng-container *ngFor="let column of columns">
-              <td nz-td *ngIf="column.field!='action'">
-                <div *ngIf="column.titleabled"[attr.title]="row[column.field]" (click)="openDetailPage(row)">{{row[column.field]}}</div>
-                <div *ngIf="!column.titleabled">
-                  <ng-container *ngIf="column.field!='selectedId'">
-                     {{row[column.field]}}
-                  </ng-container>
-                   <ng-container *ngIf="column.field=='selectedId'">
-                    <label nz-checkbox [(ngModel)]="row.selected" (ngModelChange)="onSelectedSingleChange($event)">
-                    </label>
-                  </ng-container>
-                </div>
-              </td>
-            </ng-container>
-        </tr>
-    </tbody>
-</nz-table>
+                            <nz-dropdown *ngIf="column.searchable && column.dataSource" [nzTrigger]="'click'" [nzClickHide]="false">
+                            <i class="anticon anticon-smile-o ant-table-filter-icon" nz-dropdown></i>
+                            <ul nz-menu>
+                                <li nz-menu-item *ngFor="let filter of column.dataSource">
+                                <label nz-checkbox [(ngModel)]="filter.selected">
+                                    <span>{{filter.label}}</span>
+                                </label>
+                                </li>
+                            </ul>
+                            <div nz-table-filter>
+                                <span nz-table-filter-confirm (click)="doQueryIn(column)">OK</span>
+                                <span nz-table-filter-clear (click)="resetQueryIn(column)">Reset</span>
+                            </div>
+                            </nz-dropdown>
+                             </div>
+                        </th>
+                    </ng-container>
+                </tr>
+            </thead>
+            <tbody nz-tbody>
+                <tr nz-tbody-tr *ngFor="let row of rows">
+                    <ng-container *ngFor="let column of columns">
+                    <td nz-td *ngIf="column.field!='action'">
+                        <div class="cell" [style.width]="column.width+'px'">
+                        <ng-container *ngIf="column.field!='selectedId'">
+                            {{row[column.field]}}
+                        </ng-container>
+                        <ng-container *ngIf="column.field=='selectedId'">
+                            <label nz-checkbox [(ngModel)]="row.selected" (ngModelChange)="onSelectedSingleChange($event)">
+                            </label>
+                        </ng-container>
+                        </div>
+                    </td>
+                    </ng-container>
+                </tr>
+            </tbody>
+        </nz-table>
+    </div>
+    <div class="loading-spin" *ngIf="loading">
+        <nz-spin [nzTip]="'数据加载中'"></nz-spin>
+    </div>
+    <div class="no-record" *ngIf="!loading&&pagerData.recordCount<=0">
+        暂无数据!
+     </div>
+</div>

@@ -28,9 +28,10 @@ export class UserInfoService {
 				username:{
 					label:"用户名",
 					widget:"text",
-					sortabld:true,
+                    sortabld:true,
+                    fixed:true,
 					searchable:true,
-					width:400,
+					width:200,
 					titleabled :true,
 					require:true
 				},
@@ -65,13 +66,15 @@ export class UserInfoService {
 				},
 				hobby:{
 					label:"兴趣爱好",
-					widget:"checkbox",
+                    widget:"checkbox",
+                    width:300,
 					dataSource:hobby_source,
 					require:true,
 				},
 				email:{
 					label:"Email",
-					widget:"text",
+                    widget:"text",
+                    width:200,
 					require:true
 				},
 				creation_on:{
@@ -150,7 +153,9 @@ export class DepartmentService {
 			fields : {
 				name:{
 					label:"名称",
-					widget:"text",
+                    widget:"text",
+                    width:400,
+                    fixed:true,
 					titleabled :true,
 					require:true
 				},
@@ -178,7 +183,7 @@ export class DepartmentService {
 				leader:{
 					label:"负责人",
 					widget:"select",
-					populateable:true,
+                    populateable:true,
 					dataSource:"account.userInfo",
 					require:true,
 					get_display:function(item){

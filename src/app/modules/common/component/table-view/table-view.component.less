@@ -13,6 +13,68 @@
     margin-right: 8px;
   }
 
+  .table-container{
+      position: relative;
+      width: 100%;
+      min-height: 100px;
+      .no-record{
+        position: absolute;
+        left: 40px;
+        top:50px;
+        z-index: 999;
+      }
+      .loading-spin{
+          position: absolute;
+          width: 100%;
+          height:100%;
+          background:rgba(255, 255, 255, .5);
+          left: 0px;
+          top:0px;
+          text-align: center;
+          vertical-align: middle;
+          z-index: 999;
+          nz-spin{
+             position: relative;
+             width: 100%;
+             height:100%;
+             display: block;
+             >div{
+                width: 60px;
+                height: 42px;
+                margin-top: -5px;
+                margin-left: -30px;
+                left: 50%;;
+                position: absolute;
+                top:50%;
+             }
+          }
+      }
+      th,td{
+          white-space: nowrap;
+          .cell{
+             min-height: 21px;
+          }
+
+          &:hover{
+             
+          }
+      }
+      .table-fixed-column{
+        position: absolute;
+        left: 0px;
+      }
+
+      .table-notfixed-column{
+        nz-table{
+            display: block;
+            .ant-table{
+                overflow: auto;
+            }
+        }
+      }
+
+  }
+
   .highlight {
     color: #f50;
   }
