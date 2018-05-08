@@ -10,7 +10,7 @@
     "start:hmr": "ng serve --hmr",
     "start:aot": "ng serve --aot",
     "build": "rimraf dist && ng build",
-    "build:prod": "npm run build -- --prod",
+    "build:prod": "ng build -prod --aot=true --extract-licenses=false",
     "build:prod:aot": "npm run build:prod -- --aot",
     "build:ci": "npm-run-all -p -r build:prod build:prod:aot",
     "test": "ng test -sr",
