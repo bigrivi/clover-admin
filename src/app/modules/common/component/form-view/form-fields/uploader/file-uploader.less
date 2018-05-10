@@ -1,4 +1,30 @@
 :host ::ng-deep {
+    .thumb{
+        li{
+            width: 45px;
+            height: 45px;
+            position: relative;
+            border: 1px solid #ddd;
+            text-align: center;
+            vertical-align: middle;
+            float: left;
+            a{
+                display: inline-block;
+                padding-top: 5px;
+            }
+            input {
+                position: absolute;
+                font-size: 100px;
+                right: 0;
+                top: 0px;
+                opacity: 0;
+                filter: alpha(opacity=0);
+                cursor: pointer
+            }
+        }
+    }
+    
+    
     table{
         border:0px;
         th{

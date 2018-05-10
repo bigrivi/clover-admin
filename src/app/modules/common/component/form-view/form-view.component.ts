@@ -26,8 +26,10 @@ export class FormViewComponent {
     _config;
     _fields = []
     _groups = []
+    _groups1 = []
     _fieldsByKey = {}
     _subscriptions: Subscription[] = [];
+    loading = true;
 
     @Input() params;
 
@@ -122,7 +124,7 @@ export class FormViewComponent {
                 index++;
             })
         })
-        this._groups = groups;
+        this._groups1 = groups;
         // console.log(this._groups)
         //初始化联动效果
         this._subscriptions = []
@@ -168,10 +170,15 @@ export class FormViewComponent {
     }
 
     ngAfterViewInit(){
-        let isEditMode = this._config["id"] && this._config["id"] != "";
-        if(isEditMode){
-            this.loadData()
-        }
+        setTimeout(()=>{
+            this._groups = this._groups1;
+            this.loading = false;
+            let isEditMode = this._config["id"] && this._config["id"] != "";
+            if(isEditMode){
+                this.loadData()
+            }
+        },0)
+       
     }
 
     loadData() {

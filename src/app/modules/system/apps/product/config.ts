@@ -127,6 +127,15 @@ export class ProductService {
 					label:"产品图",
 					widget:"uploader",
 					group:"1",
+					formWidth:"halfWidth",
+					fullRow:true,
+					require:false
+				},
+				picfff:{
+					label:"附件",
+					widget:"uploader",
+					group:"1",
+					formWidth:"halfWidth",
 					fullRow:true,
 					require:false
 				},

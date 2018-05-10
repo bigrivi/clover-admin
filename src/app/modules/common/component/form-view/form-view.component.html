@@ -1,4 +1,5 @@
-<form  nz-form [formGroup]="form">
+<nz-spin *ngIf="loading" [nzTip]="'数据加载中'"></nz-spin>
+<form *ngIf="!loading"  nz-form [formGroup]="form">
     <ng-container *ngFor="let group of _groups">
       <div class="form-field-header">
         {{group.name}}

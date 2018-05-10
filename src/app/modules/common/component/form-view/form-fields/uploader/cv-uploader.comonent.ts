@@ -23,7 +23,12 @@ const FORM_UPLOAD_VALUE_ACCESSOR: any = {
   styleUrls: ['./file-uploader.less'],
   providers: [FORM_UPLOAD_VALUE_ACCESSOR],
   template: `
-  <input  type="file" (change)="fileChangeHandler($event)"  class="form-control">
+  <ul class="thumb">
+    <li>
+        <input  type="file" (change)="fileChangeHandler($event)">
+        <a><i class="fa fa-plus" aria-hidden="true"></i> </a>
+    </li>
+  </ul>
   <table width="100%" border="0" class="uploader-table">
   <tr>
     <th style="text-align:center">文件名</th>
