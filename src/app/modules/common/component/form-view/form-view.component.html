@@ -4,7 +4,7 @@
       <div class="form-field-header">
         {{group.name}}
       </div>
-      <div nz-row *ngFor="let row of group.rows">
+      <div nz-row class="form-row" *ngFor="let row of group.rows">
           <ng-container *ngFor="let item of row">
               <div nz-col class="cell" [nzSpan]="24" *ngIf="item.formWidth=='fullRow'">
                 <div nz-form-item nz-row>

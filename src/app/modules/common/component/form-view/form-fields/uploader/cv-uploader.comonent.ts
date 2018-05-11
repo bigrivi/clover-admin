@@ -24,32 +24,20 @@ const FORM_UPLOAD_VALUE_ACCESSOR: any = {
   providers: [FORM_UPLOAD_VALUE_ACCESSOR],
   template: `
   <ul class="thumb">
+   <li title="删除" *ngFor="let item of fileObjects;let i=index" [innerHtml]="item | to_upload_file_thumb" (click)="remove(i)">
+   </li>
     <li>
         <input  type="file" (change)="fileChangeHandler($event)">
         <a><i class="fa fa-plus" aria-hidden="true"></i> </a>
     </li>
   </ul>
-  <table width="100%" border="0" class="uploader-table">
-  <tr>
-    <th style="text-align:center">文件名</th>
-    <th style="text-align:center">大小</th>
-    <th style="text-align:center">缩略图</th>
-    <th style="text-align:center">操作</th>
-  </tr>
-  <tr *ngFor="let item of fileObjects;let i=index">
-    <td align="center">{{item.filename}}</td>
-    <td align="center">{{item.filesize}}KB</td>
-    <td align="center" [innerHtml]="item | to_upload_file_thumb"></td>
-    <td align="center"><i (click)="remove(i)" class="fa fa-remove"></i></td>
-  </tr>
-  </table>
   `
 })
 export class FileUploaderComponent implements ControlValueAccessor {
   @Input() config;
   @Input() group;
 
-  @Input() multiple = false;
+  @Input() multiple = true;
 
   constructor(@Inject("DataApiService") private dataApiService) {
       this.fileObjects = [];

@@ -13,7 +13,7 @@ export class toUploadFileThumbPipe implements PipeTransform {
     	}else if(input.base64){
     		src = "data:"+input.filetype+";base64,"+input.base64;
     	}
-    	return `<img src="${src}" /><br><a target="_blank" href="${src}">查看</a>`
+    	return `<img  src="${src}" />`
     }
     else{
     	if(input.id){
