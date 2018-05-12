@@ -33,6 +33,7 @@ import { DynamicFieldDirective } from './directive/dynamic-field.directive';
 import { InputDebounceDirective } from './directive/input-deboune';
 
 import { toUploadFileThumbPipe } from './pipes/to_upload_file_thumb.pipe';
+import { toUploadFileSizePipe } from './pipes/to_upload_file_size.pipe';
 
 import {TableViewDailogComponent} from './component/dialog/list.component';
 import {EditDialogComponent} from './component/dialog/edit.component';
@@ -102,6 +103,7 @@ const HELPERS = [ ModalHelper ];
     ExportDialogComponent,
     ParameterDialogComponent,
     toUploadFileThumbPipe,
+    toUploadFileSizePipe,
     ...DIRECTIVES, ...PIPES,...shared_components
   ],
   entryComponents: [

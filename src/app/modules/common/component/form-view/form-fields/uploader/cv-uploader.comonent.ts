@@ -23,14 +23,34 @@ const FORM_UPLOAD_VALUE_ACCESSOR: any = {
   styleUrls: ['./file-uploader.less'],
   providers: [FORM_UPLOAD_VALUE_ACCESSOR],
   template: `
-  <ul class="thumb">
-   <li title="删除" *ngFor="let item of fileObjects;let i=index" [innerHtml]="item | to_upload_file_thumb" (click)="remove(i)">
+  <ul class="thumb" *ngIf="!isAtachment">
+   <li  class="thumb-item" *ngFor="let item of fileObjects;let i=index">
+   <div  [innerHtml]="item | to_upload_file_thumb"></div>
+   <i (click)="remove(i)" class="fa remove fa-minus-circle" aria-hidden="true"></i>
    </li>
-    <li>
+    <li class="thumb-item">
         <input  type="file" (change)="fileChangeHandler($event)">
         <a><i class="fa fa-plus" aria-hidden="true"></i> </a>
     </li>
   </ul>
+  <div class="atachments" *ngIf="isAtachment">
+    <ul *ngIf="fileObjects.length>0">
+        <li  *ngFor="let item of fileObjects;let i=index">
+            <i (click)="remove(i)" class="fa remove fa-minus-circle" aria-hidden="true"></i>
+            <span class="icon"><i class="fa fa-file-o" aria-hidden="true"></i></span>
+            <div class="info">
+                <div>
+                    <h1>{{item.filename}}</h1>
+                    <span>{{item.filesize | to_upload_file_size}}</span>
+                </div>
+            </div>
+        </li>
+    </ul>
+    <div class="thumb-item">
+        <input  type="file" (change)="fileChangeHandler($event)">
+        <a><i class="fa fa-plus" aria-hidden="true"></i> </a>
+    </div>
+ </div>
   `
 })
 export class FileUploaderComponent implements ControlValueAccessor {
@@ -38,6 +58,7 @@ export class FileUploaderComponent implements ControlValueAccessor {
   @Input() group;
 
   @Input() multiple = true;
+  @Input() isAtachment = false;
 
   constructor(@Inject("DataApiService") private dataApiService) {
       this.fileObjects = [];
@@ -90,6 +111,13 @@ export class FileUploaderComponent implements ControlValueAccessor {
   fileChangeHandler(event) {
     if (!event.target.files.length) {
       return;
+    }
+    if(!this.isAtachment){
+        var mimes = ['image/jpeg', 'image/png', 'image/gif'];
+        if(mimes.indexOf(event.target.files[0].type)<0){
+            alert("错误的图片文件格式")
+            return;
+        }
     }
     this.rawFiles = event.target.files;
     if(!this.multiple){

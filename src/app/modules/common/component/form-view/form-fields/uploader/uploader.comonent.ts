@@ -6,7 +6,7 @@ import { FormGroup,ControlValueAccessor,NG_VALUE_ACCESSOR,ValidatorFn,NG_VALIDAT
   selector: 'form--field-uploader',
   template: `
    <ng-container [formGroup]="group">
-  <file-uploader [formControlName]="config.field"  [(ngModel)]="config.value"></file-uploader>
+  <file-uploader [isAtachment]="config.isAtachment" [formControlName]="config.field"  [(ngModel)]="config.value"></file-uploader>
   </ng-container>
   `
 })

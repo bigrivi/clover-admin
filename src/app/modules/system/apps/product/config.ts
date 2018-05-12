@@ -137,7 +137,8 @@ export class ProductService {
 					group:"1",
 					formWidth:"halfWidth",
 					fullRow:true,
-					require:false
+                    require:false,
+                    isAtachment:true
 				},
 				introduction:{
 					label:"介绍",
