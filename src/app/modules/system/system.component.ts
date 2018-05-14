@@ -4,6 +4,7 @@ import { NavService } from '../../@core/data/nav.service';
 import { TranslateService } from '../../@core/utils/translate.service';
 import { HttpService } from '../../@core/utils/resource.service';
 import { AuthService, NbAuthResult } from '../../modules/auth/services/auth.service';
+import { DialogService } from '../common/component/dialog/dialog.service';
 
 @Component({
   selector: 'ngx-pages',
@@ -15,12 +16,13 @@ import { AuthService, NbAuthResult } from '../../modules/auth/services/auth.serv
 export class SystemComponent {
   menu = [];
   intervalId
-  constructor(public route: ActivatedRoute, protected service: AuthService,public router: Router,public httpService:HttpService,public navService:NavService,public translateService:TranslateService ) {
+  constructor(public dialogService:DialogService,public route: ActivatedRoute, protected service: AuthService,public router: Router,public httpService:HttpService,public navService:NavService,public translateService:TranslateService ) {
        console.log("system enter")
        this.intervalId = setInterval(()=>{
            this.httpService.get("/home/heartbeart",{}).map(res=>res.json()).subscribe(res=>{
                if(res.data.isLogin == false){
                     this.service.logout("email").subscribe((result: NbAuthResult) => {
+                        this.dialogService.closeAll()
                         const redirect = result.getRedirect();
                         if (redirect) {
                           setTimeout(() => {
