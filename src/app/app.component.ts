@@ -9,7 +9,7 @@ import { AuthService, NbAuthResult } from './modules/auth/services/auth.service'
 
 
 @Component({
-  selector: 'ngx-app',
+  selector: 'clover-app',
   template: `
       <router-outlet></router-outlet>
   `,
