@@ -71,12 +71,14 @@ export class ListViewComponent implements OnInit {
     }
 
     add() {
+        let apiName = `${this.config.app}.${this.config.module}DataApi`;
+        let config = this.dataApiService.get(apiName).config
         if (this.parentId) {
             let parentModule = this.dataApiService.get(`${this.config.app}.${this.parentModule}DataApi`).config
             let forign_key = parentModule.resource + "_id"
             let params = {}
             params[forign_key] = this.parentId
-            this.dialogService.openEditDialog(this.config.app, this.config.module, params).then(() => {
+            this.dialogService.openEditDialog(config, params).then(() => {
                 this.tableView.refresh()
             })
         }
@@ -89,7 +91,7 @@ export class ListViewComponent implements OnInit {
                 }
                 params["parentId"] = this.selectedObjs[0]._id
             }
-            this.dialogService.openEditDialog(this.config.app, this.config.module, params).then(() => {
+            this.dialogService.openEditDialog(config, params).then(() => {
                 this.tableView.refresh()
                 this.selectedObjs = []
             })
@@ -97,6 +99,7 @@ export class ListViewComponent implements OnInit {
     }
 
     edit() {
+
         if (this.selectedObjs.length == 0) {
             this.messageService.error("没有选择任何选项")
         }
@@ -104,7 +107,9 @@ export class ListViewComponent implements OnInit {
             this.messageService.error("同时只能选择一条记录修改")
         }
         else {
-            this.dialogService.openEditDialog(this.config.app, this.config.module, { id: this.selectedObjs[0]._id }).then(() => {
+            let apiName = `${this.config.app}.${this.config.module}DataApi`;
+            let config = this.dataApiService.get(apiName).config
+            this.dialogService.openEditDialog(config, { id: this.selectedObjs[0]._id }).then(() => {
                 this.tableView.refresh()
             })
         }

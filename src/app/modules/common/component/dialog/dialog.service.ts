@@ -71,7 +71,7 @@ export class DialogService {
     }
 
 
-    openEditDialog(app: String, module: String, params: any): Promise<any> {
+    openEditDialog(formConfig, params: any): Promise<any> {
         let title = params.id ? "修改" : "添加"
         return new Promise((resolve, reject) => {
             let self = this;
@@ -90,7 +90,7 @@ export class DialogService {
                 },
                 footer: false,
                 componentParams: {
-                    config: { title: title, app: app, module: module, params: params }
+                    config: { title: title, formConfig:formConfig, params: params }
                 }
             });
             currentModal.subscribe(result => {

@@ -46,10 +46,8 @@ export class EditDialogComponent implements OnInit {
     }
 
     ngOnInit() {
-        this.module = this.config["module"];
-        this.app = this.config["app"];
-        let apiName = `${this.app}.${this.module}DataApi`;
-        this.formConfig = Object.assign(this.dataApiService.get(apiName).config, { id: this.config["params"]["id"] })
+      
+        this.formConfig = Object.assign(this.config["formConfig"], { id: this.config["params"]["id"] })
     }
 
 
@@ -68,7 +66,7 @@ export class EditDialogComponent implements OnInit {
             }
             else {
                 let postData = Object.assign(this.formView.form.value, this.config["params"])
-                console.log(postData)
+                // console.log(postData)
                 resource.post(postData).subscribe((res) => {
                     this.messageService.success('保存成功');
                     this.subject.next(res.json());
