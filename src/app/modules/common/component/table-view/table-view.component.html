@@ -21,9 +21,9 @@
   </div>
  <nz-input nzType="text" input-debounce [(ngModel)]="searchKeywords" (valueChange)="onSearchChange($event)" [nzPlaceHolder]="'搜索'"></nz-input>
 </div>
-<div class="table-container">
+<div class="table-container" [class.dataReady]="dataReady">
     <div class="table-fixed-column" [style.width]="fixedleftWidth+'px'">
-            <nz-table #nzTable
+            <nz-table #nzTable1
             [nzAjaxData]="rows"
             [nzCustomNoResult] = "true"
             [nzIsPagination]="'false'"
@@ -64,7 +64,7 @@
                 </tr>
             </thead>
             <tbody nz-tbody>
-                <tr nz-tbody-tr *ngFor="let row of rows">
+                <tr nz-tbody-tr *ngFor="let row of rows;let i=index" (mouseenter)="onMouseOverRow('fixed',i)" (mouseleave)="onMouseOutRow('fixed',i)">
                     <ng-container *ngFor="let column of fixedLeft">
                     <td nz-td *ngIf="column.field!='action'">
                         <div class="cell" [style.width]="column.width+'px'" *ngIf="column.titleabled"[attr.title]="row[column.field]" (click)="openDetailPage(row)">{{row[column.field]}}</div>
@@ -84,7 +84,7 @@
         </nz-table>
     </div>
     <div class="table-notfixed-column" [style.marginLeft]="fixedleftWidth+'px'">
-        <nz-table #nzTable
+        <nz-table #nzTable2
             [nzShowTotal]="true"
             [nzAjaxData]="rows"
             [nzPageIndex]="pagerData.currentPage"
@@ -127,7 +127,7 @@
                 </tr>
             </thead>
             <tbody nz-tbody>
-                <tr nz-tbody-tr *ngFor="let row of rows">
+                <tr nz-tbody-tr *ngFor="let row of rows;let i=index" (mouseenter)="onMouseOverRow('unfixed',i)" (mouseleave)="onMouseOutRow('unfixed',i)">
                     <ng-container *ngFor="let column of columns">
                     <td nz-td *ngIf="column.field!='action'">
                         <div class="cell" [style.width]="column.width+'px'">
@@ -146,7 +146,7 @@
         </nz-table>
     </div>
     <div class="loading-spin" *ngIf="loading">
-        <nz-spin [nzTip]="'数据加载中'"></nz-spin>
+        <nz-spin [nzTip]="''"></nz-spin>
     </div>
     <div class="no-record" *ngIf="!loading&&pagerData.recordCount<=0">
         暂无数据!

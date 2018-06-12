@@ -1,4 +1,4 @@
-import { Component, Inject, Injector, OnInit, EventEmitter, ViewChild, ViewContainerRef, Renderer2, ElementRef, Input, Output, ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/core';
+import { Component, Inject, Injector, OnInit, EventEmitter, ViewChild, ViewContainerRef, Renderer2, ElementRef, Input,Renderer, Output, ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/core';
 import { Http, URLSearchParams } from '@angular/http';
 import { Location } from '@angular/common';
 import { Router, NavigationEnd, ActivatedRoute } from '@angular/router';
@@ -14,6 +14,7 @@ import { UserService } from '../../../../@core/data/users.service'
 
 const PAGE_SIZE = 10;
 const DEFAULT_COLUMN_WIDTH = 100;
+
 @Component({
     selector: 'table-view',
     templateUrl: './table-view.component.html',
@@ -67,6 +68,8 @@ export class TableViewComponent implements OnInit {
     }
     _config;
     resource;
+    @ViewChild("nzTable1", {read: ElementRef}) nzTable1:ElementRef;
+    @ViewChild("nzTable2", {read: ElementRef}) nzTable2:ElementRef;
 
     @Output() dataLoadComplete: EventEmitter<any> = new EventEmitter();
     @Output() onSelectedChange: EventEmitter<any> = new EventEmitter();
@@ -413,7 +416,7 @@ export class TableViewComponent implements OnInit {
                     }
                 })
             })
-           this.rows = results
+            this.rows = results
             this.dataReady = true;
             this.dataLoadComplete.emit(res.record_count);
         }, (error) => {
@@ -466,6 +469,24 @@ export class TableViewComponent implements OnInit {
 
     onSelectedSingleChange(event) {
         this.onSelectedChange.emit(this.getSelectedData())
+    }
+
+    onMouseOverRow(target,index){
+        let foundTr
+        if(target=="fixed")
+            foundTr = this.nzTable2.nativeElement.querySelectorAll("tbody tr")[index];
+        else
+            foundTr = this.nzTable1.nativeElement.querySelectorAll("tbody tr")[index];
+        this.renderer.addClass(foundTr,"hover")
+    }
+
+    onMouseOutRow(target,index){
+        let foundTr
+        if(target=="fixed")
+            foundTr = this.nzTable2.nativeElement.querySelectorAll("tbody tr")[index];
+        else
+            foundTr = this.nzTable1.nativeElement.querySelectorAll("tbody tr")[index];
+       this.renderer.removeClass(foundTr,"hover")
     }
 
     ngDestroy() {
