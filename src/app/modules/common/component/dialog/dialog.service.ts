@@ -4,27 +4,34 @@ import { EditDialogComponent } from './edit.component';
 import { ExportDialogComponent } from './export.component';
 import { ParameterDialogComponent } from './parameter.component';
 
-import { NzModalService } from 'ng-zorro-antd';
+import { NzModalService,NzModalSubject } from 'ng-zorro-antd';
 import * as _ from 'lodash';
 
 @Injectable()
 export class DialogService {
 
-    constructor(private modalService: NzModalService) { }
+    private _dialogs:NzModalSubject[] = null;
+    constructor(private modalService: NzModalService) { 
+        this._dialogs = []
+    }
 
     //确认框
     confirm(messsage: string, title = "对话框"): Promise<any> {
         return new Promise((resolve, reject) => {
-            this.modalService.confirm({
+            let self = this;
+            let currentModal = this.modalService.confirm({
                 title: title,
                 content: messsage,
                 onOk() {
+                    self._dialogs.splice( self._dialogs.indexOf(currentModal),1)
                     resolve()
                 },
                 onCancel() {
+                    self._dialogs.splice( self._dialogs.indexOf(currentModal),1)
                     reject()
                 }
             });
+            this._dialogs.push(currentModal)
         });
 
     }
@@ -36,16 +43,19 @@ export class DialogService {
         })
     }
 
+
     modalTable(module: String, selectedIds = [], title = "选择"): Promise<any> {
         return new Promise((resolve, reject) => {
+            let self = this;
             const currentModal = this.modalService.open({
                 title: title,
                 width: "70%",
                 content: TableViewDailogComponent,
                 onOk() {
-
+                    self._dialogs.splice( self._dialogs.indexOf(currentModal),1)
                 },
                 onCancel() {
+                    self._dialogs.splice( self._dialogs.indexOf(currentModal),1)
                     // if(reject)
                     //   reject("cancel")
                 },
@@ -62,29 +72,32 @@ export class DialogService {
                 }
 
             })
+            this._dialogs.push(currentModal)
 
         })
     }
 
 
-    openEditDialog(app: String, module: String, params: any): Promise<any> {
+    openEditDialog(formConfig, params: any): Promise<any> {
         let title = params.id ? "修改" : "添加"
         return new Promise((resolve, reject) => {
+            let self = this;
             const currentModal = this.modalService.open({
                 title: title,
                 width: "70%",
                 wrapClassName: "no-padding",
                 content: EditDialogComponent,
                 onOk() {
-
+                    self._dialogs.splice( self._dialogs.indexOf(currentModal),1)
                 },
                 onCancel() {
+                    self._dialogs.splice( self._dialogs.indexOf(currentModal),1)
                     // if(reject)
                     //   reject("cancel")
                 },
                 footer: false,
                 componentParams: {
-                    config: { title: title, app: app, module: module, params: params }
+                    config: { title: title, formConfig:formConfig, params: params }
                 }
             });
             currentModal.subscribe(result => {
@@ -93,6 +106,8 @@ export class DialogService {
                     resolve(result)
                 }
             })
+            this._dialogs.push(currentModal)
+
 
         })
     }
@@ -101,14 +116,16 @@ export class DialogService {
     openExportDialog(app: String, module: String, params: any = {}): Promise<any> {
         let title = "导出"
         return new Promise((resolve, reject) => {
+            let self = this;
             const currentModal = this.modalService.open({
                 title: title,
                 width: "70%",
                 content: ExportDialogComponent,
                 onOk() {
-
+                    self._dialogs.splice( self._dialogs.indexOf(currentModal),1)
                 },
                 onCancel() {
+                    self._dialogs.splice( self._dialogs.indexOf(currentModal),1)
                     // if(reject)
                     //   reject("cancel")
                 },
@@ -125,6 +142,7 @@ export class DialogService {
                     resolve(result)
                 }
             })
+            this._dialogs.push(currentModal)
 
         })
     }
@@ -133,15 +151,17 @@ export class DialogService {
     openParameterDialog(group: String, params: any = {}): Promise<any> {
         let title = "分类编辑 - 客户状态"
         return new Promise((resolve, reject) => {
+            let self = this;
             const currentModal = this.modalService.open({
                 title: title,
                 width: "550px",
                 content: ParameterDialogComponent,
                 onOk() {
+                    self._dialogs.splice( self._dialogs.indexOf(currentModal),1)
 
                 },
                 onCancel() {
-
+                    self._dialogs.splice( self._dialogs.indexOf(currentModal),1)
                 },
                 footer: false,
                 zIndex: 2000,
@@ -156,10 +176,17 @@ export class DialogService {
                     resolve(result)
                 }
             })
+            this._dialogs.push(currentModal)
 
         })
     }
 
+    closeAll(){
+        this._dialogs.forEach((item)=>{
+            item.destroy("onCancel")
+        })
+        this._dialogs = []
+    }
 
 
 

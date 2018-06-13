@@ -1,7 +1,8 @@
-import { Component } from '@angular/core';
+import { Component,Inject } from '@angular/core';
 import { SettingsService } from '../../../../@core/services/settings.service';
 import { UserService } from '../../../../@core/data/users.service';
 import {environment} from "../../../../../environments/environment"
+import { DialogService } from "../../../../modules/common/component/dialog/dialog.service"
 
 @Component({
     selector: 'header-user',
@@ -11,9 +12,8 @@ import {environment} from "../../../../../environments/environment"
             <nz-avatar [nzSrc]="user?.picture" nzSize="small" class="mr-sm"></nz-avatar>
             {{user?.realname}}
         </div>
-        <div nz-menu class="width-sm">
-            <div nz-menu-item [nzDisable]="true"><i class="anticon anticon-user mr-sm"></i>个人中心</div>
-            <div nz-menu-item [routerLink]="['/apps/account/profile']"><i class="anticon anticon-setting mr-sm"></i>设置</div>
+        <div nz-menu nzClickActive="false" class="width-sm">
+            <div nz-menu-item  nzSelected="false" (click)="openSetting()"><i class="anticon anticon-setting mr-sm"></i>设置</div>
             <li nz-menu-divider></li>
             <div nz-menu-item [routerLink]="['/auth/logout']"><i class="anticon anticon-setting mr-sm"></i>退出登录</div>
         </div>
@@ -22,7 +22,7 @@ import {environment} from "../../../../../environments/environment"
 })
 export class HeaderUserComponent {
       user: any;
-    constructor(public settings: SettingsService,private userService: UserService) {
+    constructor(    @Inject("DataApiService") private dataApiService,    public settings: SettingsService,private userService: UserService,public dialogService:DialogService) {
 
         this.userService.userInfoChange().subscribe((userInfo)=>{
             this.user = userInfo
@@ -31,5 +31,20 @@ export class HeaderUserComponent {
             }
           })
     }
+
+    openSetting(){
+        let apiName = `account.userInfoDataApi`;
+        let config = this.dataApiService.get(apiName).config
+        this.dialogService.openEditDialog(config, { id: this.user._id }).then(() => {
+            this.fetchFromRemote()
+        })
+    }
+
+    fetchFromRemote(){
+        let resource = this.dataApiService.get("account.userInfoDataApi").resource
+        resource.get({},"/"+this.user["_id"]).subscribe((res)=>{
+             this.userService.setUserInfo(res.json().data).subscribe(()=>{})
+        })
+     }
 
 }

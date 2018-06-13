@@ -5,12 +5,11 @@ import { TranslateService } from './@core/utils/translate.service';
 import { SettingsService } from './@core/services/settings.service';
 import {NzNotificationService,NzMessageService} from 'ng-zorro-antd';
 import { Router, NavigationEnd,ActivatedRoute } from '@angular/router';
-
 import { AuthService, NbAuthResult } from './modules/auth/services/auth.service';
 
 
 @Component({
-  selector: 'ngx-app',
+  selector: 'clover-app',
   template: `
       <router-outlet></router-outlet>
   `,
