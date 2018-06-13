@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core';
 
 var category_source = [
 	{label: "测试1", value: "1"},
-	{label: "测试2", value: "2"}
+	{label: "测试222", value: "2"}
 ]
 
 

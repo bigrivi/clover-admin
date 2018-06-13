@@ -14,9 +14,6 @@ export class DialogService {
 
     //确认框
     confirm(messsage: string, title = "对话框"): Promise<any> {
-        // const modalRef = this.modalService.open(ConfirmComponent);
-        // modalRef.componentInstance.config = { title:title,message:messsage};
-        // return modalRef.result;
         return new Promise((resolve, reject) => {
             this.modalService.confirm({
                 title: title,
@@ -34,9 +31,6 @@ export class DialogService {
 
     //提示框
     alert(messsage: String, title = "对话框"): Promise<any> {
-        // const modalRef = this.modalService.open(AlertComponent);
-        // modalRef.componentInstance.config = { title:title,message:messsage};
-        // return modalRef.result;
         return new Promise((resolve, reject) => {
 
         })
