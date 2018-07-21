@@ -251,7 +251,11 @@ export class TableViewComponent implements OnInit {
     }
 
 
-
+    advanceSearch(){
+        this.dialogService.openSearchDialog("").then(()=>{
+            
+        })
+    }
 
     doSorting(sortKey, sortValue) {
         this.sorting["key"] = sortKey

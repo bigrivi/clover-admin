@@ -39,6 +39,7 @@ import {TableViewDailogComponent} from './component/dialog/list.component';
 import {EditDialogComponent} from './component/dialog/edit.component';
 import {ExportDialogComponent} from './component/dialog/export.component';
 import {ParameterDialogComponent} from './component/dialog/parameter.component';
+import {SerachDialogComponent} from './component/dialog/search.component';
 import {DialogService} from './component/dialog/dialog.service';
 
 
@@ -102,6 +103,7 @@ const HELPERS = [ ModalHelper ];
     EditDialogComponent,
     ExportDialogComponent,
     ParameterDialogComponent,
+    SerachDialogComponent,
     toUploadFileThumbPipe,
     toUploadFileSizePipe,
     ...DIRECTIVES, ...PIPES,...shared_components
@@ -131,6 +133,7 @@ const HELPERS = [ ModalHelper ];
     EditDialogComponent,
     ExportDialogComponent,
     ParameterDialogComponent,
+    SerachDialogComponent,
     ...shared_entry_components
 
   ],

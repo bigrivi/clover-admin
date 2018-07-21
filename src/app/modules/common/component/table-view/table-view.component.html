@@ -1,3 +1,4 @@
+<div class="search-warpper">
 <div class="searchbar">
     <div class="left">
     <nz-dropdown [nzClickHide]="false">
@@ -19,7 +20,9 @@
       </ul>
     </nz-dropdown>
   </div>
- <nz-input nzType="text" input-debounce [(ngModel)]="searchKeywords" (valueChange)="onSearchChange($event)" [nzPlaceHolder]="'搜索'"></nz-input>
+ <nz-input nzType="text"  input-debounce [(ngModel)]="searchKeywords" (valueChange)="onSearchChange($event)" [nzPlaceHolder]="'搜索'"></nz-input>
+</div>
+<button nz-button  [nzType]="'primary'" (click)="advanceSearch()" ><i class="fa fa-search-plus" aria-hidden="true"></i>&nbsp;高级搜索</button>
 </div>
 <div class="table-container" [class.dataReady]="dataReady">
     <div class="table-fixed-column" [style.width]="fixedleftWidth+'px'">

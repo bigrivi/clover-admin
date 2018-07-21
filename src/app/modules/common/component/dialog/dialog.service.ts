@@ -3,6 +3,7 @@ import { TableViewDailogComponent } from './list.component';
 import { EditDialogComponent } from './edit.component';
 import { ExportDialogComponent } from './export.component';
 import { ParameterDialogComponent } from './parameter.component';
+import { SerachDialogComponent } from './search.component';
 
 import { NzModalService,NzModalSubject } from 'ng-zorro-antd';
 import * as _ from 'lodash';
@@ -156,6 +157,39 @@ export class DialogService {
                 title: title,
                 width: "550px",
                 content: ParameterDialogComponent,
+                onOk() {
+                    self._dialogs.splice( self._dialogs.indexOf(currentModal),1)
+
+                },
+                onCancel() {
+                    self._dialogs.splice( self._dialogs.indexOf(currentModal),1)
+                },
+                footer: false,
+                zIndex: 2000,
+                componentParams: {
+                    params: params,
+                    group: group
+                }
+            });
+            currentModal.subscribe(result => {
+                if (_.isObject(result)) {
+                    currentModal.destroy('onOk');
+                    resolve(result)
+                }
+            })
+            this._dialogs.push(currentModal)
+
+        })
+    }
+
+    openSearchDialog(group: String, params: any = {}): Promise<any> {
+        let title = "高级搜索"
+        return new Promise((resolve, reject) => {
+            let self = this;
+            const currentModal = this.modalService.open({
+                title: title,
+                width: "550px",
+                content: SerachDialogComponent,
                 onOk() {
                     self._dialogs.splice( self._dialogs.indexOf(currentModal),1)
 
