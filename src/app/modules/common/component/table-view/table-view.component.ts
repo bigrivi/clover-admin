@@ -252,7 +252,7 @@ export class TableViewComponent implements OnInit {
 
 
     advanceSearch(){
-        this.dialogService.openSearchDialog("").then(()=>{
+        this.dialogService.openSearchDialog(this._config.app,this._config.module).then(()=>{
             
         })
     }

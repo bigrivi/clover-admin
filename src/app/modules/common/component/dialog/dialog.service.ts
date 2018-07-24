@@ -155,7 +155,7 @@ export class DialogService {
             let self = this;
             const currentModal = this.modalService.open({
                 title: title,
-                width: "550px",
+                width: "650px",
                 content: ParameterDialogComponent,
                 onOk() {
                     self._dialogs.splice( self._dialogs.indexOf(currentModal),1)
@@ -182,13 +182,13 @@ export class DialogService {
         })
     }
 
-    openSearchDialog(group: String, params: any = {}): Promise<any> {
+    openSearchDialog(app: String, module: String): Promise<any> {
         let title = "高级搜索"
         return new Promise((resolve, reject) => {
             let self = this;
             const currentModal = this.modalService.open({
                 title: title,
-                width: "550px",
+                width: "650px",
                 content: SerachDialogComponent,
                 onOk() {
                     self._dialogs.splice( self._dialogs.indexOf(currentModal),1)
@@ -198,10 +198,10 @@ export class DialogService {
                     self._dialogs.splice( self._dialogs.indexOf(currentModal),1)
                 },
                 footer: false,
-                zIndex: 2000,
+                zIndex: 999,
                 componentParams: {
-                    params: params,
-                    group: group
+                    app: app,
+                    module: module
                 }
             });
             currentModal.subscribe(result => {

@@ -44,6 +44,7 @@ import {DialogService} from './component/dialog/dialog.service';
 
 
 import { TableViewComponent } from './component/table-view/table-view.component';
+import { QuerySelectComponent } from './component/query-select/query-select.comonent';
 import { ThemeModule } from '../../@theme/theme.module';
 import {AppService} from "./services/app.service"
 
@@ -80,6 +81,7 @@ const HELPERS = [ ModalHelper ];
     FormViewComponent,
     ListViewComponent,
     TableViewComponent,
+    QuerySelectComponent,
     InputFieldComponent,
     CardInputComponent,
     CardInputFieldComponent,
@@ -129,6 +131,7 @@ const HELPERS = [ ModalHelper ];
     RegionComponent,
     ItemSelectComponent,
     TableViewComponent,
+    QuerySelectComponent,
     TableViewDailogComponent,
     EditDialogComponent,
     ExportDialogComponent,
