@@ -32,6 +32,7 @@ export class TableViewComponent implements OnInit {
     fixedleftWidth = 0;
     filters = {}
     loading = false
+    advanceSearchData = []
     queryIn = {}
     sorting = { key: "", value: "" }
     resizeHandler;
@@ -252,8 +253,8 @@ export class TableViewComponent implements OnInit {
 
 
     advanceSearch(){
-        this.dialogService.openSearchDialog(this._config.app,this._config.module).then(()=>{
-            
+        this.dialogService.openSearchDialog(this._config.app,this._config.module,this.advanceSearchData).then((result)=>{
+            this.advanceSearchData = result
         })
     }
 

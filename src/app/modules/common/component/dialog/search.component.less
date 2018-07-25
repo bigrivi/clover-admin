@@ -1,0 +1,35 @@
+
+:host ::ng-deep{
+    .modal-body {
+        min-height: 400px;
+        padding: 20px;
+        .row {
+            padding-bottom: 8px;
+            margin-bottom: 8px;
+            display:flex;
+            justify-content: space-between;
+            border-bottom: 1px solid #dfdfdf;
+            .left{
+                display:flex;
+                flex:1;
+                query-select{
+                    width: 100%;
+                }
+            }
+            .right{
+                width: 50px;
+                text-align: right;
+                a{
+                    display: inline-block;
+                    vertical-align: middle;
+                    i{
+                        display: inline-block;
+                        color:red;
+                    }
+                }
+               
+            }
+        }
+    }
+ }
+

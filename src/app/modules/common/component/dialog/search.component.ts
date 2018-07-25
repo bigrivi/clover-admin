@@ -18,19 +18,29 @@ import {
 
 @Component({
     selector: 'ngx-dialog-serach',
+    styleUrls: ["search.component.less"],
     template: `
      <div class="modal-body">
         <form nz-form [formGroup]="formGroup">
-        <div *ngFor="let control of formGroup.controls;let i = index" style="display:flex;margin-bottom:15px;" class="row">
+        <div *ngFor="let control of formGroup.controls;let i = index" class="row">
         <ng-container [formGroup]="control">
-            <nz-select *ngIf="i>0" style="width: 120px;margin-right:5px;" [formControlName]="'joinCondition'">
-                <nz-option
-                *ngFor="let option of joinConditions"
-                [nzLabel]="option.label"
-                [nzValue]="option.value">
-                </nz-option>
-            </nz-select>
-            <query-select [fields]="fields"></query-select>
+            <div class="left">
+                <nz-select *ngIf="i>0" style="width: 120px;margin-right:5px;" [formControlName]="'joinCondition'">
+                    <nz-option
+                    *ngFor="let option of joinConditions"
+                    [nzLabel]="option.label"
+                    [nzValue]="option.value">
+                    </nz-option>
+                </nz-select>
+                <query-select [formControlName]="'value'" [fields]="fields"></query-select>
+            </div>
+            <div class="right">
+                <a (click)="removeRow(i)">
+                    <i class="fa fa-remove remove"></i>
+                    移除
+                </a>
+            </div>
+            
             </ng-container>
         </div>
         </form>
@@ -52,18 +62,7 @@ import {
 
         </div>
 
-    `,
-    styles: [
-        `
-        :host ::ng-deep .modal-body {
-          min-height:400px;
-          padding:20px;
-          .row{
-              margin-bottom:10px;
-          }
-        }
-      `
-    ]
+    `
 })
 export class SerachDialogComponent implements OnInit {
     formGroup: FormArray;
@@ -72,6 +71,8 @@ export class SerachDialogComponent implements OnInit {
     fields = []
     @Input() app;
     @Input() module;
+    @Input() initData = [];
+
     joinConditions = [
         { value: 'and', label: '并且' },
         { value: 'or', label: '或者' }
@@ -85,16 +86,11 @@ export class SerachDialogComponent implements OnInit {
         @Inject("DataApiService") private dataApiService,
         public messageService: NzMessageService,
         public router: Router) {
-
-
-        this.formGroup = this.fb.array([this.fb.group({
-            'is_default': ["", [Validators.required]],
-            'name': ["", [Validators.required]],
-            'joinCondition': ["and", [Validators.required]],
-            'value': ["", [Validators.required]]
-        })])
         this.resource = this.dataApiService.get("dataModel.parameterDataApi").resource
-
+        this.formGroup = this.fb.array([this.fb.group({
+            'joinCondition': ["and", [Validators.required]],
+            'value': [{}, [Validators.required]]
+        })])
     }
 
     ngOnInit() {
@@ -108,21 +104,25 @@ export class SerachDialogComponent implements OnInit {
             fields.push(field)
         })
         this.fields = fields
-        console.log(fields)
+        if(this.initData.length>0){
+            this.formGroup.removeAt(0)
+            this.initData.forEach((item)=>{
+                console.log(item)
+                this.addRow(item)
+            })
+        }
+       
 
     }
 
     addRow(data?) {
         data = data || {
-            "is_default": "0",
-            "name": "",
-            "value": ""
+            "joinCondition": "and",
+            "value": {}
         }
-        const { is_default, name, value } = data
+        const { joinCondition, value } = data
         let formGroup: FormGroup = this.fb.group({
-            'is_default': [is_default, [Validators.required]],
-            'joinCondition': ["and", [Validators.required]],
-            'name': [name, [Validators.required]],
+            'joinCondition': [joinCondition, [Validators.required]],
             'value': [value, [Validators.required]]
         })
         this.formGroup.push(formGroup)
@@ -149,20 +149,9 @@ export class SerachDialogComponent implements OnInit {
     }
 
     save() {
-        let parameters = this.formGroup.value
-        parameters = parameters.filter((item) => {
-            return item.name != "" && item.name != "blank"
-        })
-
-        parameters.forEach((item) => {
-            item.group = this.group
-        })
-        console.log(this.keepValue)
-        console.log(parameters)
-        this.resource.post({ keepValue: this.keepValue, parameters: parameters, group: this.group }).subscribe((res) => {
-            this.subject.next(res.json());
-        })
-
+        let queryValues = this.formGroup.value
+        console.log(queryValues)
+        this.subject.next(queryValues);
     }
 
     handleCancel(e) {
