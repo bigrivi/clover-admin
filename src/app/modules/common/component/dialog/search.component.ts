@@ -1,12 +1,10 @@
 import { Component, Input, ViewChild, Injector, Inject, OnInit, ChangeDetectionStrategy } from '@angular/core';
-import { AppService } from '../../../common/services/app.service'
 import { TableViewComponent } from "../table-view/table-view.component"
 import { NzModalSubject } from 'ng-zorro-antd';
 import { Subscription } from 'rxjs'
 import * as _ from 'lodash';
 import { TranslateService } from '../../../../@core/utils/translate.service'
 import { NzNotificationService, NzMessageService } from 'ng-zorro-antd';
-import { FormViewComponent } from '../../../common/component/form-view/form-view.component'
 import { Router, NavigationEnd } from '@angular/router';
 import {
     FormBuilder,
@@ -80,7 +78,6 @@ export class SerachDialogComponent implements OnInit {
 
     constructor(
         private subject: NzModalSubject,
-        public appService: AppService,
         public translateService:TranslateService,
         private fb: FormBuilder,
         @Inject("DataApiService") private dataApiService,

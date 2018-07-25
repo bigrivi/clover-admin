@@ -1,10 +1,9 @@
 import { Component, Input, ViewChild, Injector, Inject, OnInit } from '@angular/core';
-import { AppService } from '../../../common/services/app.service'
 import { TableViewComponent } from "../table-view/table-view.component"
 import { NzModalSubject } from 'ng-zorro-antd';
 import { Subscription } from 'rxjs'
 import { NzNotificationService, NzMessageService } from 'ng-zorro-antd';
-import { FormViewComponent } from '../../../common/component/form-view/form-view.component'
+import { FormViewComponent } from '../../../form/form-view.component'
 import { Router, NavigationEnd } from '@angular/router';
 
 
@@ -39,7 +38,6 @@ export class EditDialogComponent implements OnInit {
 
     constructor(
         private subject: NzModalSubject,
-        public appService: AppService,
         @Inject("DataApiService") private dataApiService,
         public messageService: NzMessageService,
         public router: Router) {

@@ -1,8 +1,6 @@
 import { Component, ViewChild, Inject, Injector } from '@angular/core';
 import { Routes, RouterModule, ActivatedRoute } from '@angular/router';
-import { AppService } from '../../../common/services/app.service'
 import { UserService } from '../../../../@core/data/users.service'
-import { FormViewComponent } from '../../../common/component/form-view/form-view.component'
 import { NzNotificationService, NzMessageService } from 'ng-zorro-antd';
 
 

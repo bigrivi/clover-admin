@@ -3,3 +3,9 @@ export * from './plural.pipe';
 export * from './round.pipe';
 export * from './timing.pipe';
 export * from './lang.pipe'
+export * from './moment-date.pipe';
+export * from './cn-currency.pipe';
+export * from './keys.pipe';
+export * from './yn.pipe';
+export * from './to_upload_file_thumb.pipe';
+export * from './to_upload_file_size.pipe';

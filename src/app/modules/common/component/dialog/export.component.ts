@@ -1,5 +1,4 @@
 import { Component, Input, ViewChild, Injector, Inject, OnInit } from '@angular/core';
-import { AppService } from '../../../common/services/app.service'
 import { TableViewComponent } from "../table-view/table-view.component"
 import { NzModalSubject } from 'ng-zorro-antd';
 import * as _ from 'lodash';
@@ -170,7 +169,6 @@ export class ExportDialogComponent implements OnInit {
 
     constructor(
         private subject: NzModalSubject,
-        public appService: AppService,
         @Inject("DataApiService") private dataApiService,
         public tokenService: NbTokenService,
     ) {

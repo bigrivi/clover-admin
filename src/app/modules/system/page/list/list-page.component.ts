@@ -1,6 +1,5 @@
 import { Component, OnInit,Inject,Injector,ViewChild,InjectionToken } from '@angular/core';
 import { Routes, Router,RouterModule,ActivatedRoute,NavigationEnd } from '@angular/router';
-import {AppService} from '../../../common/services/app.service'
 import {parseRouteMap} from '../../../common/utils/route.utils'
 import {UserService} from '../../../../@core/data/users.service'
 import { DialogService } from "../../../common/component/dialog/dialog.service"
@@ -25,7 +24,6 @@ export class ListPageComponent{
     public router: Router,
     public injector:Injector,
     public route: ActivatedRoute,
-    public appService:AppService,
     @Inject("DataApiService") private dataApiService) {
     this.routeChangeSub = this.router.events.filter((event)=>{
         return event instanceof NavigationEnd

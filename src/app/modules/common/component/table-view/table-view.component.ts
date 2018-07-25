@@ -6,7 +6,6 @@ import { DialogService } from "../dialog/dialog.service"
 import * as _ from 'lodash';
 import { NzNotificationService, NzMessageService } from 'ng-zorro-antd';
 import { Subscription } from 'rxjs'
-import { AppService } from '../../services/app.service'
 import { formatDate } from '../../utils/date.utils'
 import { parseRouteMap } from '../../utils/route.utils'
 import { UserService } from '../../../../@core/data/users.service'
@@ -61,7 +60,6 @@ export class TableViewComponent implements OnInit {
         public injector: Injector,
         public router: Router,
         public messageService: NzMessageService,
-        public appService: AppService,
         public ref: ChangeDetectorRef,
         @Inject("DataApiService") private dataApiService,
         public dialogService: DialogService) {

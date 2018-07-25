@@ -1,8 +1,7 @@
 import { Component,ViewChild,Inject} from '@angular/core';
 import { Routes, RouterModule,ActivatedRoute } from '@angular/router';
-import {AppService} from '../../../common/services/app.service'
 import {UserService} from '../../../../@core/data/users.service'
-import {FormViewComponent} from '../../../common/component/form-view/form-view.component'
+import {FormViewComponent} from '../../..//form/form-view.component'
 import {NzNotificationService,NzMessageService} from 'ng-zorro-antd';
 
 
@@ -30,7 +29,6 @@ export class ProfileComponent {
   constructor(
     public route: ActivatedRoute,
     @Inject("DataApiService") private dataApiService,
-    public appService:AppService,
     public messageService: NzMessageService,
     public userService:UserService ) {
       this.config = this.dataApiService.get("account.userInfoDataApi").config

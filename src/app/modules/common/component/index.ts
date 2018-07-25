@@ -1,35 +1,30 @@
-import { StandardFormRowComponent } from './standard-form-row';
-import { TagSelectComponent } from './tag-select';
-import { DescListComponent, DescListItemComponent } from './desc-list';
-import { EllipsisComponent } from './ellipsis';
-import { AvatarListComponent, AvatarListItemComponent } from './avatar-list';
-import { TrendComponent } from './trend';
 import {
     ChartCardComponent, MiniAreaComponent, MiniBarComponent, MiniProgressComponent,
     G2BarComponent, G2BarBasicComponent, G2PieComponent, TimelineComponent, GaugeComponent, TagCloudComponent,
     WaterWaveComponent, G2RadarComponent
 } from './charts';
-import { NumberInfoComponent } from './number-info';
-import { ResultComponent } from './result';
 import { ExceptionComponent } from './exception';
-import { GlobalFooterComponent } from './global-footer';
+import { StandardFormRowComponent } from './standard-form-row/standard-form-row.component';
+import {EllipsisComponent} from "./ellipsis/ellipsis.component"
+import {NumberInfoComponent} from "./number-info/number-info.component"
+
+import { ListViewComponent } from './list-view/list-view.component';
+import { TableViewComponent } from './table-view/table-view.component';
+import { QuerySelectComponent } from './query-select/query-select.comonent';
+
+
 
 export const shared_entry_components = [
 ];
 
 export const shared_components = [
-    StandardFormRowComponent,
-    TagSelectComponent,
-    DescListComponent,
-    DescListItemComponent,
-    EllipsisComponent,
-    AvatarListComponent,
-    AvatarListItemComponent,
-    TrendComponent,
-    NumberInfoComponent,
-    ResultComponent,
     ExceptionComponent,
-    GlobalFooterComponent,
+    EllipsisComponent,
+    StandardFormRowComponent,
+    NumberInfoComponent,
+    ListViewComponent,
+    TableViewComponent,
+    QuerySelectComponent,
     // charts
     ChartCardComponent,
     MiniAreaComponent,

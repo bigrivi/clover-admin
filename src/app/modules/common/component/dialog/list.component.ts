@@ -1,5 +1,4 @@
 import { Component, Input, ViewChild, Injector, Inject } from '@angular/core';
-import { AppService } from '../../../common/services/app.service'
 import { TableViewComponent } from "../table-view/table-view.component"
 import { NzModalSubject } from 'ng-zorro-antd';
 

@@ -1,10 +1,9 @@
 import { Component,ViewChild,Inject} from '@angular/core';
 import { Routes, RouterModule,ActivatedRoute } from '@angular/router';
-import {AppService} from '../../../common/services/app.service'
 import {pascalCaseSpace} from '../../../common/utils/common.utils'
 import {UserService} from '../../../../@core/data/users.service'
 import {TranslateService} from '../../../../@core/utils/translate.service'
-import {FormViewComponent} from '../../../common/component/form-view/form-view.component'
+import {FormViewComponent} from '../../../form/form-view.component'
 import * as _ from 'lodash';
 import {NzNotificationService,NzMessageService} from 'ng-zorro-antd';
 
@@ -62,7 +61,6 @@ export class AuthorizeComponent {
     public messageService: NzMessageService,
     public translateService:TranslateService,
     @Inject("DataApiService") private dataApiService,
-    public appService:AppService,
     public userService:UserService ) {
       let resource = this.dataApiService.get("account.authNodeDataApi").resource
       resource.get().map(res=>res.json().data).subscribe((res)=>{

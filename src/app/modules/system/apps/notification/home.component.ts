@@ -1,8 +1,6 @@
 import { Component,ViewChild,Injector,OnInit} from '@angular/core';
 import { Routes, RouterModule,ActivatedRoute } from '@angular/router';
-import {AppService} from '../../../common/services/app.service'
 import {UserService} from '../../../../@core/data/users.service'
-import {FormViewComponent} from '../../../common/component/form-view/form-view.component'
 import {NzNotificationService,NzMessageService} from 'ng-zorro-antd';
 import { SettingsService } from '../../../../@core/services/settings.service';
 import { HomeTZHIService } from './services/home.services';
@@ -36,7 +34,6 @@ export class HomeComponent {
 
   constructor(
     public route: ActivatedRoute,
-    public appService:AppService,
     private homeTZHIService: HomeTZHIService,
     public settingsService: SettingsService,
     public messageService: NzMessageService,

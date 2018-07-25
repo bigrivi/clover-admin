@@ -126,7 +126,7 @@ const ZORROMODULES = [
 ];
 
 
-import { CapitalizePipe, PluralPipe, RoundPipe, TimingPipe,TranslatePipe } from './pipes';
+import { CapitalizePipe, PluralPipe, RoundPipe, TimingPipe,TranslatePipe,MomentDatePipe,CNCurrencyPipe,KeysPipe,YNPipe,toUploadFileThumbPipe,toUploadFileSizePipe } from './pipes';
 import {
   LayoutComponent
 } from './layouts';
@@ -165,7 +165,13 @@ const PIPES = [
   PluralPipe,
   RoundPipe,
   TimingPipe,
-  TranslatePipe
+  TranslatePipe,
+  MomentDatePipe,
+  CNCurrencyPipe,
+  KeysPipe,
+  YNPipe,
+  toUploadFileThumbPipe,
+  toUploadFileSizePipe 
 ];
 
 
