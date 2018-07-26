@@ -23,7 +23,7 @@ export class LayoutComponent {
         // scroll to top in change page
         router.events.subscribe(evt => {
             if (!this.isFetching && evt instanceof RouteConfigLoadStart) {
-                this.isFetching = true;
+                this.isFetching = false;
             }
             if (evt instanceof NavigationError) {
                 this.isFetching = false;
