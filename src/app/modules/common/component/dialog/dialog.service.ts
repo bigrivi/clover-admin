@@ -5,6 +5,7 @@ import { ExportDialogComponent } from './export.component';
 import { ParameterDialogComponent } from './parameter.component';
 import { SerachDialogComponent } from './search.component';
 import { Overlay, OverlayRef } from '@angular/cdk/overlay';
+import { ComponentPortal } from '@angular/cdk/portal';
 
 import { NzModalService, NzModalSubject,NzModalComponent } from 'ng-zorro-antd';
 import * as _ from 'lodash';
@@ -217,22 +218,27 @@ export class DialogService {
         })
     }
 
-    openCustomerDialog(title, componentCls: any) {
-        this.ngModuleFactoryLoader.load("app/modules/system/apps/account/account.module#AccountModule").then((factory) => {
+    openCustomerDialog(title,params = {}, componentCls: any,modulePath) {
+
+        this.ngModuleFactoryLoader.load(modulePath).then((factory) => {
             console.log(factory)
             const module = factory.create(this.injector)
             const r = module.componentFactoryResolver
-            console.log(r)
-            const cmpFactory = r.resolveComponentFactory(componentCls)
-            const compRef:any = cmpFactory.create(this.injector)
-            let overlayRef = this.overlay.create();
-            console.log(overlayRef)
+            console.log(params)
+            const cmpFactory:any = r.resolveComponentFactory(componentCls)
+            // const compRef:any = cmpFactory.create(this.injector)
+            // let overlayRef = this.overlay.create();
+            // let modalRef = overlayRef.attach(new ComponentPortal(NzModalComponent));
+            // Object.assign(modalRef.instance, { nzTitle: title,nzContent: cmpFactory,nzWidth: "950px",footer: false})
+            // modalRef.instance.open();
+            // console.log(modalRef)
             return new Promise((resolve, reject) => {
                 let self = this;
                 const currentModal = this.modalService.open({
                     title: title,
                     width: "950px",
-                    content: "",
+                    componentParams: params,
+                    content: cmpFactory,
                     onOk() {
                         self._dialogs.splice(self._dialogs.indexOf(currentModal), 1)
                     },
@@ -240,10 +246,7 @@ export class DialogService {
                         self._dialogs.splice(self._dialogs.indexOf(currentModal), 1)
                     },
                     footer: false,
-                    zIndex: 999,
-                    componentParams: {
-
-                    }
+                    zIndex: 999
                 });
                 currentModal.subscribe(result => {
                     if (_.isObject(result)) {

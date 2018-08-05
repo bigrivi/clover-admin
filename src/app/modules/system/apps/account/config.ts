@@ -234,8 +234,7 @@ export class UserRoleService {
 						else{
                             console.log(ids)
                             let dialogService = injector.get(DialogService)
-                            dialogService.openCustomerDialog("ceshi",AuthorizeComponent)
-                            console.log("customer link,")
+                            dialogService.openCustomerDialog("角色授权",{auth_node_id:ids[0]._id},AuthorizeComponent,"app/modules/system/apps/account/account.module#AccountModule")
 						}
 					}
 				}
