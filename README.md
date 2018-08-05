@@ -27,7 +27,7 @@ clover admin
 ，渲染全部放在前端，后端只做业务逻辑和数据传输，返回给前端的只是一些json数据
 这样带来的好处就是大量重用性的前端组件，通用视图,再辅以restfulapi的设计，如果我们开发一个新的模块，只需要通过一些配置就能完成对应的功能
 
-主要核心思想如下:
+###主要核心思想如下:
 - 通用的列表视图ListView
 - 通用的编辑视图EditView
 - 通用的详细视图DetailView
@@ -154,16 +154,16 @@ constructor() {
 }
 }
 ```
-这样是配置对应模型的restful api resource以及模型的fields
-每个模型的配置都设置成为一个service在系统启动的时候注入系统，可以在任何地方拿到
-然后实现一套通用的路由系统
-比如/#/apps/crm/product
+配置对应模型的restful api resource以及模型的fields<br>
+每个模型的配置都设置成为一个service在系统启动的时候注入系统，可以在任何地方拿到<br>
+然后实现一套通用的路由系统<br>
+比如/#/apps/crm/product<br>
 表示app是crm,对应的模块是product,系统会把所有类似的路由都又
-ListViewComponent去接受，然后通过拿到对应的app,module,去service拿对应的配置，然后去请求restful api拿服务器给的数据
+ListViewComponent去接受，然后通过拿到对应的app,module,去service拿对应的配置，然后去请求restful api拿服务器给的数据<br>
 修改更新也是相同的道理
 
 
-通用的表格数据列表系统
+### 通用的表格数据列表系统
 ![image](https://raw.githubusercontent.com/sunjianghong/clover-admin/master/screenshots/table-view.jpg)
 
 
