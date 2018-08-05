@@ -162,10 +162,12 @@ constructor() {
 ListViewComponent去接受，然后通过拿到对应的app,module,去service拿对应的配置，然后去请求restful api拿服务器给的数据<br>
 修改更新也是相同的道理
 
+## 相关截图
 
 ### 通用的表格数据列表系统
 ![image](https://raw.githubusercontent.com/sunjianghong/clover-admin/master/screenshots/table-view.jpg)
-
+### 固定列
+![image](https://raw.githubusercontent.com/sunjianghong/clover-admin/master/screenshots/fix-column.jpg)
 
 
 
