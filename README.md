@@ -169,7 +169,7 @@ ListViewComponent去接受，然后通过拿到对应的app,module,去service拿
 ### 固定列
 ![image](https://raw.githubusercontent.com/sunjianghong/clover-admin/master/screenshots/fix-column.jpg)
 ### 通用的表单视图
-![image](https://raw.githubusercontent.com/sunjianghong/clover-admin/master/screenshots/form.jpg)
+![image](https://raw.githubusercontent.com/sunjianghong/clover-admin/master/screenshots/form-view.jpg)
 ### 灵活的表单列设计，可设置2列或者2列
 ![image](https://raw.githubusercontent.com/sunjianghong/clover-admin/master/screenshots/form-single.jpg)
 ### 列表的高级搜索
