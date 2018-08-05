@@ -154,6 +154,47 @@ constructor() {
 }
 }
 ```
+``` Typescript
+新增模块只需在app目录添加对应的配置confit.ts设置即可
+并在system/confit.ts设置对应的Service即可
+
+export const ModuleConfig = {
+    product: {
+        product: ProductService,
+        category: CategoryService,
+        tag: TagService,
+        orderLogs: OrderLogsService,
+    },
+    account: {
+        userInfo: UserInfoService,
+        userRole: UserRoleService,
+        department: DepartmentService,
+        authNode: AuthNodeService,
+        authorize: AuthorizeService,
+    },
+    home: {
+        nav: NavService,
+    },
+    uploader: {
+        attachment: AttachmentService,
+    },
+    research: {
+        research: ResearchService,
+    },
+    question: {
+        question: QuestionService,
+    },
+    notification: {
+        template: TemplateService,
+        email: EmailService,
+        sms: SmsService,
+        winning: WinningService,
+    },
+    dataModel: {
+        parameter: ParameterService,
+    },
+};
+```
 配置对应模型的restful api resource以及模型的fields<br>
 每个模型的配置都设置成为一个service在系统启动的时候注入系统，可以在任何地方拿到<br>
 然后实现一套通用的路由系统<br>
