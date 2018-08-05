@@ -223,7 +223,6 @@ export class UserRoleService {
 					type: "normal",
 					authNode: "authorize.put",
 					action:function(ids){
-						console.log("customer link,")
 						if (ids.length == 0) {
 				            commonService.messageService.error("没有选择任何选项")
 				        }
@@ -231,7 +230,8 @@ export class UserRoleService {
 				           commonService.messageService.error("同时只能选择一条记录授权")
 				        }
 						else{
-
+                            console.log(ids)
+                            console.log("customer link,")
 						}
 					}
 				}

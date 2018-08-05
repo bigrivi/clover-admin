@@ -14,7 +14,7 @@ clover admin
    框架:angular5<br>
    UI:采用NG-ZORR O.6版本<br>
 
-后端nodejs采用thinkjs实现基本的mvc
+后端nodejs采用thinkjs实现基本的mvc [clover-admin-server](https://github.com/sunjianghong/clover-admin-server)
 
 关于
 ------------------------
