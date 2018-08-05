@@ -1,4 +1,4 @@
-import { NgModule, InjectionToken } from '@angular/core';
+import { NgModule, InjectionToken,Injector } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { ReactiveFormsModule } from '@angular/forms';
 import { HttpModule, Http, XHRBackend, RequestOptions } from '@angular/http';
@@ -81,10 +81,10 @@ const routes: Routes = [
     providers: [
         {
             provide: "DataApiService",
-            useFactory: (http: Http, pubsub: PubSubService, authService: AuthService, tokenService: NbTokenService, commonService: CommonService) => {
-                return new DataApiService(apiConfigs, http, pubsub, authService, tokenService, commonService);
+            useFactory: (http: Http, pubsub: PubSubService, authService: AuthService, tokenService: NbTokenService, commonService: CommonService,injector:Injector) => {
+                return new DataApiService(apiConfigs, http, pubsub, authService, tokenService, commonService,injector);
             },
-            deps: [Http, PubSubService, AuthService, NbTokenService, CommonService]
+            deps: [Http, PubSubService, AuthService, NbTokenService, CommonService,Injector]
         }
     ],
     exports: [

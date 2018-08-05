@@ -44,7 +44,7 @@ const routes: Routes = [
 
   ],
   entryComponents: [
-
+    AuthorizeComponent
 
   ],
   providers: [

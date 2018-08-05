@@ -1,6 +1,8 @@
 import * as _ from 'lodash';
-import { Injectable } from '@angular/core';
+import { Injectable,Injector } from '@angular/core';
 import { NzNotificationService, NzMessageService } from 'ng-zorro-antd';
+import {DialogService} from "../../../common/component/dialog/dialog.service"
+import { AuthorizeComponent } from './authorize.component'
 
 var gender_source = [
 	{label: "男", value: "1"},
@@ -209,7 +211,7 @@ export class DepartmentService {
 
 export class UserRoleService {
 	config = {}
-    constructor(commonService:any) {
+    constructor(commonService:any,injector:Injector) {
 		this.config = {
 			app:"account",
 			resource:"user_role",
@@ -231,6 +233,8 @@ export class UserRoleService {
 				        }
 						else{
                             console.log(ids)
+                            let dialogService = injector.get(DialogService)
+                            dialogService.openCustomerDialog("ceshi",AuthorizeComponent)
                             console.log("customer link,")
 						}
 					}

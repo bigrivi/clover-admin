@@ -216,6 +216,37 @@ export class DialogService {
         })
     }
 
+    openCustomerDialog(title,componentCls:any): Promise<any> {
+        return new Promise((resolve, reject) => {
+            let self = this;
+            const currentModal = this.modalService.open({
+                title: title,
+                width: "950px",
+                content: componentCls,
+                onOk() {
+                    self._dialogs.splice( self._dialogs.indexOf(currentModal),1)
+
+                },
+                onCancel() {
+                    self._dialogs.splice( self._dialogs.indexOf(currentModal),1)
+                },
+                footer: false,
+                zIndex: 999,
+                componentParams: {
+                   
+                }
+            });
+            currentModal.subscribe(result => {
+                if (_.isObject(result)) {
+                    currentModal.destroy('onOk');
+                    resolve(result)
+                }
+            })
+            this._dialogs.push(currentModal)
+
+        })
+    }
+
     closeAll(){
         this._dialogs.forEach((item)=>{
             item.destroy("onCancel")

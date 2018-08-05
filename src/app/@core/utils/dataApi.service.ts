@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable,Injector } from '@angular/core';
 import { Http, Request,URLSearchParams, RequestOptionsArgs, Response, RequestOptions, ConnectionBackend, Headers } from '@angular/http';
 import 'rxjs/Rx';
 import { Observable } from 'rxjs/Observable';
@@ -11,9 +11,9 @@ import {CommonService} from './common.service'
 
 export class DataApiService{
     datas = {}
-	constructor(dataApiCfgs:any[],public http:Http,public pubsub:PubSubService,public authService:AuthService,public tokenService:NbTokenService,public commonService:CommonService) {
+	constructor(dataApiCfgs:any[],public http:Http,public pubsub:PubSubService,public authService:AuthService,public tokenService:NbTokenService,public commonService:CommonService,injector:Injector) {
         dataApiCfgs.forEach((item)=>{
-            let configInstance = new item.configServiceCls(commonService)
+            let configInstance = new item.configServiceCls(commonService,injector)
             configInstance.config.app = item.app;
             configInstance.config.module = item.module
             this.datas[item.name] = {
