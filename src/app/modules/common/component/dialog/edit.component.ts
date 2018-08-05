@@ -8,7 +8,7 @@ import { Router, NavigationEnd } from '@angular/router';
 
 
 @Component({
-    selector: 'ngx-dialog-list',
+    selector: 'ngx-dialog-edit',
     template: `
      <div class="modal-body">
         <form-view [config]="formConfig"></form-view>

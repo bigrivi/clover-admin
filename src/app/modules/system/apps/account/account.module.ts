@@ -51,7 +51,7 @@ const routes: Routes = [
 
   ],
   exports: [
-
+    AuthorizeComponent
   ],
 })
 export class AccountModule {

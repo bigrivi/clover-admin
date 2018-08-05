@@ -1,18 +1,19 @@
-import { Injectable } from '@angular/core';
+import { Injectable, NgModuleFactoryLoader, Injector } from '@angular/core';
 import { TableViewDailogComponent } from './list.component';
 import { EditDialogComponent } from './edit.component';
 import { ExportDialogComponent } from './export.component';
 import { ParameterDialogComponent } from './parameter.component';
 import { SerachDialogComponent } from './search.component';
+import { Overlay, OverlayRef } from '@angular/cdk/overlay';
 
-import { NzModalService,NzModalSubject } from 'ng-zorro-antd';
+import { NzModalService, NzModalSubject,NzModalComponent } from 'ng-zorro-antd';
 import * as _ from 'lodash';
 
 @Injectable()
 export class DialogService {
 
-    private _dialogs:NzModalSubject[] = null;
-    constructor(private modalService: NzModalService) { 
+    private _dialogs: NzModalSubject[] = null;
+    constructor(private overlay: Overlay,private modalService: NzModalService, public ngModuleFactoryLoader: NgModuleFactoryLoader, public injector: Injector) {
         this._dialogs = []
     }
 
@@ -24,11 +25,11 @@ export class DialogService {
                 title: title,
                 content: messsage,
                 onOk() {
-                    self._dialogs.splice( self._dialogs.indexOf(currentModal),1)
+                    self._dialogs.splice(self._dialogs.indexOf(currentModal), 1)
                     resolve()
                 },
                 onCancel() {
-                    self._dialogs.splice( self._dialogs.indexOf(currentModal),1)
+                    self._dialogs.splice(self._dialogs.indexOf(currentModal), 1)
                     reject()
                 }
             });
@@ -53,10 +54,10 @@ export class DialogService {
                 width: "70%",
                 content: TableViewDailogComponent,
                 onOk() {
-                    self._dialogs.splice( self._dialogs.indexOf(currentModal),1)
+                    self._dialogs.splice(self._dialogs.indexOf(currentModal), 1)
                 },
                 onCancel() {
-                    self._dialogs.splice( self._dialogs.indexOf(currentModal),1)
+                    self._dialogs.splice(self._dialogs.indexOf(currentModal), 1)
                     // if(reject)
                     //   reject("cancel")
                 },
@@ -89,16 +90,16 @@ export class DialogService {
                 wrapClassName: "no-padding",
                 content: EditDialogComponent,
                 onOk() {
-                    self._dialogs.splice( self._dialogs.indexOf(currentModal),1)
+                    self._dialogs.splice(self._dialogs.indexOf(currentModal), 1)
                 },
                 onCancel() {
-                    self._dialogs.splice( self._dialogs.indexOf(currentModal),1)
+                    self._dialogs.splice(self._dialogs.indexOf(currentModal), 1)
                     // if(reject)
                     //   reject("cancel")
                 },
                 footer: false,
                 componentParams: {
-                    config: { title: title, formConfig:formConfig, params: params }
+                    config: { title: title, formConfig: formConfig, params: params }
                 }
             });
             currentModal.subscribe(result => {
@@ -123,10 +124,10 @@ export class DialogService {
                 width: "70%",
                 content: ExportDialogComponent,
                 onOk() {
-                    self._dialogs.splice( self._dialogs.indexOf(currentModal),1)
+                    self._dialogs.splice(self._dialogs.indexOf(currentModal), 1)
                 },
                 onCancel() {
-                    self._dialogs.splice( self._dialogs.indexOf(currentModal),1)
+                    self._dialogs.splice(self._dialogs.indexOf(currentModal), 1)
                     // if(reject)
                     //   reject("cancel")
                 },
@@ -158,11 +159,11 @@ export class DialogService {
                 width: "650px",
                 content: ParameterDialogComponent,
                 onOk() {
-                    self._dialogs.splice( self._dialogs.indexOf(currentModal),1)
+                    self._dialogs.splice(self._dialogs.indexOf(currentModal), 1)
 
                 },
                 onCancel() {
-                    self._dialogs.splice( self._dialogs.indexOf(currentModal),1)
+                    self._dialogs.splice(self._dialogs.indexOf(currentModal), 1)
                 },
                 footer: false,
                 zIndex: 2000,
@@ -182,7 +183,7 @@ export class DialogService {
         })
     }
 
-    openSearchDialog(app: String, module: String,initData = []): Promise<any> {
+    openSearchDialog(app: String, module: String, initData = []): Promise<any> {
         let title = "高级搜索"
         return new Promise((resolve, reject) => {
             let self = this;
@@ -191,18 +192,18 @@ export class DialogService {
                 width: "950px",
                 content: SerachDialogComponent,
                 onOk() {
-                    self._dialogs.splice( self._dialogs.indexOf(currentModal),1)
+                    self._dialogs.splice(self._dialogs.indexOf(currentModal), 1)
 
                 },
                 onCancel() {
-                    self._dialogs.splice( self._dialogs.indexOf(currentModal),1)
+                    self._dialogs.splice(self._dialogs.indexOf(currentModal), 1)
                 },
                 footer: false,
                 zIndex: 999,
                 componentParams: {
                     app: app,
                     module: module,
-                    initData:initData
+                    initData: initData
                 }
             });
             currentModal.subscribe(result => {
@@ -216,39 +217,49 @@ export class DialogService {
         })
     }
 
-    openCustomerDialog(title,componentCls:any): Promise<any> {
-        return new Promise((resolve, reject) => {
-            let self = this;
-            const currentModal = this.modalService.open({
-                title: title,
-                width: "950px",
-                content: componentCls,
-                onOk() {
-                    self._dialogs.splice( self._dialogs.indexOf(currentModal),1)
+    openCustomerDialog(title, componentCls: any) {
+        this.ngModuleFactoryLoader.load("app/modules/system/apps/account/account.module#AccountModule").then((factory) => {
+            console.log(factory)
+            const module = factory.create(this.injector)
+            const r = module.componentFactoryResolver
+            console.log(r)
+            const cmpFactory = r.resolveComponentFactory(componentCls)
+            const compRef:any = cmpFactory.create(this.injector)
+            let overlayRef = this.overlay.create();
+            console.log(overlayRef)
+            return new Promise((resolve, reject) => {
+                let self = this;
+                const currentModal = this.modalService.open({
+                    title: title,
+                    width: "950px",
+                    content: "",
+                    onOk() {
+                        self._dialogs.splice(self._dialogs.indexOf(currentModal), 1)
+                    },
+                    onCancel() {
+                        self._dialogs.splice(self._dialogs.indexOf(currentModal), 1)
+                    },
+                    footer: false,
+                    zIndex: 999,
+                    componentParams: {
 
-                },
-                onCancel() {
-                    self._dialogs.splice( self._dialogs.indexOf(currentModal),1)
-                },
-                footer: false,
-                zIndex: 999,
-                componentParams: {
-                   
-                }
-            });
-            currentModal.subscribe(result => {
-                if (_.isObject(result)) {
-                    currentModal.destroy('onOk');
-                    resolve(result)
-                }
+                    }
+                });
+                currentModal.subscribe(result => {
+                    if (_.isObject(result)) {
+                        currentModal.destroy('onOk');
+                        resolve(result)
+                    }
+                })
+                this._dialogs.push(currentModal)
+
             })
-            this._dialogs.push(currentModal)
-
         })
+
     }
 
-    closeAll(){
-        this._dialogs.forEach((item)=>{
+    closeAll() {
+        this._dialogs.forEach((item) => {
             item.destroy("onCancel")
         })
         this._dialogs = []

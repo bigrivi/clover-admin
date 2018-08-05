@@ -27,6 +27,9 @@ const DIRECTIVES = [ImageDirective, FixedBtnsDirective, ErrorCollectComponent];
 const PIPES = [];
 const HELPERS = [ModalHelper];
 
+const DIALOG_COMPONENTS = [TableViewDailogComponent,EditDialogComponent,ExportDialogComponent,ParameterDialogComponent,SerachDialogComponent];
+
+
 @NgModule({
     imports: [
         HttpModule,
@@ -39,19 +42,11 @@ const HELPERS = [ModalHelper];
     ],
     declarations: [
         InputDebounceDirective,
-        TableViewDailogComponent,
-        EditDialogComponent,
-        ExportDialogComponent,
-        ParameterDialogComponent,
-        SerachDialogComponent,
+        ...DIALOG_COMPONENTS,
         ...DIRECTIVES, ...PIPES, ...shared_components
     ],
     entryComponents: [
-        TableViewDailogComponent,
-        EditDialogComponent,
-        ExportDialogComponent,
-        ParameterDialogComponent,
-        SerachDialogComponent,
+       ...DIALOG_COMPONENTS,
         ...shared_entry_components
 
     ],
