@@ -5,4 +5,9 @@
 前端 angualr5
 后端 nodeJs+MongoDB
 
+通用的表格数据列表系统
+![image](https://raw.githubusercontent.com/sunjianghong/clover-admin/master/screenshots/table-view.jpg)
+
+
+
 
