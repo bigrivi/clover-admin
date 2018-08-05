@@ -1,14 +1,14 @@
-使用说明
+#使用说明
 
 利用angualr做的一套自动化数据管理系统
 
 前端 angualr5
 后端 nodeJs+MongoDB
 
-前端架构如下：
+######前端架构如下：
    框架:angular5
    UI:采用NG-ZORR O.6版本
-后端nodejs采用thinkjs实现基本的mvc
+######后端nodejs采用thinkjs实现基本的mvc
 
 我们知道，传统的方式，比如以前的asp,php,jsp,asp.net,ruby on rails的方式做一个数据维护的CRUD程序的工作量是非常大的，而且很多重复性的代码，比如我们要做一个产品管理的功能，可能先要写一个ProductController
 并在里面写对应的add,edit,update,delete等方法，并每个action都对应一个template页面，并写一个对应的service去实现对应的增删改查方法
@@ -19,11 +19,12 @@
 这样带来的好处就是大量重用性的前端组件，通用视图,再辅以restfulapi的设计，如果我们开发一个新的模块，只需要通过一些配置就能完成对应的功能
 
 主要核心思想如下:
-  通用的列表视图ListView
-  通用的编辑视图EditView
-  通用的详细视图DetailView
-  并加上RABC角色管理系统去管理对应的资源节点
-  模型的配置对应的字段以及相关字段类型
+  1 通用的列表视图ListView
+  2 通用的编辑视图EditView
+  3 通用的详细视图DetailView
+  4 并加上RABC角色管理系统去管理对应的资源节点
+  5 通用的查询视图
+模型的配置对应的字段以及相关字段类型
 配置如下实例代码:
 export class UserInfoService {
 	config = {}
