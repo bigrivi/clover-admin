@@ -30,6 +30,7 @@
   * 通用的查询视图<br>
     模型的配置对应的字段以及相关字段类型<br>
     配置如下实例代码:<br>
+    ` ``Java
     export class UserInfoService {
 	config = {}
     constructor() {
@@ -147,6 +148,7 @@
 		}
     }
 }
+` ``
 这样是配置对应模型的restful api resource以及模型的fields
 每个模型的配置都设置成为一个service在系统启动的时候注入系统，可以在任何地方拿到
 然后实现一套通用的路由系统
