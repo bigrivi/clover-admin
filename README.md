@@ -26,9 +26,9 @@
   * 通用的编辑视图EditView
   * 通用的详细视图DetailView
   * 并加上RABC角色管理系统去管理对应的资源节点
-  * 通用的查询视图
-    模型的配置对应的字段以及相关字段类型
-    配置如下实例代码:
+  * 通用的查询视图<br>
+    模型的配置对应的字段以及相关字段类型<br>
+    配置如下实例代码:<br>
     export class UserInfoService {
 	config = {}
     constructor() {
