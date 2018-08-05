@@ -6,12 +6,12 @@
 前端 angualr5
 后端 nodeJs+MongoDB
 
-######前端架构如下：
-   框架:angular5
-   UI:采用NG-ZORR O.6版本
-====
-######后端nodejs采用thinkjs实现基本的mvc
-====
+前端架构如下：<br>
+   框架:angular5<br>
+   UI:采用NG-ZORR O.6版本<br>
+
+后端nodejs采用thinkjs实现基本的mvc
+
 
 我们知道，传统的方式，比如以前的asp,php,jsp,asp.net,ruby on rails的方式做一个数据维护的CRUD程序的工作量是非常大的，而且很多重复性的代码，比如我们要做一个产品管理的功能，可能先要写一个ProductController
 并在里面写对应的add,edit,update,delete等方法，并每个action都对应一个template页面，并写一个对应的service去实现对应的增删改查方法
