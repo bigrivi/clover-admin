@@ -203,7 +203,7 @@ export const ModuleConfig = {
 ListViewComponent去接受，然后通过拿到对应的app,module,去service拿对应的配置，然后去请求restful api拿服务器给的数据<br>
 修改更新也是相同的道理
 
-## 目前实现了如下表单组件
+## 丰富的表单组件
 - 单行文本 text
 - 多行文本 textarea
 - 日期 date
