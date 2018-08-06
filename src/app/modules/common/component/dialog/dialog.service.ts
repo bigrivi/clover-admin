@@ -221,17 +221,9 @@ export class DialogService {
     openCustomerDialog(title,params = {}, componentCls: any,modulePath) {
 
         this.ngModuleFactoryLoader.load(modulePath).then((factory) => {
-            console.log(factory)
             const module = factory.create(this.injector)
-            const r = module.componentFactoryResolver
-            console.log(params)
-            const cmpFactory:any = r.resolveComponentFactory(componentCls)
-            // const compRef:any = cmpFactory.create(this.injector)
-            // let overlayRef = this.overlay.create();
-            // let modalRef = overlayRef.attach(new ComponentPortal(NzModalComponent));
-            // Object.assign(modalRef.instance, { nzTitle: title,nzContent: cmpFactory,nzWidth: "950px",footer: false})
-            // modalRef.instance.open();
-            // console.log(modalRef)
+            const cfr = module.componentFactoryResolver
+            const cmpFactory:any = cfr.resolveComponentFactory(componentCls)
             return new Promise((resolve, reject) => {
                 let self = this;
                 const currentModal = this.modalService.open({
