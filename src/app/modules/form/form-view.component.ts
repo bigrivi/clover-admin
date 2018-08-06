@@ -34,10 +34,14 @@ export class FormViewComponent {
 
     @Input()
     set config(val) {
-        //let lastPath = this.route.snapshot.url[this.route.snapshot.url.length-1].path
-        let isEditMode = val["id"] && val["id"] != "";
         if (!this.form)
             this.form = this.fb.group({});
+        if(!val){
+            return;
+        }
+        //let lastPath = this.route.snapshot.url[this.route.snapshot.url.length-1].path
+        let isEditMode = val["id"] && val["id"] != "";
+       
         this._config = _.cloneDeep(val);
         let groupNames = this._config.group ? this._config.group : ["基本信息"];
         let groups = []
@@ -169,13 +173,16 @@ export class FormViewComponent {
 
     ngAfterViewInit(){
         setTimeout(()=>{
-            this._groups = this._groups1;
-            this.loading = false;
-            let isEditMode = this._config["id"] && this._config["id"] != "";
-            if(isEditMode){
-                this.loadData()
+            if(this._config){
+                this._groups = this._groups1;
+                this.loading = false;
+                let isEditMode = this._config["id"] && this._config["id"] != "";
+                if(isEditMode){
+                    this.loadData()
+                }
             }
-        },0)
+           
+        },50)
        
     }
 

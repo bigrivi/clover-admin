@@ -11,7 +11,7 @@ import { Router, NavigationEnd } from '@angular/router';
     selector: 'ngx-dialog-edit',
     template: `
      <div class="modal-body">
-        <form-view [config]="formConfig"></form-view>
+        <form-view [config]="formConfig?formConfig:null"></form-view>
       </div>
      <div class="customize-footer">
           <button nz-button [nzType]="'primary'" [nzSize]="'large'" (click)="save()">
@@ -34,7 +34,7 @@ export class EditDialogComponent implements OnInit {
     formConfig;
     @ViewChild(FormViewComponent) formView: FormViewComponent;
 
-    @Input() config = {};
+    @Input() config;
 
     constructor(
         private subject: NzModalSubject,
@@ -44,7 +44,6 @@ export class EditDialogComponent implements OnInit {
     }
 
     ngOnInit() {
-      
         this.formConfig = Object.assign(this.config["formConfig"], { id: this.config["params"]["id"] })
     }
 
