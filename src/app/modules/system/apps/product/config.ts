@@ -58,7 +58,7 @@ export class ProductService {
 					dataSource:"dataModel.parameter",
 					queryParams:{"group":"product_category"},
 					multiple:false,
-					require:false,
+					require:true,
 					get_display:function(item){
 						if(item["category_id"])
 							return item["category_id"].name
